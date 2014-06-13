@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="titleBackground">
+        <item name="android:background">@color/backgroundMainColor</item>
+    </style>
+
+    <style name="defaultStyle" parent="@android:Theme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorPrimary">#616161</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:editTextStyle">@style/vtEditTextStyle</item>
+        <item name="android:buttonStyle">@style/vtButtonStyle</item>
+        <item name="android:textViewStyle">@style/vtTextViewStyle</item>
+        <item name="android:windowTitleBackgroundStyle">@style/titleBackground</item>
+        <item name="android:windowTitleSize">40dp</item>
+    </style>
+
+    <style name="vtEditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/edit_text_shape</item>
+    </style>
+
+    <style name="vtTextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
+    <style name="vtButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#616161</item>
+    </style>
+
+
+</resources>

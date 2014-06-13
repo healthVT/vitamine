@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+
+        >
+    <FrameLayout android:id="@+id/loginFrameLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+        <ImageView android:id="@+id/loginBackgroundImage"
+                   android:src="@drawable/login_main_image"
+                   android:scaleType="centerCrop"
+                   android:layout_height="match_parent"
+                   android:layout_width="match_parent"
+                />
+        <RelativeLayout android:id="@+id/loginInformationLayout"
+                        android:gravity="center_horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent">
+            <ScrollView android:id="@+id/vitaminScroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                    >
+                <LinearLayout android:id="@+id/informationLayout"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical"
+                              android:animateLayoutChanges="true"
+                              android:gravity="center_horizontal"
+                        >
+
+                    <LinearLayout android:id="@+id/informationInnerLayout"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="vertical"
+                                  android:layout_marginTop="20dp"
+                                  android:layout_marginBottom="10dp"
+                                  android:gravity="center_horizontal"
+                            >
+                        <TextView android:id="@+id/loginText"
+                                  android:gravity="center"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:textSize="25dp"
+                                  android:textStyle="bold"
+                                  android:text="Login"/>
+
+                        <EditText android:id="@+id/emailField"
+                                  android:layout_width="250dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginTop="15dp"
+                                  android:inputType="textEmailAddress"
+                                  android:hint="Email"
+                                />
+                        <EditText android:id="@+id/passwordField"
+                                  android:layout_width="250dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginTop="15dp"
+                                  android:hint="Password"
+                                  android:inputType="textPassword"
+                                />
+
+
+                        <TextView android:id="@+id/continueLnk"
+                                  android:layout_height="wrap_content"
+                                  android:layout_width="wrap_content"
+                                  android:text="(First Time? Continue)"
+                                  android:layout_marginTop="20dp"/>
+
+                        <RelativeLayout android:id="@+id/informationExtensionLayout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center_horizontal"
+                                        android:layout_marginTop="20dp"
+                                        android:visibility="gone">
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:id="@+id/row1"
+                                          android:orientation="horizontal"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                        android:text="Name"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"/>
+
+                                <EditText android:id="@+id/nameField"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"
+                                          android:hint="Nick"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:orientation="horizontal"
+                                          android:id="@+id/row2"
+                                          android:layout_marginTop="10dp"
+                                          android:layout_below="@+id/row1"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                        android:text="Age"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"/>
+
+                                <EditText android:id="@+id/ageField"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"
+                                          android:hint="Year"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:orientation="horizontal"
+                                          android:id="@+id/row3"
+                                          android:layout_below="@+id/row2"
+                                          android:layout_marginTop="10dp"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                        android:text="Gender"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="match_parent"/>
+
+                                <RadioGroup android:id="@+id/radioGroupGender"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                        >
+                                    <RadioButton android:id="@+id/maleButton"
+                                                 android:layout_width="wrap_content"
+                                                 android:layout_height="wrap_content"
+                                                 android:textSize="15dp"
+                                                 android:tag="MALE"
+                                                 android:text="MALE"
+                                            />
+                                    <RadioButton android:id="@+id/femaleButton"
+                                                 android:layout_width="wrap_content"
+                                                 android:layout_height="wrap_content"
+                                                 android:textSize="15dp"
+                                                 android:tag="FEMALE"
+                                                 android:text="FEMALE"
+                                            />
+                                </RadioGroup>
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:orientation="horizontal"
+                                          android:id="@+id/row4"
+                                          android:layout_below="@+id/row3"
+                                          android:layout_marginTop="10dp"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                          android:text="Height"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"/>
+
+                                <EditText android:id="@+id/heightField"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"
+                                          android:hint="Inch"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:orientation="horizontal"
+                                          android:id="@+id/row5"
+                                          android:layout_below="@+id/row4"
+                                          android:layout_marginTop="10dp"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                          android:text="Weight"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"/>
+
+                                <EditText android:id="@+id/weightField"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"
+                                          android:hint="lb"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout android:layout_width="match_parent"
+                                          android:orientation="horizontal"
+                                          android:id="@+id/row6"
+                                          android:layout_below="@+id/row5"
+                                          android:layout_marginTop="10dp"
+                                          android:layout_height="wrap_content">
+
+                                <TextView
+                                          android:text="Ethnicity"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"/>
+
+                                <EditText android:id="@+id/ethnicityField"
+                                          android:layout_width="0dp"
+                                          android:layout_weight="1"
+                                          android:layout_height="wrap_content"
+                                        />
+                            </LinearLayout>
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout android:id="@+id/startButtonLayout"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="match_parent"
+                                  android:layout_marginTop="50dp"
+                                  android:gravity="bottom">
+
+                        <ImageView android:id="@+id/startButton"
+                                   android:src="@drawable/start_button_small"
+                                   android:layout_height="wrap_content"
+                                   android:layout_width="wrap_content"
+                                />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </ScrollView>
+        </RelativeLayout>
+
+
+        <include layout="@layout/bottom_menu_template"/>
+    </FrameLayout>
+
+
+</LinearLayout>
