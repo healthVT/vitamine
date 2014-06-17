@@ -11,6 +11,7 @@
               android:layout_height="wrap_content"
               android:text="Vitamine"
               android:textSize="30dp"
+              android:layout_marginBottom="5dp"
             />
 
 </LinearLayout>

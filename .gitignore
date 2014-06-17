@@ -23,6 +23,5 @@ local.properties
 proguard/
 
 .idea/*
-AndroidManifest.xml
 ant.properties
 vitamine.iml

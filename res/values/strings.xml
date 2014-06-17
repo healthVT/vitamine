@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">vitamine</string>
+
+    <string-array name="ethnicityArray">
+        <item>Americans</item>
+        <item>Caucasians</item>
+        <item>African</item>
+        <item>Asian</item>
+        <item>Middle Eastern</item>
+        <item>Jewish</item>
+    </string-array>
 </resources>
