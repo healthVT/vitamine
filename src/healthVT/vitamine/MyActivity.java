@@ -3,6 +3,7 @@ package healthVT.vitamine;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,16 +11,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
 import org.json.JSONObject;
+import util.CircleAnimView;
 import util.vitamineServer;
 import util.tools;
 
-public class MyActivity extends Activity implements Animation.AnimationListener {
+public class MyActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
@@ -54,7 +58,7 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
         informationExtensionLayout = (RelativeLayout) findViewById(R.id.informationExtensionLayout);
         startButtonLayout = (LinearLayout) findViewById(R.id.startButtonLayout);
         ethnicityField = (Spinner) findViewById(R.id.ethnicityField);
-        startText = (TextView) findViewById(R.id.startText);
+        //startText = (TextView) findViewById(R.id.startText);
 
         errorMessage = (TextView) findViewById(R.id.errorMessage);
         emailField = (EditText) findViewById(R.id.emailField);
@@ -72,10 +76,15 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
             errorMessage.setText("Please connect to Internet first.");
         }
 
-        animRotate = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.rotate);
-        animRotate.setAnimationListener(this);
 
+        //Circle Surface view
+        //SurfaceView circleSurfaceView = new CircleAnimView(this);
+        //circleSurfaceView.setZOrderOnTop(true);
+        CircleAnimView surfaceView = (CircleAnimView) findViewById(R.id.surfaceView);
+        surfaceView.setZOrderOnTop(true);
+        SurfaceHolder holder = surfaceView.getHolder();
+        holder.setFormat(PixelFormat.TRANSLUCENT);
+        //startButtonLayout.addView(circleSurfaceView);
     }
 
     private void attachListener() {
@@ -94,7 +103,7 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
             @Override
             public void onClick(View view) {
                 Log.d("Click on", "Start");
-                startButtonAnim(true);
+
                 loginOrRegister();
             }
         });
@@ -103,7 +112,6 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
 
     private void loginOrRegister() {
         if (!checkInput()) {
-            startButtonAnim(false);
             return;
         }
 
@@ -144,8 +152,6 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
                 errorMessage.setText(resultJSON.get("message").toString());
             }
 
-            startButtonAnim(false);
-
         } catch (Exception e) {
             Log.e("Server Error ", "Server Error", e);
         }
@@ -158,46 +164,6 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
         Intent intent = new Intent(MyActivity.this, DailyActivity.class);
         startActivityForResult(intent, 0);
     }
-
-    private void startButtonAnim(boolean loading) {
-        if (loading) {
-            startAnim();
-        } else {
-            endAnim();
-        }
-    }
-
-    private void startAnim() {
-        Log.d("start anim", "true");
-        //task.execute();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startText.setText("Login");
-                        startButtonLayout.startAnimation(animRotate);
-                    }
-                });
-            }
-        }).start();
-    }
-
-    private void endAnim() {
-//        m_handlerTask = new Runnable() {
-//            @Override
-//            public void run() {
-//                startText.setText("Start");
-//                startButtonLayout.clearAnimation();
-//            }
-//        };
-//
-//        m_handlerTask.run();
-
-    }
-
 
     private boolean checkInput() {
         String email = emailField.getText().toString();
@@ -234,48 +200,5 @@ public class MyActivity extends Activity implements Animation.AnimationListener 
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        // Take any action after completing the animation
-
-        // check for fade in animation
-        if (animation == animRotate) {
-        }
-
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-        // TODO Auto-generated method stub
-
-    }
-
-//    static class RotationAwareTask extends AsyncTask<Void, Void, Void> {
-//        MyActivity activity=null;
-//
-//        RotationAwareTask(MyActivity activity) {
-//            attach(activity);
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... unused) {
-//            activity.startText.setText("Start");
-//            activity.startButtonLayout.clearAnimation();
-//
-//            return(null);
-//        }
-//
-//        void attach(MyActivity activity) {
-//            this.activity=activity;
-//        }
-//
-//    }
 }
 
