@@ -229,13 +229,13 @@
 
 
                     <LinearLayout android:id="@+id/startButtonLayout"
-                                  android:layout_width="80dp"
-                                  android:layout_height="80dp"
+                                  android:layout_width="50dp"
+                                  android:layout_height="50dp"
                                   android:layout_marginTop="50dp"
                                   android:orientation="vertical"
                                   android:layout_marginBottom="70dp"
                                   android:gravity="bottom">
-                        <util.CircleAnimView android:layout_width="80dp" android:layout_height="80dp" android:id="@+id/surfaceView"
+                        <util.CircleAnimView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/surfaceView"
                                              />
                         <!--<TextView android:layout_width="50dp"-->
                                   <!--android:layout_height="50dp"-->
@@ -263,7 +263,7 @@
         </RelativeLayout>
 
 
-        <include layout="@layout/bottom_menu_template"/>
+        <!--<include layout="@layout/bottom_menu_template"/>-->
     </FrameLayout>
 
 

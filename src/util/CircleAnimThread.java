@@ -15,17 +15,39 @@ public class CircleAnimThread extends Thread {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int refreshRate = 50;
     private int loadingColor = Color.parseColor("#E83F3F");
-    private boolean allFinished = false;
-    int x;
-    private Bitmap picture;
-    private Circle[] circleArray;
-    private Matrix matrix;
+    private boolean allFinished = false, pause = false;
+    private int x;
+    private Circle circleArray;
+    private int startSize;
+
 
     public CircleAnimThread(SurfaceHolder holder, Resources resources){
         this.holder = holder;
 
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
+
+        startSize = resources.getDimensionPixelSize(R.dimen.dpFront);
+
+        Canvas canvas = holder.lockCanvas();
+        if(canvas != null){
+            drawStartCircle(canvas);
+        }
+        holder.unlockCanvasAndPost(canvas);
+    }
+
+    public void drawStartCircle(Canvas canvas){
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
+        paint.setColor(loadingColor);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(canvas.getWidth() >> 1, canvas.getWidth() >> 1, (canvas.getWidth() - 4) >> 1, paint);
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(4);
+        paint.setTextSize(startSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds("Start", 0, 1, bounds);
+        float startWidth = paint.measureText("Start");
+        canvas.drawText("Start", (canvas.getWidth()>>1) - (startWidth/2) - 2, (canvas.getWidth() + bounds.height())>>1, paint);
     }
 
     @Override
@@ -33,104 +55,130 @@ public class CircleAnimThread extends Thread {
 
         Canvas canvas = null;
         x = -90;
-        circleArray = new Circle[2];
 
-        circleArray[0] = new Circle(3, 3, mjCanvasWidth-4, 0, loadingColor);
+        circleArray = new Circle(3, 3, mjCanvasWidth-4, 0, loadingColor);
 
         while(!allFinished){
-            try{
-                canvas = holder.lockCanvas();
-                if(canvas == null){
-                    return;
-                }
-                synchronized (canvas) {
-                    //canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
-                    //canvas.drawBitmap(picture, matrix, paint);
-                    draw(canvas);
+            if (!pause) {
+                try {
+
+                    canvas = holder.lockCanvas();
+
+                    if (canvas == null) {
+                        return;
+                    }
+                    synchronized (canvas) {
+                        //canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+                        //canvas.drawBitmap(picture, matrix, paint);
+                        draw(canvas);
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Synchronized exception", "Exception", e);
+                    this.interrupt();
+                } finally {
+                    if (canvas != null) {
+                        holder.unlockCanvasAndPost(canvas);
+                    }
                 }
 
-            }catch(Exception e){
-                Log.e("Synchronized exception", "Exception", e);
-            }finally{
-                if(canvas != null){
-                    holder.unlockCanvasAndPost(canvas);
+                try {
+                    Thread.sleep(refreshRate);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }else{
+
             }
 
-            try{
-                Thread.sleep(refreshRate);
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
+//        canvas = holder.lockCanvas();
+//        if(canvas != null){
+//            drawStartCircle(canvas);
+//        }
+//        holder.unlockCanvasAndPost(canvas);
+//
+//        this.interrupt();
         }
     }
 
     private void draw(Canvas canvas){
 
 
-        for(int i=0;i<circleArray.length;i++){
-            if(circleArray[i] == null){
-                break;
+            if(circleArray == null){
+                return;
             }
             //canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-            paint.setColor(circleArray[i].getColor());
+            paint.setColor(circleArray.getColor());
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(4);
-            RectF rec = new RectF(circleArray[i].x, circleArray[i].y, circleArray[i].radius, circleArray[i].radius);
+            RectF rec = new RectF(circleArray.x, circleArray.y, circleArray.radius, circleArray.radius);
             canvas.drawOval(rec, paint);
 
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(circleArray[i].getReverseColor());
+            paint.setColor(circleArray.getReverseColor());
             //RectF rec;
-            if(circleArray[i].reverse){
-                rec = new RectF(circleArray[i].x+2, circleArray[i].y+2, circleArray[i].radius-2, circleArray[i].radius-2);
+            if(circleArray.reverse){
+                drawStartCircle(canvas);
+
+                rec = new RectF(circleArray.x+2, circleArray.y+2, circleArray.radius-2, circleArray.radius-2);
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
             }else{
                 paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-                rec = new RectF(circleArray[i].x, circleArray[i].y, circleArray[i].radius, circleArray[i].radius);
+                rec = new RectF(circleArray.x, circleArray.y, circleArray.radius, circleArray.radius);
             }
 
-            canvas.drawArc(rec, x, circleArray[i].tempY, true, paint);
+            canvas.drawArc(rec, x, circleArray.tempY, true, paint);
 
-            if(circleArray[i].angle == 0){
-                if(circleArray[i].tempY < 370){
-                    circleArray[i].tempY += 5;
+            if(circleArray.angle == 0){
+                if(circleArray.tempY < 370){
+                    circleArray.tempY += 5;
                 }else{
-                    if(circleArray[i].reverse){
-                        circleArray[i].reverse = false;
+                    if(circleArray.reverse){
+                        circleArray.reverse = false;
                     }else{
-                        circleArray[i].reverse = true;
+                        circleArray.reverse = true;
                     }
 
-                    circleArray[i].tempY = 0;
+                    circleArray.tempY = 0;
                 }
             }else{
-                if(circleArray[i].angle >= circleArray[i].tempY){
-                    circleArray[i].tempY+=5;
+                if(circleArray.angle >= circleArray.tempY){
+                    circleArray.tempY+=5;
                 }
             }
 
-            if(circleArray[i].angle != 0 && (circleArray[i].angle <= circleArray[i].tempY)){
-                circleArray[i].finished = true;
+            if(circleArray.angle != 0 && (circleArray.angle <= circleArray.tempY)){
+                circleArray.finished = true;
             }
-        }
 
-        for(int i=0;i<circleArray.length-1;i++){
-            if(!circleArray[i].finished){
+            if(!circleArray.finished){
 
                 allFinished = false;
-                break;
             }else{
                 allFinished = true;
             }
-        }
 
 
     }
 
     public boolean isFinished(){
         return allFinished;
+    }
+
+    public void setFinish() { allFinished = true;}
+
+    protected void onPause(){
+        pause = true;
+        Canvas canvas = holder.lockCanvas();
+        drawStartCircle(canvas);
+        holder.unlockCanvasAndPost(canvas);
+
+        circleArray.tempY = 0;
+    }
+
+    protected void onResume(){
+        pause = false;
     }
 
     public void setSurfaceSize(int width, int height){
@@ -144,7 +192,7 @@ public class CircleAnimThread extends Thread {
         private int x,y,radius,color, angle, tempY = 0;
         private int transparent = Color.TRANSPARENT;
         private boolean finished = false;
-        private boolean reverse = false;
+        private boolean reverse = true;
 
 
         Circle(int x, int y, int radius, int angle, int color){

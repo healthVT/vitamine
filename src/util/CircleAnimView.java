@@ -33,10 +33,39 @@ public class CircleAnimView extends SurfaceView implements SurfaceHolder.Callbac
         getHolder().addCallback(this);
     }
 
+    public void setAnimStart(){
+       if(circleThread != null){
+           Log.d("THRead", circleThread.getState().toString());
+           if(circleThread.getState() == Thread.State.NEW){
+               circleThread.start();
+           }else if(circleThread.getState() == Thread.State.TIMED_WAITING || circleThread.getState() == Thread.State.RUNNABLE){
+               circleThread.onResume();
+           }
+           //circleThread.onResume();
+//           if(circleThread.getState() == Thread.State.TERMINATED){
+//               holder = getHolder();
+//               if(holder == null){
+//                   Log.e("HOLDER", "NULLLLLL");
+//               }
+//               circleThread = new CircleAnimThread(holder, getResources());
+//           }
+//           circleThread.start();
+//           Log.d("FINISHED", String.valueOf(circleThread.isFinished()));
+       }
+    }
+
+    public void stopAnim(){
+        Log.d("STOP ANIM", "STOP");
+        if(circleThread != null){
+            circleThread.onPause();
+        }
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
     }
+
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
@@ -44,7 +73,7 @@ public class CircleAnimView extends SurfaceView implements SurfaceHolder.Callbac
         if(circleThread == null){
             circleThread = new CircleAnimThread(holder, getResources());
             circleThread.setSurfaceSize(width, height);
-            circleThread.start();
+            //circleThread.start();
         }
     }
     @Override

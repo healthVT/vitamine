@@ -33,10 +33,8 @@ public class MyActivity extends Activity {
     private LinearLayout startButtonLayout;
     private Spinner ethnicityField;
     private EditText emailField, passwordField;
-    private Animation animRotate;
-    private Handler m_handler;
-    private Runnable m_handlerTask;
-    //private RotationAwareTask task;
+    private CircleAnimView startSurfaceView;
+    private vitamineServer server;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,9 +78,9 @@ public class MyActivity extends Activity {
         //Circle Surface view
         //SurfaceView circleSurfaceView = new CircleAnimView(this);
         //circleSurfaceView.setZOrderOnTop(true);
-        CircleAnimView surfaceView = (CircleAnimView) findViewById(R.id.surfaceView);
-        surfaceView.setZOrderOnTop(true);
-        SurfaceHolder holder = surfaceView.getHolder();
+        startSurfaceView = (CircleAnimView) findViewById(R.id.surfaceView);
+        startSurfaceView.setZOrderOnTop(true);
+        SurfaceHolder holder = startSurfaceView.getHolder();
         holder.setFormat(PixelFormat.TRANSLUCENT);
         //startButtonLayout.addView(circleSurfaceView);
     }
@@ -103,16 +101,18 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Log.d("Click on", "Start");
-
-                loginOrRegister();
+                startSurfaceView.setAnimStart();
+                if(!loginOrRegister()){
+                    startSurfaceView.stopAnim();
+                }
             }
         });
 
     }
 
-    private void loginOrRegister() {
+    private boolean loginOrRegister() {
         if (!checkInput()) {
-            return;
+            return false;
         }
 
         Log.d("login or register", "after check input");
@@ -139,24 +139,41 @@ public class MyActivity extends Activity {
         params += "email=" + emailField.getText() + "&password=" + passwordField.getText();
 
         Log.d("login or register", "params: " + params);
+        server = new vitamineServer();
 
-        vitamineServer server = new vitamineServer();
         try {
-            JSONObject resultJSON = server.execute("user/loginOrRegister/?" + params).get();
-            Log.d("result", resultJSON.get("success").toString());
-            if (resultJSON.get("success").toString().equals("true")) {
-                Log.d("login", "true");
-                login();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        JSONObject resultJSON = server.execute("user/loginOrRegister/?" + "email=" + emailField.getText() + "&password=" + passwordField.getText()).get();
+                        Log.d("result", resultJSON.get("success").toString());
+                        startSurfaceView.stopAnim();
+                        if (resultJSON.get("success").toString().equals("true")) {
+                            Log.d("login", "true");
+                            
+                        } else {
+                            errorMessage.setText(resultJSON.get("message").toString());
+                        }
 
-            } else {
-                errorMessage.setText(resultJSON.get("message").toString());
-            }
+                    }catch(Exception e){}
+                }
+            });
+
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//
+//                }
+//            }).start();
+
 
         } catch (Exception e) {
             Log.e("Server Error ", "Server Error", e);
         }
 
-
+        return true;
     }
 
     private void login() {
