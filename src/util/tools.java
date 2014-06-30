@@ -1,5 +1,6 @@
 package util;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
@@ -18,5 +19,8 @@ public class tools {
         return matcher.matches();
     }
 
-
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px/scaledDensity;
+    }
 }

@@ -3,8 +3,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/backgroundMainColor">
 
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:text="Welcome"/>
-    <include layout="@layout/bottom_menu_template"/>
+    <FrameLayout android:id="@+id/dailyFrameLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/foodSearchLayout"
+                      android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:gravity="center_horizontal"
+                      android:layout_height="wrap_content">
+
+            <AutoCompleteTextView android:id="@+id/foodInput"
+                                  android:layout_width="300dp"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginTop="10dp"
+                                  android:hint="What did you eat today?"
+                    />
+            <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"  android:layout_marginTop="20dp">
+                <LinearLayout android:id="@+id/tempData" android:orientation="vertical"
+                              android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+                </LinearLayout>
+
+
+            </ScrollView>
+
+        </LinearLayout>
+
+
+        <include layout="@layout/bottom_menu_template"/>
+    </FrameLayout>
+
+
 </LinearLayout>

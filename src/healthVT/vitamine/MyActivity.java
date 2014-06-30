@@ -76,13 +76,11 @@ public class MyActivity extends Activity {
 
 
         //Circle Surface view
-        //SurfaceView circleSurfaceView = new CircleAnimView(this);
-        //circleSurfaceView.setZOrderOnTop(true);
         startSurfaceView = (CircleAnimView) findViewById(R.id.surfaceView);
         startSurfaceView.setZOrderOnTop(true);
         SurfaceHolder holder = startSurfaceView.getHolder();
         holder.setFormat(PixelFormat.TRANSLUCENT);
-        //startButtonLayout.addView(circleSurfaceView);
+
     }
 
     private void attachListener() {
@@ -101,10 +99,13 @@ public class MyActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Log.d("Click on", "Start");
-                startSurfaceView.setAnimStart();
-                if(!loginOrRegister()){
-                    startSurfaceView.stopAnim();
-                }
+                Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
+                startActivity(dailyIntent);
+//                startSurfaceView.setAnimStart();
+//                if(!loginOrRegister()){
+//                    startSurfaceView.stopAnim();
+//
+//                }
             }
         });
 
@@ -151,7 +152,8 @@ public class MyActivity extends Activity {
                         startSurfaceView.stopAnim();
                         if (resultJSON.get("success").toString().equals("true")) {
                             Log.d("login", "true");
-                            
+                            Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
+                            startActivity(dailyIntent);
                         } else {
                             errorMessage.setText(resultJSON.get("message").toString());
                         }
@@ -159,15 +161,6 @@ public class MyActivity extends Activity {
                     }catch(Exception e){}
                 }
             });
-
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//
-//                }
-//            }).start();
-
 
         } catch (Exception e) {
             Log.e("Server Error ", "Server Error", e);
