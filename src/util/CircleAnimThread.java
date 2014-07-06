@@ -107,13 +107,15 @@ public class CircleAnimThread extends Thread {
             if(circleArray == null){
                 return;
             }
-            //canvas.drawColor(0, android.graphics.PorterDuff.Mode.CLEAR);
+
+            //Drawing the circle
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
             paint.setColor(circleArray.getColor());
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(4);
             RectF rec = new RectF(circleArray.x, circleArray.y, circleArray.radius, circleArray.radius);
             canvas.drawOval(rec, paint);
+
 
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(circleArray.getReverseColor());

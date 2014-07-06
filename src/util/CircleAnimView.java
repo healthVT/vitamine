@@ -41,16 +41,6 @@ public class CircleAnimView extends SurfaceView implements SurfaceHolder.Callbac
            }else if(circleThread.getState() == Thread.State.TIMED_WAITING || circleThread.getState() == Thread.State.RUNNABLE){
                circleThread.onResume();
            }
-           //circleThread.onResume();
-//           if(circleThread.getState() == Thread.State.TERMINATED){
-//               holder = getHolder();
-//               if(holder == null){
-//                   Log.e("HOLDER", "NULLLLLL");
-//               }
-//               circleThread = new CircleAnimThread(holder, getResources());
-//           }
-//           circleThread.start();
-//           Log.d("FINISHED", String.valueOf(circleThread.isFinished()));
        }
     }
 

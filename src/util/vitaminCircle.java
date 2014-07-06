@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewGroup;
 import healthVT.vitamine.R;
 
 import java.util.Map;
@@ -14,14 +15,15 @@ import java.util.Map;
  */
 
 public class vitaminCircle extends View {
-    private int width, height, radius, color, left, top;
+    private int width, height, radius, color, left, top, marginLeft;
     private String vitamin;
-    private double number;
+    private String number;
     private Paint paint = new Paint();
     private int textSize, stroke1, stroke2, stroke3, stroke4;
-    public vitaminCircle(Context context, int width, int height, int radius, int color, String vitamin, double number){
+    public vitaminCircle(Context context, int width, int height, int radius, int color, String vitamin, String number){
         super(context);
         this.textSize = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleText);
+        this.marginLeft = context.getResources().getDimensionPixelSize(R.dimen.vitaminMarginLeft);
         this.stroke1 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
         this.stroke2 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke2);
         this.stroke3 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke3);
@@ -46,19 +48,30 @@ public class vitaminCircle extends View {
 
         setMeasuredDimension(width, height);
     }
+//
+//    @Override
+//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+//        ViewGroup.MarginLayoutParams margins = ViewGroup.MarginLayoutParams.class.cast(getLayoutParams());
+//        //int margin = 15;
+//        margins.leftMargin = marginLeft;
+//        margins.rightMargin = marginLeft;
+//
+//        setLayoutParams(margins);
+//    }
 
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
-        int margin = 5;
         paint.setAntiAlias(true);
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(stroke4);
         paint.setColor(this.color);
 
-        canvas.drawCircle(radius + margin, radius + margin, radius, paint);
-        canvas.drawLine(margin, radius+margin, (radius)*2+margin, radius+margin, paint);
+        canvas.drawCircle(height/2, height/2, radius, paint);
+
+        paint.setStrokeWidth(stroke2);
+        canvas.drawLine((height/2) - radius, height/2, (height/2) + radius, height/2, paint);
 
         float vitaminWidth = paint.measureText(vitamin);
 
@@ -69,13 +82,13 @@ public class vitaminCircle extends View {
         Rect bounds = new Rect();
 
         paint.getTextBounds(vitamin, 0, 1, bounds);
-        canvas.drawText(vitamin, radius-(vitaminWidth/2), ((radius*2)+bounds.height())/3, paint);
+        canvas.drawText(vitamin, (height/2)-(vitaminWidth/2), ((radius*2)+bounds.height())/3, paint);
 
-        float numberWidth = paint.measureText(String.valueOf(number));
-        paint.getTextBounds(String.valueOf(number), 0, 1, bounds);
+        float numberWidth = paint.measureText(number);
+        paint.getTextBounds(number, 0, 1, bounds);
 
         float heightText = ((radius*2)+bounds.height())/3;
-        canvas.drawText(String.valueOf(number), radius-(numberWidth/2)+margin, (heightText*2)+margin, paint);
+        canvas.drawText(number, (height/2)-(numberWidth/2), (heightText*2), paint);
 
     }
 
