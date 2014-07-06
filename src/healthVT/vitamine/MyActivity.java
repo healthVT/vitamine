@@ -154,6 +154,7 @@ public class MyActivity extends Activity {
                             Log.d("login", "true");
                             Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
                             startActivity(dailyIntent);
+                            finish();
                         } else {
                             errorMessage.setText(resultJSON.get("message").toString());
                         }
@@ -210,5 +211,7 @@ public class MyActivity extends Activity {
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
     }
+
+
 }
 

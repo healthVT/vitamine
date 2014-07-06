@@ -8,8 +8,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
@@ -52,6 +54,7 @@ public class DailyActivity extends Activity {
     int paddingLeft;
     int paddingRight;
     int paddingBottom;
+    int vitaminFoodNameWidth;
     private int vitaminCircleWidth, vitaminCircleHeight, vitaminCircleRadius;
     private AutoCompleteTextView foodInput;
     private View.OnFocusChangeListener setTableListener;
@@ -90,6 +93,8 @@ public class DailyActivity extends Activity {
         paddingRight = getResources().getDimensionPixelSize(R.dimen.paddingRight);
         paddingBottom = getResources().getDimensionPixelSize(R.dimen.paddingBottom);
 
+        vitaminFoodNameWidth = getResources().getDimensionPixelSize(R.dimen.vitaminFoodNameWidth);
+
         //setup Circle Size
         vitaminCircleWidth = getResources().getDimensionPixelSize(R.dimen.vitaminCircleWidth);
         vitaminCircleHeight = getResources().getDimensionPixelSize(R.dimen.vitaminCircleHeight);
@@ -124,6 +129,7 @@ public class DailyActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView text = (TextView) view;
                 getFoodVitamin(String.valueOf(text.getText()));
+                foodInput.setText("");
 
             }
         });
@@ -159,6 +165,7 @@ public class DailyActivity extends Activity {
         try{
             vitaminRowCount++;
             LinearLayout vitaminLayout = new LinearLayout(DailyActivity.this);
+            vitaminLayout.setGravity(Gravity.CENTER_VERTICAL);
             vitaminLayout.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -171,18 +178,18 @@ public class DailyActivity extends Activity {
             vitaminLayout.setOrientation(LinearLayout.HORIZONTAL);
             if(vitaminRowCount%2 != 0){
                 scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
-                //vitaminLayout.setBackgroundColor(Color.parseColor("#fffbf3"));
             }
 
-            vitaminLayout.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+            vitaminLayout.setPadding(0, paddingTop, paddingRight, paddingBottom);
 
             vitaminBean = new VitaminBean(vitaminResult.getString("foodName"), vitaminList.getDouble("a"), vitaminList.getDouble("c"), vitaminList.getDouble("d"), vitaminList.getDouble("e"), vitaminList.getDouble("k"), vitaminList.getDouble("b1"), vitaminList.getDouble("b2"), vitaminList.getDouble("b3"), vitaminList.getDouble("b6"), vitaminList.getDouble("b12"));
 
             //food info (left panel)
             LinearLayout foodLayout = new LinearLayout(this);
             foodLayout.setOrientation(LinearLayout.VERTICAL);
+            foodLayout.setGravity(Gravity.CENTER);
             foodLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    vitaminFoodNameWidth,
                     LinearLayout.LayoutParams.MATCH_PARENT
             ));
 
@@ -191,18 +198,37 @@ public class DailyActivity extends Activity {
             TextView foodText = new TextView(this);
             foodText.setText(vitaminBean.getFoodName());
             foodText.setTextColor(Color.BLACK);
+
             foodText.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
             ));
 
             foodLayout.addView(foodText);
 
             vitaminLayout.addView(foodLayout);
 
+            //Line
+            TextView line = new TextView(this);
+            if(vitaminRowCount%2 != 0){
+                line.setBackgroundColor(Color.parseColor("#464646"));
+            }else{
+                line.setBackgroundColor(Color.WHITE);
+            }
+
+            int stroke1 = this.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
+            line.setWidth(stroke1);
+            line.setHeight(vitaminCircleHeight);
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            llp.setMargins(0, 0, paddingRight, 0);
+            line.setLayoutParams(llp);
+            vitaminLayout.addView(line);
+
+
             Map vitaminMap = vitaminBean.getVitaminMap();
             DecimalFormat df = new DecimalFormat("#.##");
             Iterator it = vitaminMap.entrySet().iterator();
+
             while(it.hasNext()){
                 Map.Entry<String, Double> each = (Map.Entry<String, Double>)it.next();
 Log.d("Vitamin", each.getKey());
@@ -215,7 +241,7 @@ Log.d("Vitamin", each.getKey());
             }
             scroll.addView(vitaminLayout);
             tempDataLayout.addView(scroll);
-            tempDataLayout.invalidate();
+
 
         }catch(JSONException e){
             Log.e("JSONException", "Exception", e);
@@ -242,10 +268,7 @@ Log.d("Vitamin", each.getKey());
 
             TextView foodText = new TextView(this);
             foodText.setTypeface(demiFont);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
+
             //foodText.setLayoutParams(params);
             foodText.setPadding(0, 0, 0, paddingBottom);
             foodText.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -270,6 +293,14 @@ Log.d("Vitamin", each.getKey());
         dividLine.setHeight(lineHeight);
 
         return dividLine;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent e){
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            finish();
+        }
+        return super.onKeyDown(keyCode, e);
     }
 
 }

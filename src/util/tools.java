@@ -3,6 +3,8 @@ package util;
 import android.content.Context;
 import android.graphics.Color;
 import android.widget.Toast;
+import healthVT.vitamine.DailyActivity;
+import healthVT.vitamine.R;
 
 import java.util.*;
 import java.util.regex.Matcher;

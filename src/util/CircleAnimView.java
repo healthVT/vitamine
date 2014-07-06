@@ -53,7 +53,10 @@ public class CircleAnimView extends SurfaceView implements SurfaceHolder.Callbac
 
     @Override
     public void surfaceCreated(SurfaceHolder holder){
-
+        Log.d("Create a new Holder", "holder");
+        if(circleThread == null){
+            circleThread = new CircleAnimThread(holder, getResources());
+        }
     }
 
 

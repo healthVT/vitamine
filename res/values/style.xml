@@ -15,10 +15,12 @@
     <dimen name="vitaminCircleRadius">42sp</dimen>
     <dimen name="vitaminMarginLeft">10sp</dimen>
     <dimen name="vitaminCircleText">20sp</dimen>
+    <dimen name="vitaminFoodNameWidth">100sp</dimen>
     <dimen name="vitaminCircleStroke1">1sp</dimen>
     <dimen name="vitaminCircleStroke2">2sp</dimen>
     <dimen name="vitaminCircleStroke3">3sp</dimen>
     <dimen name="vitaminCircleStroke4">4sp</dimen>
+    <dimen name="bottomHeight">40dp</dimen>
 
     <style name="defaultStyle" parent="@android:Theme">
         <item name="android:layout_width">fill_parent</item>
