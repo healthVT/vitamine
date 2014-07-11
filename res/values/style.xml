@@ -10,9 +10,9 @@
     <dimen name="paddingRight">20sp</dimen>
     <dimen name="paddingLeft">20sp</dimen>
     <dimen name="paddingBottom">10sp</dimen>
-    <dimen name="vitaminCircleWidth">100sp</dimen>
-    <dimen name="vitaminCircleHeight">90sp</dimen>
-    <dimen name="vitaminCircleRadius">42sp</dimen>
+    <dimen name="vitaminCircleWidth">85sp</dimen>
+    <dimen name="vitaminCircleHeight">75sp</dimen>
+    <dimen name="vitaminCircleRadius">35sp</dimen>
     <dimen name="vitaminMarginLeft">10sp</dimen>
     <dimen name="vitaminCircleText">20sp</dimen>
     <dimen name="vitaminFoodNameWidth">100sp</dimen>

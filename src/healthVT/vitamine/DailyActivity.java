@@ -19,6 +19,7 @@ import beans.VitaminBean;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
+import util.VitaminRow;
 import util.tools;
 import util.vitaminCircle;
 
@@ -59,6 +60,7 @@ public class DailyActivity extends Activity {
     private AutoCompleteTextView foodInput;
     private View.OnFocusChangeListener setTableListener;
     public VitaminBean vitaminBean;
+    private TextView vitaminEditButton;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,12 +95,7 @@ public class DailyActivity extends Activity {
         paddingRight = getResources().getDimensionPixelSize(R.dimen.paddingRight);
         paddingBottom = getResources().getDimensionPixelSize(R.dimen.paddingBottom);
 
-        vitaminFoodNameWidth = getResources().getDimensionPixelSize(R.dimen.vitaminFoodNameWidth);
-
-        //setup Circle Size
-        vitaminCircleWidth = getResources().getDimensionPixelSize(R.dimen.vitaminCircleWidth);
-        vitaminCircleHeight = getResources().getDimensionPixelSize(R.dimen.vitaminCircleHeight);
-        vitaminCircleRadius = getResources().getDimensionPixelSize(R.dimen.vitaminCircleRadius);
+        vitaminEditButton = (TextView) findViewById(R.id.vitaminEditButton);
 
         addTempFood();
         attachEvent();
@@ -133,6 +130,15 @@ public class DailyActivity extends Activity {
 
             }
         });
+
+        vitaminEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<View> views = new ArrayList<View>();
+
+
+            }
+        });
     }
 
     private void getFoodVitamin(final String foodName){
@@ -162,90 +168,18 @@ public class DailyActivity extends Activity {
 
     int vitaminRowCount = 0;
     private void createVitaminRow(JSONObject vitaminResult){
-        try{
-            vitaminRowCount++;
-            LinearLayout vitaminLayout = new LinearLayout(DailyActivity.this);
-            vitaminLayout.setGravity(Gravity.CENTER_VERTICAL);
-            vitaminLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
 
-            HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
+        vitaminRowCount++;
+        LinearLayout vitaminLayout = new VitaminRow(DailyActivity.this, vitaminResult, vitaminRowCount);
 
-            JSONObject vitaminList = vitaminResult.getJSONObject("vitamin");
-
-            vitaminLayout.setOrientation(LinearLayout.HORIZONTAL);
-            if(vitaminRowCount%2 != 0){
-                scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
-            }
-
-            vitaminLayout.setPadding(0, paddingTop, paddingRight, paddingBottom);
-
-            vitaminBean = new VitaminBean(vitaminResult.getString("foodName"), vitaminList.getDouble("a"), vitaminList.getDouble("c"), vitaminList.getDouble("d"), vitaminList.getDouble("e"), vitaminList.getDouble("k"), vitaminList.getDouble("b1"), vitaminList.getDouble("b2"), vitaminList.getDouble("b3"), vitaminList.getDouble("b6"), vitaminList.getDouble("b12"));
-
-            //food info (left panel)
-            LinearLayout foodLayout = new LinearLayout(this);
-            foodLayout.setOrientation(LinearLayout.VERTICAL);
-            foodLayout.setGravity(Gravity.CENTER);
-            foodLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    vitaminFoodNameWidth,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-            ));
-
-
-            //Food name
-            TextView foodText = new TextView(this);
-            foodText.setText(vitaminBean.getFoodName());
-            foodText.setTextColor(Color.BLACK);
-
-            foodText.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
-
-            foodLayout.addView(foodText);
-
-            vitaminLayout.addView(foodLayout);
-
-            //Line
-            TextView line = new TextView(this);
-            if(vitaminRowCount%2 != 0){
-                line.setBackgroundColor(Color.parseColor("#464646"));
-            }else{
-                line.setBackgroundColor(Color.WHITE);
-            }
-
-            int stroke1 = this.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
-            line.setWidth(stroke1);
-            line.setHeight(vitaminCircleHeight);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            llp.setMargins(0, 0, paddingRight, 0);
-            line.setLayoutParams(llp);
-            vitaminLayout.addView(line);
-
-
-            Map vitaminMap = vitaminBean.getVitaminMap();
-            DecimalFormat df = new DecimalFormat("#.##");
-            Iterator it = vitaminMap.entrySet().iterator();
-
-            while(it.hasNext()){
-                Map.Entry<String, Double> each = (Map.Entry<String, Double>)it.next();
-Log.d("Vitamin", each.getKey());
-                if(each.getValue() > 0.01){
-                    vitaminCircle circleView = new vitaminCircle(DailyActivity.this, vitaminCircleWidth, vitaminCircleHeight, vitaminCircleRadius, tools.getVitaminColor(each.getKey()), each.getKey().toUpperCase(), df.format(each.getValue()));
-                    vitaminLayout.addView(circleView);
-                }
-
-                it.remove();
-            }
-            scroll.addView(vitaminLayout);
-            tempDataLayout.addView(scroll);
-
-
-        }catch(JSONException e){
-            Log.e("JSONException", "Exception", e);
+        HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
+        if (vitaminRowCount % 2 != 0) {
+            scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
         }
+        scroll.addView(vitaminLayout);
+        tempDataLayout.addView(scroll);
+
+
     }
 
 

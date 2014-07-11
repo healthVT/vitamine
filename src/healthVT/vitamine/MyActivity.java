@@ -3,6 +3,7 @@ package healthVT.vitamine;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -35,6 +36,7 @@ public class MyActivity extends Activity {
     private EditText emailField, passwordField;
     private CircleAnimView startSurfaceView;
     private vitamineServer server;
+    private SharedPreferences sharedData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class MyActivity extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
+
 
         TextView titleText = (TextView) findViewById(R.id.titleBar);
         TextView loginText = (TextView) findViewById(R.id.loginText);
@@ -81,6 +84,15 @@ public class MyActivity extends Activity {
         SurfaceHolder holder = startSurfaceView.getHolder();
         holder.setFormat(PixelFormat.TRANSLUCENT);
 
+        sharedData = this.getSharedPreferences("ProjectVT", Context.MODE_PRIVATE);
+
+        if(sharedData.getString("email", null) != null){
+            String email = sharedData.getString("email", null);
+            String password = sharedData.getString("password", null);
+            loginOrRegister(email, password, true);
+
+        }
+
     }
 
     private void attachListener() {
@@ -98,28 +110,28 @@ public class MyActivity extends Activity {
         startButtonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Click on", "Start");
-                Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
-                startActivity(dailyIntent);
-//                startSurfaceView.setAnimStart();
-//                if(!loginOrRegister()){
-//                    startSurfaceView.stopAnim();
-//
-//                }
+//                Log.d("Click on", "Start");
+//                Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
+//                startActivity(dailyIntent);
+                startSurfaceView.setAnimStart();
+                if(!loginOrRegister(emailField.getText().toString(), passwordField.getText().toString(), false)){
+                    startSurfaceView.stopAnim();
+                }
             }
         });
 
     }
 
-    private boolean loginOrRegister() {
-        if (!checkInput()) {
+    private boolean loginOrRegister(final String email, final String password, boolean login) {
+        if (!checkInput(email, password)) {
             return false;
         }
 
         Log.d("login or register", "after check input");
 
+
         String params = "";
-        if (continueText.getVisibility() == View.GONE) {
+        if (continueText.getVisibility() == View.GONE && !login) {
             String name = ((EditText) findViewById(R.id.nameField)).getText().toString();
             String age = ((EditText) findViewById(R.id.ageField)).getText().toString();
             String height = ((EditText) findViewById(R.id.heightField)).getText().toString();
@@ -137,7 +149,7 @@ public class MyActivity extends Activity {
             params = "register=true&name=" + name + "&age=" + age + "&height=" + height + "&weight=" + weight + "&gender=" + gender + "&ethnicity=" + ethnicity + "&";
         }
 
-        params += "email=" + emailField.getText() + "&password=" + passwordField.getText();
+        params += "email=" + email + "&password=" + password;
 
         Log.d("login or register", "params: " + params);
         server = new vitamineServer();
@@ -147,11 +159,13 @@ public class MyActivity extends Activity {
                 @Override
                 public void run() {
                     try{
-                        JSONObject resultJSON = server.execute("user/loginOrRegister/?" + "email=" + emailField.getText() + "&password=" + passwordField.getText()).get();
+                        JSONObject resultJSON = server.execute("user/loginOrRegister/?" + "email=" + email + "&password=" + password).get();
                         Log.d("result", resultJSON.get("success").toString());
                         startSurfaceView.stopAnim();
                         if (resultJSON.get("success").toString().equals("true")) {
-                            Log.d("login", "true");
+
+                            sharedData.edit().putString("email", email).commit();
+                            sharedData.edit().putString("password", password).commit();
                             Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
                             startActivity(dailyIntent);
                             finish();
@@ -176,10 +190,7 @@ public class MyActivity extends Activity {
         startActivityForResult(intent, 0);
     }
 
-    private boolean checkInput() {
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
-
+    private boolean checkInput(String email, String password) {
         if (email == null || email.length() < 5 || !tools.checkEmailFormat(email)) {
             errorMessage.setText("Please check your email format.");
             return false;
