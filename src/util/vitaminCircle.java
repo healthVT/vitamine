@@ -73,14 +73,12 @@ public class vitaminCircle extends View {
         paint.setStrokeWidth(stroke2);
         canvas.drawLine((height/2) - radius, height/2, (height/2) + radius, height/2, paint);
 
-        float vitaminWidth = paint.measureText(vitamin);
-
         paint.setStrokeWidth(stroke2);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(textSize);
 
         Rect bounds = new Rect();
-
+        float vitaminWidth = paint.measureText(vitamin);
         paint.getTextBounds(vitamin, 0, 1, bounds);
         canvas.drawText(vitamin, (height/2)-(vitaminWidth/2), ((radius*2)+bounds.height())/3, paint);
 

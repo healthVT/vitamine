@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -81,13 +83,14 @@ public class VitaminRow extends LinearLayout {
             ));
 
 
-            //Remove image on vitamin row
+            //Remove on vitamin row
             TextView removeView = new TextView(getContext());
             removeView.setBackgroundResource(R.drawable.remove_image);
             removeView.setLayoutParams(new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             ));
+            removeView.setTag("RemoveVitaminRow");
             removeView.setVisibility(View.GONE);
 
 
@@ -130,6 +133,21 @@ public class VitaminRow extends LinearLayout {
             }
         } catch (JSONException e) {
             Log.e("JSONException", "Exception", e);
+        }
+    }
+
+    public void turnOnEdit(String tag){
+        ArrayList<View> views = new ArrayList<View>();
+        final int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = getChildAt(i);
+
+            final Object tagObj = child.getTag();
+            if (tagObj != null && tagObj.equals(tag)) {
+                child.setVisibility(VISIBLE);
+                //views.add(child);
+            }
+
         }
     }
 }

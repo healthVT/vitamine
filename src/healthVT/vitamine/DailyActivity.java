@@ -134,8 +134,6 @@ public class DailyActivity extends Activity {
         vitaminEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<View> views = new ArrayList<View>();
-
 
             }
         });
