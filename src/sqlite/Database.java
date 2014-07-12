@@ -68,6 +68,18 @@ public class Database extends SQLiteOpenHelper {
         return true;
     }
 
+    public void updateAmount(String foodName, int amount){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = "foodName = '" + foodName + "'";
+Log.d("foodname", foodName);
+        Log.d("amount", String.valueOf(amount));
+        ContentValues values = new ContentValues();
+        values.put("amount", amount);
+
+        db.update(TABLE_NAME, values, where, null);
+        db.close();
+    }
+
     public List<VitaminBean> getVitaminData(){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -87,24 +99,6 @@ public class Database extends SQLiteOpenHelper {
         }
         db.close();
         return vitaminDataList;
-    }
-
-    public VitaminBean getVitaminBeanByFoodName(String foodName){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE foodName=" + foodName + " LIMIT 1";
-        Cursor c = db.rawQuery(query, null);
-
-        VitaminBean vitaminBean = null;
-        if(c != null){
-            vitaminBean = new VitaminBean(c.getString(c.getColumnIndex("foodName")), c.getDouble(c.getColumnIndex("vitaminA")),
-                    c.getDouble(c.getColumnIndex("vitaminC")), c.getDouble(c.getColumnIndex("vitaminD")), c.getDouble(c.getColumnIndex("vitaminE")),
-                    c.getDouble(c.getColumnIndex("vitaminK")), c.getDouble(c.getColumnIndex("vitaminB1")), c.getDouble(c.getColumnIndex("vitaminB2")),
-                    c.getDouble(c.getColumnIndex("vitaminB3")), c.getDouble(c.getColumnIndex("vitaminB6")), c.getDouble(c.getColumnIndex("vitaminB12")), c.getInt(c.getColumnIndex("amount"))
-            );
-        }
-        db.close();
-
-        return vitaminBean;
     }
 
     public void deleteByFoodName(String foodName){

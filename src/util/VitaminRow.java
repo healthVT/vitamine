@@ -35,6 +35,7 @@ public class VitaminRow extends LinearLayout {
     int vitaminCircleHeight;
     int vitaminCircleRadius;
     private LinearLayout vitaminCircleLayout;
+    boolean initialized = false;
 
     public VitaminRow(Context context, VitaminBean vitaminBean, int count){
         super(context);
@@ -71,6 +72,8 @@ public class VitaminRow extends LinearLayout {
 
 
         createView(vitaminBean, count);
+
+        //initialized = true;
     }
 
     public void createView(VitaminBean vitaminBean, int count){
@@ -123,10 +126,17 @@ public class VitaminRow extends LinearLayout {
         numberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView numberTextView = (TextView) view;
-                String amount = String.valueOf(numberTextView.getText());
-                numberView.setText(amount);
-                updateVitaminAmount(Integer.parseInt(amount));
+                if(initialized){
+                    TextView numberTextView = (TextView) view;
+                    String amount = String.valueOf(numberTextView.getText());
+                    Log.d("Item selected", String.valueOf(amount));
+                    numberView.setText(amount);
+
+                    updateVitaminAmount(Integer.parseInt(amount));
+                }else{
+                    initialized = true;
+                }
+
 
             }
 
@@ -143,7 +153,7 @@ public class VitaminRow extends LinearLayout {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-        numberView.setText("1");
+        numberView.setText(String.valueOf(vitaminBean.getAmount()));
 
         numberView.setOnClickListener(new OnClickListener() {
             @Override
@@ -193,7 +203,7 @@ public class VitaminRow extends LinearLayout {
         while (it.hasNext()) {
             Map.Entry<String, Double> each = (Map.Entry<String, Double>) it.next();
             if (each.getValue() > 0.01) {
-                each.setValue(each.getValue()*amount);
+                each.setValue(each.getValue() * amount);
                 vitaminCircle circleView = new vitaminCircle(getContext(), vitaminCircleWidth, vitaminCircleHeight, vitaminCircleRadius, tools.getVitaminColor(each.getKey()), each.getKey().toUpperCase(), df.format(each.getValue()));
                 vitaminCircleLayout.addView(circleView);
             }
@@ -203,6 +213,9 @@ public class VitaminRow extends LinearLayout {
     }
 
     public void updateVitaminAmount(int amount){
+        Log.d("update food name", vitaminBean.getFoodName());
+        Log.d("update amount", String.valueOf(amount));
+        db.updateAmount(vitaminBean.getFoodName(), amount);
         vitaminBean.updateAmount(amount);
         vitaminSection();
     }
