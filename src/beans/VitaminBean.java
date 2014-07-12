@@ -25,10 +25,11 @@ public class VitaminBean {
     double vitaminB12;
     double pantothenic;
     double biotin;
+    int amount;
 
     public VitaminBean(){}
 
-    public VitaminBean(String foodName, double vitaminA, double vitaminC, double vitaminD, double vitaminE, double vitaminK, double vitaminB1, double vitaminB2, double vitaminB3, double vitaminB6, double vitaminB12){
+    public VitaminBean(String foodName, double vitaminA, double vitaminC, double vitaminD, double vitaminE, double vitaminK, double vitaminB1, double vitaminB2, double vitaminB3, double vitaminB6, double vitaminB12, int amount){
         this.foodName = foodName;
         this.vitaminA = vitaminA;
         this.vitaminC = vitaminC;
@@ -40,7 +41,14 @@ public class VitaminBean {
         this.vitaminB3 = vitaminB3;
         this.vitaminB6 = vitaminB6;
         this.vitaminB12 = vitaminB12;
+        this.amount = amount;
 
+    }
+
+    public void updateAmount(int amount){
+        if(amount !=0){
+            this.amount = amount;
+        }
     }
 
     public Map<String, Double> getVitaminMap(){
@@ -80,6 +88,7 @@ public class VitaminBean {
     public double getVitaminB3(){ return vitaminB3; }
     public double getVitaminB6(){ return vitaminB6; }
     public double getVitaminB12(){ return vitaminB12; }
+    public int getAmount() { return amount; }
 
 }
 
