@@ -25,7 +25,7 @@ public class VitaminBean {
     double vitaminB12;
     double pantothenic;
     double biotin;
-    int amount;
+    int amount = 1;
 
     public VitaminBean(){}
 
@@ -41,7 +41,12 @@ public class VitaminBean {
         this.vitaminB3 = vitaminB3;
         this.vitaminB6 = vitaminB6;
         this.vitaminB12 = vitaminB12;
-        this.amount = amount;
+        if(amount == 0){
+            amount = 1;
+        }else{
+            this.amount = amount;
+        }
+
 
     }
 

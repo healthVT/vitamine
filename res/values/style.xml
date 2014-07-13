@@ -21,6 +21,7 @@
     <dimen name="vitaminCircleStroke3">3sp</dimen>
     <dimen name="vitaminCircleStroke4">4sp</dimen>
     <dimen name="bottomHeight">40dp</dimen>
+    <dimen name="dailyVitaminBottomHeight">100dp</dimen>
 
     <style name="defaultStyle" parent="@android:Theme">
         <item name="android:layout_width">fill_parent</item>
