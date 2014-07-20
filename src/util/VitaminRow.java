@@ -166,6 +166,7 @@ public class VitaminRow extends LinearLayout {
 
         //Line
         TextView line = new TextView(getContext());
+        line.setTag("line");
         line.setBackgroundColor(color);
 
         int stroke1 = this.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
@@ -256,6 +257,15 @@ public class VitaminRow extends LinearLayout {
                         }
                     }
                 }
+
+                TextView line = (TextView) scroll.findViewWithTag("line");
+
+                    if (j % 2 != 0) {
+                        line.setBackgroundColor(Color.parseColor("#fffbf3"));
+                    }else{
+                        line.setBackgroundColor(Color.parseColor("#000000"));
+                    }
+
 
 
                 if (j % 2 != 0) {
