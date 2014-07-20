@@ -3,6 +3,7 @@ package util;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,15 +47,14 @@ public class VitaminRow extends LinearLayout {
         this.vitaminBean = vitaminBean;
 
         //Default padding
-        paddingTop = tools.pixelsToSp(context, 20);
-        paddingLeft = tools.pixelsToSp(context, 40);
-        paddingRight = tools.pixelsToSp(context, 40);
-        paddingBottom = tools.pixelsToSp(context, 10);
+        paddingTop = getResources().getDimensionPixelSize(R.dimen.paddingTop);
+        paddingLeft = getResources().getDimensionPixelSize(R.dimen.paddingLeft);
+        paddingRight = getResources().getDimensionPixelSize(R.dimen.paddingRight);
+        paddingBottom = getResources().getDimensionPixelSize(R.dimen.paddingBottom);
 
-        vitaminCircleWidth = tools.pixelsToSp(context, 170);
-        vitaminCircleHeight = tools.pixelsToSp(context, 150);
-        vitaminCircleRadius = tools.pixelsToSp(context, 70);
-
+        vitaminCircleWidth = getResources().getDimensionPixelSize(R.dimen.vitaminCircleWidth);
+        vitaminCircleHeight = getResources().getDimensionPixelSize(R.dimen.vitaminCircleHeight);
+        vitaminCircleRadius = getResources().getDimensionPixelSize(R.dimen.vitaminCircleRadius);
 
         //Default
         setGravity(Gravity.CENTER_VERTICAL);
@@ -82,8 +82,8 @@ public class VitaminRow extends LinearLayout {
                 vitaminFoodNameWidth,
                 LinearLayout.LayoutParams.MATCH_PARENT
         ));
-        int foodPadding = tools.pixelsToSp(getContext(), 20);
-        foodLayout.setPadding(foodPadding,0,foodPadding,0);
+
+        foodLayout.setPadding(0,0,0,0);
         foodLayout.setTag("foodLayout");
 
         db = new Database(getContext());
@@ -102,6 +102,7 @@ public class VitaminRow extends LinearLayout {
         TextView foodText = new TextView(getContext());
         foodText.setText(vitaminBean.getFoodName());
         foodText.setTextColor(color);
+        foodText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
         foodText.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -220,7 +221,7 @@ public class VitaminRow extends LinearLayout {
         redrawBackground();
     }
 
-    private void redrawBackground(){
+    public void redrawBackground(){
         final int childCount = root.getChildCount();
         for (int j = 0; j < childCount; j++) {
             HorizontalScrollView scroll = (HorizontalScrollView) root.getChildAt(j);

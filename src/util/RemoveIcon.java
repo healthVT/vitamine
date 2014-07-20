@@ -25,10 +25,10 @@ public class RemoveIcon extends ImageView {
         }else{
             color = Color.parseColor("#FFFFFF");
         }
-        stroke = tools.pixelsToSp(context, 6);
-        radius = tools.pixelsToSp(context, 25);
-        height = tools.pixelsToSp(context, 60);
-        width = tools.pixelsToSp(context, 60);
+        stroke = getResources().getDimensionPixelSize(R.dimen.removeIconStroke);
+        radius = getResources().getDimensionPixelSize(R.dimen.removeIconRadius);
+        height = getResources().getDimensionPixelSize(R.dimen.removeIconHeight);
+        width =  getResources().getDimensionPixelSize(R.dimen.removeIconWidth);
         this.color = color;
         setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,

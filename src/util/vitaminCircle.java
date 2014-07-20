@@ -22,12 +22,12 @@ public class vitaminCircle extends View {
     private int textSize, stroke1, stroke2, stroke3, stroke4;
     public vitaminCircle(Context context, int width, int height, int radius, int color, String vitamin, String number){
         super(context);
-        this.textSize = tools.pixelsToSp(context, 36);
-        this.marginLeft = tools.pixelsToSp(context, 20);
-        this.stroke1 = tools.pixelsToSp(context, 2);
-        this.stroke2 = tools.pixelsToSp(context, 4);
-        this.stroke3 = tools.pixelsToSp(context, 6);
-        this.stroke4 = tools.pixelsToSp(context, 8);
+        this.textSize = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleText);
+        this.marginLeft = context.getResources().getDimensionPixelSize(R.dimen.vitaminMarginLeft);
+        this.stroke1 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
+        this.stroke2 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke2);
+        this.stroke3 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke3);
+        this.stroke4 = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke4);
 
         this.width = width;
         this.height = height;

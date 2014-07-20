@@ -234,15 +234,17 @@ public class DailyActivity extends Activity {
         }
         vitaminRowCount++;
 
-        LinearLayout vitaminLayout = new VitaminRow(DailyActivity.this, tempDataLayout, vitaminBean, vitaminRowCount);
+        VitaminRow vitaminLayout = new VitaminRow(DailyActivity.this, tempDataLayout, vitaminBean, vitaminRowCount);
 
         HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
-        if (vitaminRowCount % 2 != 0) {
-            scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
-        }
-        scroll.addView(vitaminLayout);
-        tempDataLayout.addView(scroll);
+//        if (vitaminRowCount % 2 != 0) {
+//            scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
+//        }
 
+        scroll.addView(vitaminLayout);
+        
+        tempDataLayout.addView(scroll, 0);
+        vitaminLayout.redrawBackground();
         //enable calculator button
         calculateLayout.setVisibility(View.VISIBLE);
     }

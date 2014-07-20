@@ -4,24 +4,37 @@
         <item name="android:background">@color/backgroundMainColor</item>
     </style>
 
-    <dimen name="dpFront">15sp</dimen>
-    <dimen name="line">1sp</dimen>
-    <dimen name="paddingTop">10sp</dimen>
-    <dimen name="paddingRight">20sp</dimen>
-    <dimen name="paddingLeft">20sp</dimen>
-    <dimen name="paddingBottom">10sp</dimen>
-    <dimen name="vitaminCircleWidth">85sp</dimen>
-    <dimen name="vitaminCircleHeight">75sp</dimen>
-    <dimen name="vitaminCircleRadius">35sp</dimen>
-    <dimen name="vitaminMarginLeft">10sp</dimen>
+    <dimen name="dpFront">15dp</dimen>
+    <dimen name="line">1dp</dimen>
+    <dimen name="paddingTop">10dp</dimen>
+    <dimen name="paddingRight">20dp</dimen>
+    <dimen name="paddingLeft">20dp</dimen>
+    <dimen name="paddingBottom">10dp</dimen>
+    <dimen name="vitaminCircleWidth">85dp</dimen>
+    <dimen name="vitaminCircleHeight">75dp</dimen>
+    <dimen name="vitaminCircleRadius">35dp</dimen>
+    <dimen name="vitaminMarginLeft">10dp</dimen>
     <dimen name="vitaminCircleText">20sp</dimen>
-    <dimen name="vitaminFoodNameWidth">100sp</dimen>
-    <dimen name="vitaminCircleStroke1">1sp</dimen>
-    <dimen name="vitaminCircleStroke2">2sp</dimen>
-    <dimen name="vitaminCircleStroke3">3sp</dimen>
-    <dimen name="vitaminCircleStroke4">4sp</dimen>
+    <dimen name="vitaminFoodNameWidth">100dp</dimen>
+    <dimen name="vitaminCircleStroke1">1dp</dimen>
+    <dimen name="vitaminCircleStroke2">2dp</dimen>
+    <dimen name="vitaminCircleStroke3">3dp</dimen>
+    <dimen name="vitaminCircleStroke4">4dp</dimen>
+    <dimen name="foodMarginTop">20dp</dimen>
     <dimen name="bottomHeight">40dp</dimen>
     <dimen name="dailyVitaminBottomHeight">110dp</dimen>
+
+    <dimen name="numberViewHeight">25dp</dimen>
+    <dimen name="numberViewWidth">50dp</dimen>
+    <dimen name="numberViewStroke">3dp</dimen>
+    <dimen name="numberViewRadius">10dp</dimen>
+    <dimen name="numberViewMargin">10dp</dimen>
+
+    <dimen name="removeIconStroke">3dp</dimen>
+    <dimen name="removeIconRadius">13dp</dimen>
+    <dimen name="removeIconHeight">30dp</dimen>
+    <dimen name="removeIconWidth">30dp</dimen>
+
 
     <style name="defaultStyle" parent="@android:Theme">
         <item name="android:layout_width">fill_parent</item>

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import healthVT.vitamine.R;
 
 /**
  * Created by Jay on 7/19/14.
@@ -20,20 +22,22 @@ public class NumberView extends TextView {
     public NumberView(Context context, int color, String text){
         super(context);
 
-        height = tools.pixelsToSp(context, 50);
-        width = tools.pixelsToSp(context, 100);
-        stroke = tools.pixelsToSp(context, 5);
-        radius = tools.pixelsToSp(context, 15);
+        height = getResources().getDimensionPixelSize(R.dimen.numberViewHeight);
+        width = getResources().getDimensionPixelSize(R.dimen.numberViewWidth);
+        stroke = getResources().getDimensionPixelSize(R.dimen.numberViewStroke);
+        radius = getResources().getDimensionPixelSize(R.dimen.numberViewRadius);
+        int margin = getResources().getDimensionPixelSize(R.dimen.numberViewMargin);
+
         this.color = color;
 
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        llp.setMargins(0, tools.pixelsToSp(context, 10), 0, 0);
+        llp.setMargins(0, margin, 0, 0);
         setLayoutParams(llp);
 
         setPadding(0, 0, 0, 0);
         setText(text);
         setTextColor(color);
-        setTextSize(tools.pixelsToSp(context, 20));
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         setTag("numberView");
         setGravity(Gravity.CENTER);
 
