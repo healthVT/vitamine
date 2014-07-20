@@ -55,9 +55,8 @@ public class DailyActivity extends Activity {
     int paddingBottom;
     private Database db;
     private AutoCompleteTextView foodInput;
-    private TextView vitaminEditButton;
-    boolean editOn = false;
-    boolean tempListOn = false;
+    private TextView vitaminEditButton, calculateButton;
+    boolean tempListOn = false, editOn = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +93,7 @@ public class DailyActivity extends Activity {
 
         vitaminEditButton = (TextView) findViewById(R.id.vitaminEditButton);
         calculateLayout = (LinearLayout) findViewById(R.id.calculateLayout);
+        calculateButton = (TextView) findViewById(R.id.calculateButton);
 
         //Create existing vitamin rows from database
         db = new Database(this);
@@ -142,14 +142,47 @@ public class DailyActivity extends Activity {
                 getFoodVitamin(String.valueOf(text.getText()));
                 foodInput.setText("");
 
+                editOn = false;
+                turnOnEdit();
+
             }
         });
 
         vitaminEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                turnOnEdit(tempDataLayout);
-                Log.d("In", "click");
+                if(editOn){
+                    editOn = false;
+                }else{
+                    editOn = true;
+                }
+                turnOnEdit();
+            }
+        });
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //calculateLayout.setVisibility(View.GONE);
+
+                try{
+
+                    vitamineServer server = new vitamineServer();
+                    String foodName = db.getAllFoodName();
+                    JSONObject resultJSON = server.execute("food/getVitaminDailyResult/?foodList=" + foodName + "&gender=" + "MALE").get();
+
+                    VitaminBean vitaminBean = new VitaminBean(resultJSON.getString("foodName"), resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1);
+
+                    Log.d("SSSSSSSSSSSSSSSSS", resultJSON.toString());
+
+
+                    Intent intent = new Intent(DailyActivity.this, summaryActivity.class);
+                    intent.putExtra("vitaminResult", vitaminBean);
+                    //TODO
+
+                }catch(Exception e){
+                    Log.e("Vitamin server error", "error", e);
+                }
             }
         });
     }
@@ -166,7 +199,6 @@ public class DailyActivity extends Activity {
 
                     if (resultJSON.get("success").toString().equals("true")) {
                         Log.d("Vitamin", resultJSON.get("vitamin").toString());
-
                         createVitaminRow(resultJSON);
 
 
@@ -200,9 +232,9 @@ public class DailyActivity extends Activity {
             tempDataLayout.removeAllViewsInLayout();
             tempListOn = false;
         }
-
         vitaminRowCount++;
-        LinearLayout vitaminLayout = new VitaminRow(DailyActivity.this, vitaminBean, vitaminRowCount);
+
+        LinearLayout vitaminLayout = new VitaminRow(DailyActivity.this, tempDataLayout, vitaminBean, vitaminRowCount);
 
         HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
         if (vitaminRowCount % 2 != 0) {
@@ -249,32 +281,42 @@ public class DailyActivity extends Activity {
         }
     }
 
-    public void turnOnEdit(ViewGroup root){
-        ArrayList<View> views = new ArrayList<View>();
-        final int childCount = root.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = root.getChildAt(i);
+    public void turnOnEdit(){
+        String[] changeTag = {"numberView", "RemoveVitaminRow"};
+        ViewGroup root = tempDataLayout;
 
-            if (child instanceof ViewGroup) {
-                ViewGroup v = (ViewGroup) child;
-                View tagV = v.findViewWithTag("RemoveVitaminRow");
-                if(tagV!=null){
-                    if(editOn){
-                        tagV.setVisibility(View.GONE);
-                    }else{
-                        tagV.setVisibility(View.VISIBLE);
+        for(String tag : changeTag){
+            final int childCount = root.getChildCount();
+            for (int j = 0; j < childCount; j++) {
+                final View child = root.getChildAt(j);
+
+                if (child instanceof ViewGroup) {
+                    ViewGroup v = (ViewGroup) child;
+                    View tagV = v.findViewWithTag(tag);
+                    if(tagV!=null){
+                        if(editOn){
+                            if(tag.equals("RemoveVitaminRow")){
+                                tagV.setVisibility(View.VISIBLE);
+                            }else{
+                                tagV.setVisibility(View.GONE);
+                            }
+
+                        }else{
+                            if(tag.equals("RemoveVitaminRow")){
+                                tagV.setVisibility(View.GONE);
+                            }else{
+                                tagV.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+
                     }
 
                 }
-
             }
         }
 
-        if(editOn){
-            editOn=false;
-        }else{
-            editOn=true;
-        }
+
 
     }
 

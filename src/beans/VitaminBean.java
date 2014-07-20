@@ -1,6 +1,8 @@
 package beans;
 
 import android.graphics.Color;
+import android.os.Parcel;
+import android.os.Parcelable;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
@@ -9,25 +11,49 @@ import java.util.*;
 /**
  * Created by Jay on 4/19/14.
  */
-public class VitaminBean {
-    Date logDate;
-    long id;
-    String foodName;
-    double vitaminA;
-    double vitaminC;
-    double vitaminD;
-    double vitaminE;
-    double vitaminK;
-    double vitaminB1;
-    double vitaminB2;
-    double vitaminB3;
-    double vitaminB6;
-    double vitaminB12;
-    double pantothenic;
-    double biotin;
-    int amount = 1;
+public class VitaminBean implements Parcelable {
+    private Date logDate;
+    private long id;
+    private String foodName;
+    private double vitaminA;
+    private double vitaminC;
+    private double vitaminD;
+    private double vitaminE;
+    private double vitaminK;
+    private double vitaminB1;
+    private double vitaminB2;
+    private double vitaminB3;
+    private double vitaminB6;
+    private double vitaminB12;
+    private double pantothenic;
+    private double biotin;
+    private int amount = 1;
+    private int mData;
 
-    public VitaminBean(){}
+    public VitaminBean(Parcel in){
+        mData = in.readInt();
+    }
+
+    public static final Parcelable.Creator<VitaminBean> CREATOR
+            = new Parcelable.Creator<VitaminBean>() {
+        public VitaminBean createFromParcel(Parcel in) {
+            return new VitaminBean(in);
+        }
+
+        public VitaminBean[] newArray(int size) {
+            return new VitaminBean[size];
+        }
+    };
+
+    public int describeContents() {
+        return 0;
+    }
+
+
+
+    public void writeToParcel(Parcel out, int flags){
+
+    }
 
     public VitaminBean(String foodName, double vitaminA, double vitaminC, double vitaminD, double vitaminE, double vitaminK, double vitaminB1, double vitaminB2, double vitaminB3, double vitaminB6, double vitaminB12, int amount){
         this.foodName = foodName;

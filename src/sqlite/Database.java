@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class Database extends SQLiteOpenHelper {
     //Database version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     //Database name
     private static final String DATABASE_NAME = "projectVT";
@@ -33,7 +33,7 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String CREATE_VITAMIN_TABLE = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, logDate TEXT, " +
             "foodName TEXT, vitaminA REAL, vitaminC REAL, vitaminD REAL, vitaminE REAL, vitaminK REAL, vitaminB1 REAL, vitaminB2 REAL, " +
-            "vitaminB3 REAL, vitaminB6 REAL, vitaminB12 REAL, amount INTEGER)";
+            "vitaminB3 REAL, vitaminB6 REAL, vitaminB12 REAL, amount INTEGER DEFAULT 1)";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -99,6 +99,21 @@ Log.d("foodname", foodName);
         }
         db.close();
         return vitaminDataList;
+    }
+
+    public String getAllFoodName(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String today = getToday();
+
+        String query = "SELECT foodName, amount FROM " + TABLE_NAME ;
+        Cursor c = db.rawQuery(query, null);
+
+        String foodName = "";
+        while(c.moveToNext()){
+            foodName += "," + c.getString(c.getColumnIndex("foodName")) + ":" + c.getString(c.getColumnIndex("amount"));
+        }
+
+        return foodName.substring(1);
     }
 
     public void deleteByFoodName(String foodName){

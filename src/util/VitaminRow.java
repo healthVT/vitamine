@@ -28,7 +28,7 @@ public class VitaminRow extends LinearLayout {
     int paddingTop, paddingLeft, paddingRight, paddingBottom;
     private VitaminBean vitaminBean;
     private Database db;
-    TextView numberView;
+    NumberView numberView;
     Spinner numberSpinner;
     //setup Circle Size
     int vitaminCircleWidth;
@@ -36,21 +36,25 @@ public class VitaminRow extends LinearLayout {
     int vitaminCircleRadius;
     private LinearLayout vitaminCircleLayout;
     boolean initialized = false;
+    LinearLayout foodLayout;
+    ViewGroup root;
 
-    public VitaminRow(Context context, VitaminBean vitaminBean, int count){
+    public VitaminRow(Context context, ViewGroup root, VitaminBean vitaminBean, int count){
         super(context);
         this.context = context;
+        this.root = root;
         this.vitaminBean = vitaminBean;
 
         //Default padding
-        paddingTop = getResources().getDimensionPixelSize(R.dimen.paddingTop);
-        paddingLeft = getResources().getDimensionPixelSize(R.dimen.paddingLeft);
-        paddingRight = getResources().getDimensionPixelSize(R.dimen.paddingRight);
-        paddingBottom = getResources().getDimensionPixelSize(R.dimen.paddingBottom);
+        paddingTop = tools.pixelsToSp(context, 20);
+        paddingLeft = tools.pixelsToSp(context, 40);
+        paddingRight = tools.pixelsToSp(context, 40);
+        paddingBottom = tools.pixelsToSp(context, 10);
 
-        vitaminCircleWidth = getResources().getDimensionPixelSize(R.dimen.vitaminCircleWidth);
-        vitaminCircleHeight = getResources().getDimensionPixelSize(R.dimen.vitaminCircleHeight);
-        vitaminCircleRadius = getResources().getDimensionPixelSize(R.dimen.vitaminCircleRadius);
+        vitaminCircleWidth = tools.pixelsToSp(context, 170);
+        vitaminCircleHeight = tools.pixelsToSp(context, 150);
+        vitaminCircleRadius = tools.pixelsToSp(context, 70);
+
 
         //Default
         setGravity(Gravity.CENTER_VERTICAL);
@@ -68,55 +72,41 @@ public class VitaminRow extends LinearLayout {
         ));
         vitaminCircleLayout.setOrientation(HORIZONTAL);
 
-        db = new Database(getContext());
-
-
-        createView(vitaminBean, count);
-
-        //initialized = true;
-    }
-
-    public void createView(VitaminBean vitaminBean, int count){
-
-        int vitaminFoodNameWidth = getResources().getDimensionPixelSize(R.dimen.vitaminFoodNameWidth);
 
         //food info (left panel)
-        LinearLayout foodLayout = new LinearLayout(getContext());
+        int vitaminFoodNameWidth = getResources().getDimensionPixelSize(R.dimen.vitaminFoodNameWidth);
+        foodLayout = new LinearLayout(getContext());
         foodLayout.setOrientation(LinearLayout.VERTICAL);
         foodLayout.setGravity(Gravity.CENTER);
         foodLayout.setLayoutParams(new LinearLayout.LayoutParams(
                 vitaminFoodNameWidth,
                 LinearLayout.LayoutParams.MATCH_PARENT
         ));
+        int foodPadding = tools.pixelsToSp(getContext(), 20);
+        foodLayout.setPadding(foodPadding,0,foodPadding,0);
+        foodLayout.setTag("foodLayout");
 
+        db = new Database(getContext());
+
+        createView(vitaminBean, count);
+
+    }
+
+    public void createView(VitaminBean vitaminBean, int count){
+        int color = Color.parseColor("#464646");
+        if (count % 2 == 0) {
+            color = (Color.WHITE);
+        }
 
         //Food name
         TextView foodText = new TextView(getContext());
         foodText.setText(vitaminBean.getFoodName());
-        foodText.setTextColor(Color.BLACK);
+        foodText.setTextColor(color);
 
         foodText.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
-
-
-        //Remove on vitamin row
-        TextView removeView = new TextView(getContext());
-        removeView.setBackgroundResource(R.drawable.remove_image);
-        removeView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        removeView.setTag("RemoveVitaminRow");
-        removeView.setVisibility(View.GONE);
-
-        removeView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeView();
-            }
-        });
 
         //Number Spinner
         numberSpinner = new Spinner(getContext());
@@ -147,14 +137,7 @@ public class VitaminRow extends LinearLayout {
         });
 
         //Number text view
-        numberView = new TextView(getContext());
-        numberView.setTextColor(Color.BLACK);
-        numberView.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        numberView.setText(String.valueOf(vitaminBean.getAmount()));
-
+        numberView = new NumberView(getContext(), color, String.valueOf(vitaminBean.getAmount()));
         numberView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +145,16 @@ public class VitaminRow extends LinearLayout {
             }
         });
 
+        //Remove on vitamin row
+        RemoveIcon removeView = new RemoveIcon(getContext(), count % 2);
+        removeView.setVisibility(View.GONE);
 
+        removeView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeView();
+            }
+        });
         foodLayout.addView(removeView);
         foodLayout.addView(foodText);
         foodLayout.addView(numberView);
@@ -173,11 +165,7 @@ public class VitaminRow extends LinearLayout {
 
         //Line
         TextView line = new TextView(getContext());
-        if (count % 2 != 0) {
-            line.setBackgroundColor(Color.parseColor("#464646"));
-        } else {
-            line.setBackgroundColor(Color.WHITE);
-        }
+        line.setBackgroundColor(color);
 
         int stroke1 = this.getResources().getDimensionPixelSize(R.dimen.vitaminCircleStroke1);
         line.setWidth(stroke1);
@@ -210,20 +198,73 @@ public class VitaminRow extends LinearLayout {
 
             it.remove();
         }
+
+        db.close();
     }
 
     public void updateVitaminAmount(int amount){
         Log.d("update food name", vitaminBean.getFoodName());
         Log.d("update amount", String.valueOf(amount));
+
         db.updateAmount(vitaminBean.getFoodName(), amount);
         vitaminBean.updateAmount(amount);
         vitaminSection();
     }
 
     public void removeView(){
-        ((HorizontalScrollView)this.getParent()).removeView(this);
+
+        //((HorizontalScrollView)this.getParent()).;
+        root.removeView((HorizontalScrollView)this.getParent());
         DailyActivity.vitaminRowCount--;
         db.deleteByFoodName(vitaminBean.getFoodName());
+        redrawBackground();
+    }
+
+    private void redrawBackground(){
+        final int childCount = root.getChildCount();
+        for (int j = 0; j < childCount; j++) {
+            HorizontalScrollView scroll = (HorizontalScrollView) root.getChildAt(j);
+            if(scroll != null){
+
+                LinearLayout foodLayout = (LinearLayout) scroll.findViewWithTag("foodLayout");
+                if(foodLayout!=null){
+                    for(int i=0;i<foodLayout.getChildCount();i++){
+                        if(foodLayout.getChildAt(i) instanceof TextView){
+                            if (j % 2 != 0) {
+                                ((TextView) foodLayout.getChildAt(i)).setTextColor(Color.parseColor("#fffbf3"));
+                            }else{
+                                ((TextView) foodLayout.getChildAt(i)).setTextColor(Color.parseColor("#000000"));
+                            }
+                        }
+
+                        if(foodLayout.getChildAt(i) instanceof  RemoveIcon){
+                            if (j % 2 != 0) {
+                                ((RemoveIcon) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#fffbf3"));
+                            }else{
+                                ((RemoveIcon) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#fe5a5a"));
+                            }
+
+                        }
+
+                        if(foodLayout.getChildAt(i) instanceof  NumberView){
+                            if (j % 2 != 0) {
+                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#fffbf3"));
+                            }else{
+                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#000000"));
+                            }
+                        }
+                    }
+                }
+
+
+                if (j % 2 != 0) {
+                    scroll.setBackgroundColor(Color.parseColor("#fe5a5a"));
+                }else{
+                    scroll.setBackgroundColor(Color.parseColor("#fffbf3"));
+                }
+
+            }
+        }
     }
 
 }

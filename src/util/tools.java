@@ -2,7 +2,10 @@ package util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import beans.VitaminBean;
 import healthVT.vitamine.DailyActivity;
 import healthVT.vitamine.R;
 
@@ -28,13 +31,18 @@ public class tools {
         return px/scaledDensity;
     }
 
+    public static int pixelsToSp(Context context, int px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return Math.round(px/scaledDensity);
+    }
+
     public static int getVitaminColor(String vitaminString){
 
         if (vitaminString.equalsIgnoreCase("A")) {
             return Color.parseColor("#790000");
         }
         if (vitaminString.equalsIgnoreCase("C")) {
-            return Color.parseColor("#fff799");
+            return Color.parseColor("#fff200");
         }
         if (vitaminString.equalsIgnoreCase("D")) {
             return Color.parseColor("#b5e0b1");
