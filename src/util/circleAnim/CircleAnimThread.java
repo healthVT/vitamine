@@ -116,8 +116,11 @@ public class CircleAnimThread extends Thread {
             paint.setStyle(Paint.Style.FILL);
             paint.setColor(circle.getColor());
 
-            rec = new RectF(circle.x, circle.y, circle.x + circle.radius*2, circle.y + circle.radius*2);
-            canvas.drawArc(rec, x, circle.tempY, true, paint);
+            if(circle.angle != 0){
+                rec = new RectF(circle.x, circle.y, circle.x + circle.radius*2, circle.y + circle.radius*2);
+                canvas.drawArc(rec, x, circle.tempY, true, paint);
+            }
+
 
             float textWidth = paint.measureText(circle.getText());
             paint.setColor(Color.WHITE);
@@ -154,7 +157,7 @@ public class CircleAnimThread extends Thread {
     }
 
     private class Circle {
-        private int x, y, radius, color, angle, tempY = 0;
+        private int x, y, radius, color, angle, tempY = 0, percentage;
         private boolean finished = false;
         private boolean reverse = false;
         private String vitaminName;
@@ -164,13 +167,17 @@ public class CircleAnimThread extends Thread {
             this.x = x;
             this.y = y;
             this.radius = radius;
+            this.percentage = angle.intValue();
+            angle = angle*3.6;
+            if(angle > 360) { angle = Double.parseDouble("365"); }
             this.angle = angle.intValue();
+
             this.color = color;
             this.vitaminName = vitaminName;
         }
 
         public String getText(){
-            return vitaminName + " " + angle + "%";
+            return vitaminName + " " + percentage + "%";
         }
 
         public int getColor() {
