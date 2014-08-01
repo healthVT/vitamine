@@ -22,7 +22,12 @@
     <dimen name="vitaminCircleStroke4">4dp</dimen>
     <dimen name="foodMarginTop">20dp</dimen>
     <dimen name="bottomHeight">40dp</dimen>
-    <dimen name="dailyVitaminBottomHeight">110dp</dimen>
+    <dimen name="calculateHeight">75dp</dimen>
+    <dimen name="dailyVitaminBottomHeight">115dp</dimen>
+    <dimen name="circleAnimWidth">60dp</dimen>
+    <dimen name="circleAnimHeight">75dp</dimen>
+    <dimen name="circleAnimRadius">30dp</dimen>
+    <dimen name="circleAnimText">12dp</dimen>
 
     <dimen name="numberViewHeight">25dp</dimen>
     <dimen name="numberViewWidth">50dp</dimen>

@@ -138,7 +138,14 @@ public class VitaminRow extends LinearLayout {
         });
 
         //Number text view
-        numberView = new NumberView(getContext(), color, String.valueOf(vitaminBean.getAmount()));
+        int cornerResource = 0;
+        if(color == Color.WHITE){
+            cornerResource = R.drawable.round_corner_whtie;
+        }else{
+            cornerResource = R.drawable.round_corner_black;
+        }
+        numberView = new NumberView(getContext(), color, cornerResource, String.valueOf(vitaminBean.getAmount()));
+
         numberView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,9 +257,9 @@ public class VitaminRow extends LinearLayout {
 
                         if(foodLayout.getChildAt(i) instanceof  NumberView){
                             if (j % 2 != 0) {
-                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#fffbf3"));
+                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#fffbf3"), R.drawable.round_corner_whtie);
                             }else{
-                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#000000"));
+                                ((NumberView) foodLayout.getChildAt(i)).updateColor(Color.parseColor("#000000"), R.drawable.round_corner_black);
                             }
                         }
                     }

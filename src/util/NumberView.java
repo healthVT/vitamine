@@ -16,10 +16,10 @@ import healthVT.vitamine.R;
  */
 public class NumberView extends TextView {
 
-    private int height, width, stroke, color, radius;
+    private int height, width, stroke, color, resource, radius;
     private Paint paint = new Paint();
 
-    public NumberView(Context context, int color, String text){
+    public NumberView(Context context, int color, int resource, String text){
         super(context);
 
         height = getResources().getDimensionPixelSize(R.dimen.numberViewHeight);
@@ -29,6 +29,7 @@ public class NumberView extends TextView {
         int margin = getResources().getDimensionPixelSize(R.dimen.numberViewMargin);
 
         this.color = color;
+        this.resource = resource;
 
         LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         llp.setMargins(0, margin, 0, 0);
@@ -37,6 +38,7 @@ public class NumberView extends TextView {
         setPadding(0, 0, 0, 0);
         setText(text);
         setTextColor(color);
+        setBackgroundResource(resource);
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         setTag("numberView");
         setGravity(Gravity.CENTER);
@@ -57,24 +59,28 @@ public class NumberView extends TextView {
     }
 
 
-    @Override
-    protected void onDraw(Canvas canvas){
-        super.onDraw(canvas);
+//    @Override
+//    protected void onDraw(Canvas canvas){
+//        super.onDraw(canvas);
+//
+//        paint.setAntiAlias(true);
+//
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(stroke);
+//        paint.setColor(color);
+//
+//        RectF rect = new RectF();
+//        rect.set(3, 3, getWidth()+3, getHeight()+3);
+//
+//        canvas.drawRoundRect(rect, radius, radius, paint);
+//    }
 
-        paint.setAntiAlias(true);
-
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(stroke);
-        paint.setColor(color);
-
-        RectF rect = new RectF();
-        rect.set(0, 0, getWidth(), getHeight());
-
-        canvas.drawRoundRect(rect, radius, radius, paint);
-    }
-
-    public void updateColor(int color){
+    public void updateColor(int color, int resource){
         this.color = color;
+        this.resource = resource;
+        setTextColor(color);
+        setBackgroundResource(resource);
+
         invalidate();
     }
 }

@@ -98,7 +98,7 @@ public class DailyActivity extends Activity {
         //Create existing vitamin rows from database
         db = new Database(this);
 
-        List<VitaminBean> vitaminRows = db.getVitaminData();
+        List<VitaminBean> vitaminRows = db. getVitaminData();
         if(vitaminRows.size() > 0){
 
             for(VitaminBean bean : vitaminRows){
@@ -171,14 +171,12 @@ public class DailyActivity extends Activity {
                     String foodName = db.getAllFoodName();
                     JSONObject resultJSON = server.execute("food/getVitaminDailyResult/?foodList=" + foodName + "&gender=" + "MALE").get();
 
-                    VitaminBean vitaminBean = new VitaminBean(resultJSON.getString("foodName"), resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1);
-
+                    VitaminBean vitaminBean = new VitaminBean(null, resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1);
                     Log.d("SSSSSSSSSSSSSSSSS", resultJSON.toString());
+                    Intent intent = new Intent(DailyActivity.this, SummaryActivity.class);
 
-
-                    Intent intent = new Intent(DailyActivity.this, summaryActivity.class);
                     intent.putExtra("vitaminResult", vitaminBean);
-                    //TODO
+                    startActivity(intent);
 
                 }catch(Exception e){
                     Log.e("Vitamin server error", "error", e);
