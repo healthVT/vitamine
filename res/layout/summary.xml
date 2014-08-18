@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:id="@+id/summaryLayout"
-              android:background="@color/backgroundMainColor"
-              android:gravity="center_horizontal"
-              android:layout_height="match_parent">
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/summaryTitle"
-            android:layout_marginTop="20dp"
-            android:text="Daily Summary"/>
-
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/dailyFrameLayout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
     <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/circleAnimLayout"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="30dp">
+            android:id="@+id/summaryLayout"
+            android:background="@color/backgroundMainColor"
+            android:gravity="center_horizontal"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/summaryTitle"
+                android:layout_marginTop="10dp"
+                android:text="Daily Summary"/>
+
+        <util.circleAnim.CircleSurface android:layout_width="match_parent" android:layout_height="wrap_content"
+                                       android:id="@+id/vitaminCircleSurface" android:layout_marginTop="10dp"/>
+
 
     </LinearLayout>
 
-</LinearLayout>
+    <include layout="@layout/bottom_menu_template"/>
+</FrameLayout>

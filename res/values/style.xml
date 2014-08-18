@@ -64,7 +64,6 @@
     </style>
 
     <style name="vtTextViewStyle" parent="@android:style/Widget.TextView">
-        <item name="android:paddingTop">5dp</item>
     </style>
 
     <style name="vtButtonStyle" parent="@android:style/Widget.Button">

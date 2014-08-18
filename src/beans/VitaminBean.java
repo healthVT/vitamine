@@ -30,33 +30,11 @@ public class VitaminBean implements Serializable {
     private double biotin;
     private int amount = 1;
     private int mData;
+    private String type;
 
-//    public VitaminBean(Parcel in){
-//        mData = in.readInt();
-//    }
-//
-//    public static final Parcelable.Creator<VitaminBean> CREATOR
-//            = new Parcelable.Creator<VitaminBean>() {
-//        public VitaminBean createFromParcel(Parcel in) {
-//            return new VitaminBean(in);
-//        }
-//
-//        public VitaminBean[] newArray(int size) {
-//            return new VitaminBean[size];
-//        }
-//    };
-//
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//
-//
-//    public void writeToParcel(Parcel out, int flags){
-//
-//    }
 
-    public VitaminBean(String foodName, double vitaminA, double vitaminC, double vitaminD, double vitaminE, double vitaminK, double vitaminB1, double vitaminB2, double vitaminB3, double vitaminB6, double vitaminB12, int amount){
+
+    public VitaminBean(String foodName, double vitaminA, double vitaminC, double vitaminD, double vitaminE, double vitaminK, double vitaminB1, double vitaminB2, double vitaminB3, double vitaminB6, double vitaminB12, int amount, String type){
         this.foodName = foodName;
         this.vitaminA = vitaminA;
         this.vitaminC = vitaminC;
@@ -68,6 +46,7 @@ public class VitaminBean implements Serializable {
         this.vitaminB3 = vitaminB3;
         this.vitaminB6 = vitaminB6;
         this.vitaminB12 = vitaminB12;
+        this.type = type;
         if(amount == 0){
             amount = 1;
         }else{
@@ -121,6 +100,7 @@ public class VitaminBean implements Serializable {
     public double getVitaminB6(){ return vitaminB6; }
     public double getVitaminB12(){ return vitaminB12; }
     public int getAmount() { return amount; }
+    public String getType() {return type;}
 
 }
 

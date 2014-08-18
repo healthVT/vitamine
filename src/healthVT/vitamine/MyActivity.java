@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import org.json.JSONObject;
 import util.CircleAnimView;
+import util.User;
 import util.vitamineServer;
 import util.tools;
 
@@ -35,8 +36,6 @@ public class MyActivity extends Activity {
     private Spinner ethnicityField;
     private EditText emailField, passwordField;
     private CircleAnimView startSurfaceView;
-    private vitamineServer server;
-    private SharedPreferences sharedData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,14 +83,13 @@ public class MyActivity extends Activity {
         SurfaceHolder holder = startSurfaceView.getHolder();
         holder.setFormat(PixelFormat.TRANSLUCENT);
 
-        sharedData = this.getSharedPreferences("ProjectVT", Context.MODE_PRIVATE);
-
-        if(sharedData.getString("email", null) != null){
-            String email = sharedData.getString("email", null);
-            String password = sharedData.getString("password", null);
-            loginOrRegister(email, password, true);
-
+        User user = new User(this);
+        if(user.getReturnUser()){
+            if(user.login()){
+                login();
+            }
         }
+
 
     }
 
@@ -130,7 +128,7 @@ public class MyActivity extends Activity {
         Log.d("login or register", "after check input");
 
 
-        String params = "";
+        User user = new User(this);
         if (continueText.getVisibility() == View.GONE && !login) {
             String name = ((EditText) findViewById(R.id.nameField)).getText().toString();
             String age = ((EditText) findViewById(R.id.ageField)).getText().toString();
@@ -146,39 +144,26 @@ public class MyActivity extends Activity {
                     gender = radio.getText().toString();
                 }
             }
-            params = "register=true&name=" + name + "&age=" + age + "&height=" + height + "&weight=" + weight + "&gender=" + gender + "&ethnicity=" + ethnicity + "&";
-        }
+            boolean registered = user.register(email, password, name, age, gender, height, weight, ethnicity);
+            if(registered){
+                Log.d("REGISTERRRRRRR", "SUCCESS");
 
-        params += "email=" + email + "&password=" + password;
+                login();
+            }else{
+                Log.d("REGISTERRRRRRR", "FAIL");
 
-        Log.d("login or register", "params: " + params);
-        server = new vitamineServer();
+                errorMessage.setText(user.getErrorMessage());
+            }
 
-        try {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    try{
-                        JSONObject resultJSON = server.execute("user/loginOrRegister/?" + "email=" + email + "&password=" + password).get();
-                        Log.d("result", resultJSON.get("success").toString());
-                        startSurfaceView.stopAnim();
-                        if (resultJSON.get("success").toString().equals("true")) {
+        }else{
 
-                            sharedData.edit().putString("email", email).commit();
-                            sharedData.edit().putString("password", password).commit();
-                            Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
-                            startActivity(dailyIntent);
-                            finish();
-                        } else {
-                            errorMessage.setText(resultJSON.get("message").toString());
-                        }
-
-                    }catch(Exception e){}
-                }
-            });
-
-        } catch (Exception e) {
-            Log.e("Server Error ", "Server Error", e);
+            if(user.login(email, password)){
+                Log.d("LOGIN", "SUCCESS");
+                login();
+            }else{
+                Log.d("LOGIN", "FAIL");
+                errorMessage.setText(user.getErrorMessage());
+            }
         }
 
         return true;
@@ -186,8 +171,9 @@ public class MyActivity extends Activity {
 
     private void login() {
         Log.d("Login", "success");
-        Intent intent = new Intent(MyActivity.this, DailyActivity.class);
-        startActivityForResult(intent, 0);
+        Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
+        startActivity(dailyIntent);
+        finish();
     }
 
     private boolean checkInput(String email, String password) {

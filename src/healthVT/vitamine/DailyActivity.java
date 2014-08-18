@@ -71,10 +71,13 @@ public class DailyActivity extends Activity {
         titleText.setTypeface(titleFont);
 
         foodInput = (AutoCompleteTextView) findViewById(R.id.foodInput);
+
+        vitamineServer server = new vitamineServer(this);
+
         //call util to get foodList
         try{
-            vitamineServer server = new vitamineServer();
             JSONObject jsonResult = server.execute("food/getFoodList").get();
+            Log.d("RESULT", jsonResult.toString());
             String[] foodList = jsonResult.get("foodList").toString().split(",");
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drop_down_item, foodList);
             foodInput.setAdapter(adapter);
@@ -82,6 +85,7 @@ public class DailyActivity extends Activity {
         }catch(Exception e){
             Log.e("Project VT Server exception ", "Exception", e);
         }
+
 
         tempDataLayout = (LinearLayout) findViewById(R.id.tempData);
 
@@ -92,8 +96,8 @@ public class DailyActivity extends Activity {
         paddingBottom = getResources().getDimensionPixelSize(R.dimen.paddingBottom);
 
         vitaminEditButton = (TextView) findViewById(R.id.vitaminEditButton);
-        calculateLayout = (LinearLayout) findViewById(R.id.calculateLayout);
-        calculateButton = (TextView) findViewById(R.id.calculateButton);
+        calculateLayout = (LinearLayout) findViewById(R.id.nextLayout);
+        calculateButton = (TextView) findViewById(R.id.nextButton);
 
         //Create existing vitamin rows from database
         db = new Database(this);
@@ -109,8 +113,6 @@ public class DailyActivity extends Activity {
         }
 
         attachEvent();
-
-
 
     }
 
@@ -163,20 +165,19 @@ public class DailyActivity extends Activity {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //calculateLayout.setVisibility(View.GONE);
-
                 try{
 
-                    vitamineServer server = new vitamineServer();
                     String foodName = db.getAllFoodName();
+                    vitamineServer server = new vitamineServer(DailyActivity.this);
                     JSONObject resultJSON = server.execute("food/getVitaminDailyResult/?foodList=" + foodName + "&gender=" + "MALE").get();
 
-                    VitaminBean vitaminBean = new VitaminBean(null, resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1);
-                    Log.d("SSSSSSSSSSSSSSSSS", resultJSON.toString());
+                    VitaminBean vitaminBean = new VitaminBean(null, resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1, "Food");
+
                     Intent intent = new Intent(DailyActivity.this, SummaryActivity.class);
 
                     intent.putExtra("vitaminResult", vitaminBean);
                     startActivity(intent);
+
 
                 }catch(Exception e){
                     Log.e("Vitamin server error", "error", e);
@@ -191,7 +192,7 @@ public class DailyActivity extends Activity {
             @Override
             public void run() {
                 try{
-                    vitamineServer server = new vitamineServer();
+                    vitamineServer server = new vitamineServer(DailyActivity.this);
                     JSONObject resultJSON = server.execute("food/getVitaminByFood/?foodName=" + foodName).get();
                     Log.d("result", resultJSON.get("success").toString());
 
@@ -213,11 +214,11 @@ public class DailyActivity extends Activity {
 
         try {
             JSONObject vitaminList = vitaminResult.getJSONObject("vitamin");
-            VitaminBean vitaminBean = new VitaminBean(vitaminResult.getString("foodName"), vitaminList.getDouble("a"), vitaminList.getDouble("c"), vitaminList.getDouble("d"), vitaminList.getDouble("e"), vitaminList.getDouble("k"), vitaminList.getDouble("b1"), vitaminList.getDouble("b2"), vitaminList.getDouble("b3"), vitaminList.getDouble("b6"), vitaminList.getDouble("b12"), 1);
+            VitaminBean vitaminBean = new VitaminBean(vitaminResult.getString("foodName"), vitaminList.getDouble("a"), vitaminList.getDouble("c"), vitaminList.getDouble("d"), vitaminList.getDouble("e"), vitaminList.getDouble("k"), vitaminList.getDouble("b1"), vitaminList.getDouble("b2"), vitaminList.getDouble("b3"), vitaminList.getDouble("b6"), vitaminList.getDouble("b12"), 1, "Food");
             createVitaminRow(vitaminBean);
 
             //Put in database
-            db.updateVitaminData(vitaminBean);
+            db.updateVitaminData(vitaminBean, "Food");
 
         } catch (JSONException e) {
             Log.e("JSONException", "Exception", e);

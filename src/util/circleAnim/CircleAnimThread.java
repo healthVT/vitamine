@@ -36,6 +36,8 @@ public class CircleAnimThread extends Thread {
     public CircleAnimThread(SurfaceHolder holder, Context context, Resources resources, VitaminBean vitamin) {
         this.holder = holder;
 
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
         circleHeight = resources.getDimensionPixelSize(R.dimen.circleAnimHeight);
         circleWidth = resources.getDimensionPixelSize(R.dimen.circleAnimWidth);
         circleRadius = resources.getDimensionPixelSize(R.dimen.circleAnimRadius);
@@ -91,6 +93,11 @@ public class CircleAnimThread extends Thread {
                     draw(canvas);
                 }
 
+            } catch(Exception e){
+                e.printStackTrace();
+                allFinished = true;
+                interrupt();
+
             } finally {
                 if (canvas != null) {
                     holder.unlockCanvasAndPost(canvas);
@@ -99,17 +106,23 @@ public class CircleAnimThread extends Thread {
 
             try {
                 Thread.sleep(refreshRate);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                allFinished = true;
+                interrupt();
             }
         }
     }
 
     private void draw(Canvas canvas) {
+
+        canvas.drawColor(Color.TRANSPARENT, android.graphics.PorterDuff.Mode.CLEAR);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.parseColor("#fe5a5a"));
+        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
         for (Circle circle: circleArray) {
             paint.setColor(circle.getColor());
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(stroke2);
+            paint.setStrokeWidth(stroke3);
             RectF rec = new RectF(circle.x, circle.y, circle.x + circle.radius*2, circle.y + circle.radius*2);
             canvas.drawOval(rec, paint);
 

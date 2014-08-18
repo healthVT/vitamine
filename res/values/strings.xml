@@ -19,4 +19,10 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+
+    <string-array name="period">
+        <item>WEEK</item>
+        <item>MONTH</item>
+        <item>YEAR</item>
+    </string-array>
 </resources>

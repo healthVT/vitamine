@@ -13,10 +13,11 @@
                 android:orientation="horizontal"
                 android:background="@color/backgroundMainColor"
                 android:gravity="center"
-                android:id="@+id/calculateLayout">
+                android:visibility="gone"
+                android:id="@+id/nextLayout">
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:id="@+id/calculateButton"
+                      android:id="@+id/nextButton"
                       android:text="Calculate"
                       android:textSize="12sp"
                       android:gravity="center"

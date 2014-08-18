@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class Database extends SQLiteOpenHelper {
     //Database version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     //Database name
     private static final String DATABASE_NAME = "projectVT";
@@ -33,7 +33,7 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String CREATE_VITAMIN_TABLE = "CREATE TABLE " + TABLE_NAME + " (id INTEGER PRIMARY KEY AUTOINCREMENT, logDate TEXT, " +
             "foodName TEXT, vitaminA REAL, vitaminC REAL, vitaminD REAL, vitaminE REAL, vitaminK REAL, vitaminB1 REAL, vitaminB2 REAL, " +
-            "vitaminB3 REAL, vitaminB6 REAL, vitaminB12 REAL, amount INTEGER DEFAULT 1)";
+            "vitaminB3 REAL, vitaminB6 REAL, vitaminB12 REAL, amount INTEGER DEFAULT 1, type TEXT)";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,7 +44,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(CREATE_VITAMIN_TABLE);
     }
 
-    public boolean updateVitaminData(VitaminBean vitaminLog){
+    public boolean updateVitaminData(VitaminBean vitaminLog, String type){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -60,6 +60,7 @@ public class Database extends SQLiteOpenHelper {
         values.put("vitaminB6", vitaminLog.getVitaminB6());
         values.put("vitaminB12", vitaminLog.getVitaminB12());
         values.put("logDate", getToday());
+        values.put("type", type);
 
         long id = db.insert(TABLE_NAME, null, values);
         Log.e("inserted", String.valueOf(id));
@@ -94,7 +95,7 @@ Log.d("foodname", foodName);
             vitaminDataList.add(new VitaminBean(c.getString(c.getColumnIndex("foodName")), c.getDouble(c.getColumnIndex("vitaminA")),
                     c.getDouble(c.getColumnIndex("vitaminC")), c.getDouble(c.getColumnIndex("vitaminD")), c.getDouble(c.getColumnIndex("vitaminE")),
                     c.getDouble(c.getColumnIndex("vitaminK")), c.getDouble(c.getColumnIndex("vitaminB1")), c.getDouble(c.getColumnIndex("vitaminB2")),
-                    c.getDouble(c.getColumnIndex("vitaminB3")), c.getDouble(c.getColumnIndex("vitaminB6")), c.getDouble(c.getColumnIndex("vitaminB12")), c.getInt(c.getColumnIndex("amount"))
+                    c.getDouble(c.getColumnIndex("vitaminB3")), c.getDouble(c.getColumnIndex("vitaminB6")), c.getDouble(c.getColumnIndex("vitaminB12")), c.getInt(c.getColumnIndex("amount")), "Food"
             ));
         }
         db.close();
