@@ -2,30 +2,75 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
              android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:background="@color/backgroundMainColor"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+                android:background="@color/white" >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:background="@color/white"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:paddingBottom="30dp">
 
-        <TextView
-                android:id="@+id/periodText"
-                android:background="@drawable/edit_text_shape"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:padding="8dp"
-                android:textSize="15dp"
-                android:hint="Select time period"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:paddingBottom="10dp"
+                          android:background="@color/backgroundMainColor">
+                <TextView
+                        android:id="@+id/periodText"
+                        android:background="@drawable/edit_text_shape"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:padding="8dp"
+                        android:textSize="15dp"
+                        android:hint="Select time period"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+            </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart android:layout_width="match_parent"
-                                                       android:layout_marginTop="10dp" android:background="@color/white"
-                                                       android:layout_height="250dp" android:id="@+id/vitaminChart"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:gravity="center" android:id="@+id/chartLayout" android:orientation="vertical" android:background="@color/white" android:layout_marginTop="10dp">
+
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/chartExample" android:orientation="horizontal" android:layout_marginTop="10dp">
+
+                    <LinearLayout android:layout_width="70dp" android:layout_height="wrap_content"
+                                  android:orientation="vertical" android:gravity="center"  android:layout_marginRight="25dp">
+                        <TextView android:id="@+id/intakeExampleLine" android:layout_width="50dp" android:layout_height="wrap_content"
+                                  android:background="@drawable/chart_intake" />
+                        <TextView android:id="@+id/intakeExampleText" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:text="Intake" android:textColor="@color/backgroundMainColor" android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="70dp" android:layout_height="wrap_content"
+                                  android:orientation="vertical" android:gravity="center"  android:layout_marginRight="25dp">
+                        <TextView android:id="@+id/recommandExampleLine" android:layout_width="50dp" android:layout_height="wrap_content"
+                                  android:background="@drawable/chart_recommand" />
+                        <TextView android:id="@+id/recommandExampleText" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:text="Recommand" android:textColor="@color/backgroundMainColor" android:textSize="12dp" />
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="70dp" android:layout_height="wrap_content"
+                                  android:orientation="vertical" android:gravity="center"  android:layout_marginRight="25dp">
+                        <TextView android:id="@+id/overdoseExampleLine" android:layout_width="50dp" android:layout_height="wrap_content"
+                                  android:background="@drawable/chart_overdose" />
+                        <TextView android:id="@+id/overdoseExampleText" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                  android:text="Overdose" android:textColor="@color/backgroundMainColor" android:textSize="12dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.LineChart android:layout_width="match_parent"
+                                                               android:layout_marginTop="10dp" android:background="@color/white"
+                                                               android:layout_height="220dp" android:id="@+id/vitaminChart"
+                                                               android:layout_marginRight="10dp"
+                        />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
 
     <include layout="@layout/bottom_menu_template"/>
+
 </FrameLayout>

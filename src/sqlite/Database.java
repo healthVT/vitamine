@@ -72,7 +72,7 @@ public class Database extends SQLiteOpenHelper {
     public void updateAmount(String foodName, int amount){
         SQLiteDatabase db = this.getWritableDatabase();
         String where = "foodName = '" + foodName + "'";
-Log.d("foodname", foodName);
+
         Log.d("amount", String.valueOf(amount));
         ContentValues values = new ContentValues();
         values.put("amount", amount);

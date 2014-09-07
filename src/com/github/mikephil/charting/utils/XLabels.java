@@ -34,7 +34,7 @@ public class XLabels {
      * if set to true, the x-axis label entries will adjust themselves when
      * scaling the graph
      */
-    protected boolean mAdjustXAxisLabels = true;
+    protected boolean mAdjustXAxisLabels = false;
     
     /** the position of the x-labels relative to the chart */
     private XLabelPosition mPosition = XLabelPosition.TOP;
@@ -85,7 +85,7 @@ public class XLabels {
      * returns the position of the x-labels
      */
     public XLabelPosition getPosition() {
-        return mPosition;
+        return XLabelPosition.BOTTOM;
     }
 
     /**

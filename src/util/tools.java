@@ -1,7 +1,9 @@
 package util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,6 +19,11 @@ import java.util.regex.Pattern;
  * Created by Jay on 6/14/14.
  */
 public class tools {
+    private static Resources mRes;
+
+    public static void init(Resources res) {
+        mRes = res;
+    }
 
     public static boolean checkEmailFormat(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
@@ -24,6 +31,20 @@ public class tools {
         Matcher matcher = pattern.matcher(email);
 
         return matcher.matches();
+    }
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device
+     * density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need
+     *            to convert into pixels
+     * @return A float value to represent px equivalent to dp depending on
+     *         device density
+     */
+    public static float convertDpToPixel(float dp) {
+        DisplayMetrics metrics = mRes.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
     }
 
     public static float pixelsToSp(Context context, float px) {

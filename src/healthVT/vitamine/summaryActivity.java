@@ -14,13 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import util.CircleAnimView;
 import util.circleAnim.CircleSurface;
 import util.vitamineServer;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Jay on 7/26/14.
@@ -80,8 +82,16 @@ public class SummaryActivity extends Activity  {
             JSONObject jsonResult = server.execute("food/getVitaminRecord").get();
             Log.d("RESULT", jsonResult.toString());
 
-           Intent charAcitivty = new Intent(SummaryActivity.this, VitaminChartActivity.class);
-            startActivity(charAcitivty);
+            if(jsonResult.getBoolean("success")){
+                JSONArray recordList = jsonResult.getJSONArray("vitaminRecordList");
+                Intent chartActivity = new Intent(SummaryActivity.this, VitaminChartActivity.class);
+                chartActivity.putExtra("vitaminHistory", recordList.toString());
+                startActivity(chartActivity);
+
+            }else{
+
+            }
+
 
         }catch(Exception e){
             Log.e("Project VT Server exception ", "Exception", e);

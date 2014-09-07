@@ -172,11 +172,11 @@ public abstract class BarLineChartBase extends Chart {
         mXLabelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mXLabelPaint.setColor(ColorTemplate.MAIN_COLOR);
         mXLabelPaint.setTextAlign(Align.CENTER);
-        mXLabelPaint.setTextSize(Utils.convertDpToPixel(12f));
+        mXLabelPaint.setTextSize(Utils.convertDpToPixel(9f));
 
         mYLabelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mYLabelPaint.setColor(ColorTemplate.MAIN_COLOR);
-        mYLabelPaint.setTextSize(Utils.convertDpToPixel(12f));
+        mYLabelPaint.setTextSize(Utils.convertDpToPixel(10f));
 
         mGridPaint = new Paint();
         mGridPaint.setColor(Color.GRAY);
@@ -186,7 +186,7 @@ public abstract class BarLineChartBase extends Chart {
 
         mBorderPaint = new Paint();
         mBorderPaint.setColor(ColorTemplate.MAIN_COLOR);
-        mBorderPaint.setStrokeWidth(Utils.convertDpToPixel(4f));
+        mBorderPaint.setStrokeWidth(Utils.convertDpToPixel(2f));
         mBorderPaint.setStyle(Style.STROKE);
 
         mGridBackgroundPaint = new Paint();
@@ -668,8 +668,8 @@ public abstract class BarLineChartBase extends Chart {
             // are
             // static on the x-axis
             positions[i + 1] = mYLabels.mEntries[i / 2];
-        }
 
+        }
         transformPointArray(positions);
 
         float xoffset = Utils.convertDpToPixel(5f);

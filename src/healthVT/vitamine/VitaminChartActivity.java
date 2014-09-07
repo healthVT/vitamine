@@ -1,13 +1,13 @@
 package healthVT.vitamine;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.ChartData;
@@ -15,7 +15,12 @@ import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
+import com.github.mikephil.charting.utils.XLabels;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import util.vitaminCircle;
+import util.vitaminOptionCircleLayout;
 import util.vitamineServer;
 
 import java.util.ArrayList;
@@ -27,10 +32,28 @@ public class VitaminChartActivity extends Activity {
 
     private LineChart vitaminChart;
     private TextView periodSpinner;
+    private LinearLayout vitaminOptionLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //get data
+        Intent intent = getIntent();
+        String vitaminHistory = intent.getStringExtra("vitaminHistory");
+
+        //convert to json Array
+        JSONArray historyArray = null;
+        try{
+            historyArray = new JSONArray(vitaminHistory);
+        }catch(JSONException e){
+            Log.e("Error", "Converting JSON Array", e);
+        }
+
+        if(historyArray == null){
+            finish();
+            return;
+        }
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.vitamin_chart);
@@ -52,17 +75,19 @@ public class VitaminChartActivity extends Activity {
         vitaminChart.setYLabelCount(4);
         vitaminChart.setLineWidth(7f);
         vitaminChart.setCircleSize(9f);
-        vitaminChart.setGridWidth(5f);
+        vitaminChart.setGridWidth(2f);
         vitaminChart.setPinchZoom(false);
         vitaminChart.setGridColor(getResources().getColor(R.color.backgroundMainColor));
         vitaminChart.setStartAtZero(false);
         vitaminChart.setDrawUnitsInChart(false);
         vitaminChart.setDrawYValues(false);
+        vitaminChart.setUnit("%");
+        vitaminChart.setStartAtZero(false);
 
-//        vitaminChart.setDrawHorizontalGrid(false);
-//        vitaminChart.setDrawVerticalGrid(false);
+        vitaminChart.setDrawHorizontalGrid(false);
+        vitaminChart.setDrawVerticalGrid(false);
 
-        setData(7, 100);
+        setData(historyArray);
         vitaminChart.setDrawLegend(false);
         vitaminChart.invalidate();
 
@@ -73,35 +98,51 @@ public class VitaminChartActivity extends Activity {
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        periodSpinner.setAdapter(adapter);
 
+        vitaminOptionLayout = (LinearLayout) findViewById(R.id.vitaminOption);
+        LinearLayout vitaminOptionRow = new vitaminOptionCircleLayout(this);
+
+        HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
+        util.tools.init(this.getResources());
+        int vitaminOptionHeight = Math.round(util.tools.convertDpToPixel(90));
+        scroll.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                vitaminOptionHeight
+        ));
+        scroll.addView(vitaminOptionRow);
+        vitaminOptionLayout.addView(scroll);
+
+
     }
 
-    private void setData(int count, float range) {
+    private void setData(JSONArray history) {
+        try {
+            ArrayList<String> xVals = new ArrayList<String>();
+            ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i+1) + "");
+            int count = history.length();
+
+            for (int i = 0; i < count; i++) {
+                JSONObject object = history.getJSONObject(i);
+                if(object != null){
+                    xVals.add((object.getString("date")));
+                    yVals.add(new Entry(object.getInt("vitaminA"), i));
+                }
+            }
+
+            // create a dataset and give it a type
+            DataSet set1 = new DataSet(yVals, "DataSet 1");
+
+            ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
+            dataSets.add(set1); // add the datasets
+
+            // create a data object with the datasets
+            ChartData data = new ChartData(xVals, dataSets);
+
+            // set data
+            vitaminChart.setData(data);
+
+        } catch (Exception e) {
+            Log.e("Error", "Setting Value", e);
         }
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        for (int i = 0; i < count; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult) + 3;// + (float)
-            // ((mult *
-            // 0.1) / 10);
-            yVals.add(new Entry(val, i));
-        }
-
-        // create a dataset and give it a type
-        DataSet set1 = new DataSet(yVals, "DataSet 1");
-
-        ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
-        dataSets.add(set1); // add the datasets
-
-        // create a data object with the datasets
-        ChartData data = new ChartData(xVals, dataSets);
-
-        // set data
-        vitaminChart.setData(data);
     }
 }

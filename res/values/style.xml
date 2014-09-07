@@ -15,11 +15,16 @@
     <dimen name="vitaminCircleRadius">35dp</dimen>
     <dimen name="vitaminMarginLeft">10dp</dimen>
     <dimen name="vitaminCircleText">20sp</dimen>
+    <dimen name="vitaminCircleOptionText">12sp</dimen>
+    <dimen name="vitaminCircleOptionVitaminText">18sp</dimen>
+    <dimen name="vitaminCircleOptionRadius">33dp</dimen>
     <dimen name="vitaminFoodNameWidth">100dp</dimen>
     <dimen name="vitaminCircleStroke1">1dp</dimen>
     <dimen name="vitaminCircleStroke2">2dp</dimen>
     <dimen name="vitaminCircleStroke3">3dp</dimen>
     <dimen name="vitaminCircleStroke4">4dp</dimen>
+    <dimen name="vitaminCircleStroke6">6dp</dimen>
+    <dimen name="vitaminCircleStroke7">7dp</dimen>
     <dimen name="foodMarginTop">20dp</dimen>
     <dimen name="bottomHeight">40dp</dimen>
     <dimen name="calculateHeight">75dp</dimen>
