@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class vitaminOptionCircleLayout extends LinearLayout{
 
+    private vitaminOptionCircle[] vitaminCircle = new vitaminOptionCircle[13];
 
     public vitaminOptionCircleLayout(Context context){
         super(context);
@@ -40,9 +41,33 @@ public class vitaminOptionCircleLayout extends LinearLayout{
             if(i==0){
                 selected =true;
             }
-            View vitaminCircle = new vitaminOptionCircle(context, vitaminList[i], selected);
-            addView(vitaminCircle);
+            final int k = i;
+            vitaminCircle[i] = new vitaminOptionCircle(context, vitaminList[i], selected);
+            addView(vitaminCircle[i]);
         }
+        attachEvent();
+    }
+
+    public void attachEvent(){
+        for(int i=0;i<vitaminCircle.length && vitaminCircle[i] != null;i++){
+            final int j=i;
+            vitaminCircle[i].setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClickEvent(j);
+
+                }
+            });
+        }
+
+    }
+
+    public void onClickEvent(int index){
+        for(int i=0;i<vitaminCircle.length && vitaminCircle[i] != null;i++){
+            vitaminCircle[i].selected(false);
+        }
+        vitaminCircle[index].selected(true);
+
     }
 
     public vitaminOptionCircleLayout(Context context, AttributeSet attrs, int defStyle){

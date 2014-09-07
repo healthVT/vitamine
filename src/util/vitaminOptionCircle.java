@@ -38,12 +38,7 @@ public class vitaminOptionCircle extends View {
         this.height = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleHeight);
         this.radius = context.getResources().getDimensionPixelSize(R.dimen.vitaminCircleOptionRadius);
 
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selected();
-            }
-        });
+
     }
 
     @Override
@@ -89,8 +84,8 @@ public class vitaminOptionCircle extends View {
         //canvas.drawText(number, (height/2)-(numberWidth/2), (heightText*2), paint);
     }
 
-    public void selected(){
-        selected = true;
+    public void selected(boolean selected){
+        this.selected = selected;
         invalidate();
     }
 }
