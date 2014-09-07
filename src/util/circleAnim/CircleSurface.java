@@ -67,6 +67,9 @@ public class CircleSurface extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceDestroyed(SurfaceHolder holder){
         boolean retry = false;
+        circleThread.isFinished();
+        circleThread.interrupt();
+        circleThread = null;
         while(retry){
             try{
                 circleThread.join();
