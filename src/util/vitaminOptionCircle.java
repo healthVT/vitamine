@@ -88,4 +88,8 @@ public class vitaminOptionCircle extends View {
         this.selected = selected;
         invalidate();
     }
+
+    public String getVitaminName(){
+        return vitaminString;
+    }
 }

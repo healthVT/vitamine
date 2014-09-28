@@ -11,12 +11,9 @@ import android.widget.*;
 import beans.VitaminBean;
 import healthVT.vitamine.DailyActivity;
 import healthVT.vitamine.R;
-import org.json.JSONException;
-import org.json.JSONObject;
 import sqlite.Database;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 

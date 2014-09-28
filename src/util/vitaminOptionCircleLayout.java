@@ -23,10 +23,11 @@ import java.util.List;
 public class vitaminOptionCircleLayout extends LinearLayout{
 
     private vitaminOptionCircle[] vitaminCircle = new vitaminOptionCircle[13];
+    private String selectedVitamin;
+    private String[] vitaminList = {"A", "B1", "B2", "B3", "B6", "B12", "C", "D", "E", "K"};
 
     public vitaminOptionCircleLayout(Context context){
         super(context);
-        String[] vitaminList = {"A", "B1", "B2", "B3", "B6", "B12", "C", "D", "E", "K"};
         setBackgroundColor(Color.parseColor("#fe5a5a"));
         setGravity(Gravity.CENTER_VERTICAL);
         setOrientation(LinearLayout.HORIZONTAL);
@@ -40,34 +41,11 @@ public class vitaminOptionCircleLayout extends LinearLayout{
             boolean selected = false;
             if(i==0){
                 selected =true;
+                selectedVitamin = vitaminList[i];
             }
-            final int k = i;
             vitaminCircle[i] = new vitaminOptionCircle(context, vitaminList[i], selected);
             addView(vitaminCircle[i]);
         }
-        attachEvent();
-    }
-
-    public void attachEvent(){
-        for(int i=0;i<vitaminCircle.length && vitaminCircle[i] != null;i++){
-            final int j=i;
-            vitaminCircle[i].setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onClickEvent(j);
-
-                }
-            });
-        }
-
-    }
-
-    public void onClickEvent(int index){
-        for(int i=0;i<vitaminCircle.length && vitaminCircle[i] != null;i++){
-            vitaminCircle[i].selected(false);
-        }
-        vitaminCircle[index].selected(true);
-
     }
 
     public vitaminOptionCircleLayout(Context context, AttributeSet attrs, int defStyle){

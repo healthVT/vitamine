@@ -380,7 +380,7 @@ public abstract class Chart extends View {
         if (mDataNotSet) { // check if there is data
 
             // if no data, inform the user
-            canvas.drawText("No chart data available.", getWidth() / 2, getHeight() / 2, mInfoPaint);
+            canvas.drawText("Need more than one day's data.", getWidth() / 2, getHeight() / 2, mInfoPaint);
             return;
         }
 
@@ -392,6 +392,17 @@ public abstract class Chart extends View {
         }
 
         mDrawCanvas.drawColor(mBackgroundColor); // clear all
+    }
+
+    public void clearAll(){
+        if(mDrawCanvas != null){
+            mDrawCanvas.drawColor(Color.WHITE, android.graphics.PorterDuff.Mode.CLEAR);
+        }
+
+//        mDrawPaint.setStyle(Paint.Style.FILL);
+//        mDrawPaint.setColor(Color.WHITE);
+//        mDrawCanvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), paint);
+//        mDrawCanvas.drawColor(mBackgroundColor);
     }
 
     /**

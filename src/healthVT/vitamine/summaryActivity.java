@@ -74,27 +74,8 @@ public class SummaryActivity extends Activity  {
         });
     }
 
-    public void clickOnTrackButton(){
-        vitamineServer server = new vitamineServer(this);
-
-        //call util to get foodList
-        try{
-            JSONObject jsonResult = server.execute("food/getVitaminRecord").get();
-            Log.d("RESULT", jsonResult.toString());
-
-            if(jsonResult.getBoolean("success")){
-                JSONArray recordList = jsonResult.getJSONArray("vitaminRecordList");
-                Intent chartActivity = new Intent(SummaryActivity.this, VitaminChartActivity.class);
-                chartActivity.putExtra("vitaminHistory", recordList.toString());
-                startActivity(chartActivity);
-
-            }else{
-
-            }
-
-
-        }catch(Exception e){
-            Log.e("Project VT Server exception ", "Exception", e);
-        }
+    public void clickOnTrackButton() {
+        Intent chartActivity = new Intent(SummaryActivity.this, VitaminChartActivity.class);
+        startActivity(chartActivity);
     }
 }

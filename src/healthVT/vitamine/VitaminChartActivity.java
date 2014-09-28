@@ -1,11 +1,10 @@
 package healthVT.vitamine;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.*;
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -14,12 +13,9 @@ import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.Legend;
-import com.github.mikephil.charting.utils.XLabels;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import util.vitaminCircle;
+import util.vitaminOptionCircle;
 import util.vitaminOptionCircleLayout;
 import util.vitamineServer;
 
@@ -31,24 +27,17 @@ import java.util.ArrayList;
 public class VitaminChartActivity extends Activity {
 
     private LineChart vitaminChart;
-    private TextView periodSpinner;
-    private LinearLayout vitaminOptionLayout;
+    private TextView periodText;
+    private Spinner periodSpinner;
+    private vitaminOptionCircleLayout vitaminOptionRow;
+    private JSONArray historyArray;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //get data
-        Intent intent = getIntent();
-        String vitaminHistory = intent.getStringExtra("vitaminHistory");
-
-        //convert to json Array
-        JSONArray historyArray = null;
-        try{
-            historyArray = new JSONArray(vitaminHistory);
-        }catch(JSONException e){
-            Log.e("Error", "Converting JSON Array", e);
-        }
+        historyArray = getVitaminChartFromServer("WEEK");
 
         if(historyArray == null){
             finish();
@@ -66,9 +55,9 @@ public class VitaminChartActivity extends Activity {
 
         vitaminChart = (LineChart) findViewById(R.id.vitaminChart);
 
-        ColorTemplate ct = new ColorTemplate();
-        ct.addDataSetColors(ColorTemplate.VITAMIN_A_COLOR, this);
-        vitaminChart.setColorTemplate(ct);
+//        ColorTemplate ct = new ColorTemplate();
+//        ct.addDataSetColors(ColorTemplate.VITAMIN_A_COLOR, this);
+//        vitaminChart.setColorTemplate(ct);
         vitaminChart.setDrawBorder(true);
         vitaminChart.setBorderStyles(new BarLineChartBase.BorderStyle[]{BarLineChartBase.BorderStyle.BOTTOM, BarLineChartBase.BorderStyle.LEFT, BarLineChartBase.BorderStyle.RIGHT, BarLineChartBase.BorderStyle.TOP});
         vitaminChart.setDescription("");
@@ -87,19 +76,25 @@ public class VitaminChartActivity extends Activity {
         vitaminChart.setDrawHorizontalGrid(false);
         vitaminChart.setDrawVerticalGrid(false);
 
-        setData(historyArray);
+        setData(historyArray, "A");
         vitaminChart.setDrawLegend(false);
         vitaminChart.invalidate();
 
 
-        periodSpinner = (TextView) findViewById(R.id.periodText);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.period, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        periodSpinner.setAdapter(adapter);
+        /**
+         * Setup period selector
+         */
+        periodText = (TextView) findViewById(R.id.periodText);
 
-        vitaminOptionLayout = (LinearLayout) findViewById(R.id.vitaminOption);
-        LinearLayout vitaminOptionRow = new vitaminOptionCircleLayout(this);
+
+        periodSpinner = (Spinner) findViewById(R.id.periodSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.period, R.layout.drop_down_item);
+        periodSpinner.setAdapter(adapter);
+        periodSpinner.setVisibility(View.INVISIBLE);
+
+
+        LinearLayout vitaminOptionLayout = (LinearLayout) findViewById(R.id.vitaminOption);
+        vitaminOptionRow = new vitaminOptionCircleLayout(this);
 
         HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
         util.tools.init(this.getResources());
@@ -111,10 +106,93 @@ public class VitaminChartActivity extends Activity {
         scroll.addView(vitaminOptionRow);
         vitaminOptionLayout.addView(scroll);
 
+        attachEvent();
+    }
+
+    private JSONArray getVitaminChartFromServer(String period){
+        vitamineServer server = new vitamineServer(this);
+        JSONArray recordList = null;
+        //call util to get foodList
+        try{
+            JSONObject jsonResult = server.execute("food/getVitaminRecord?period=" + period).get();
+            Log.d("RESULT", jsonResult.toString());
+
+            if(jsonResult.getBoolean("success")){
+                recordList = jsonResult.getJSONArray("vitaminRecordList");
+
+            }else{
+
+            }
+
+
+        }catch(Exception e){
+            Log.e("Project VT Server exception ", "Exception", e);
+        }
+        return recordList;
+    }
+
+    private void attachEvent(){
+        int count = vitaminOptionRow.getChildCount();
+
+        for(int i=0;i<count;i++){
+            final int j = i;
+            final vitaminOptionCircle vitaminCircle = (vitaminOptionCircle) vitaminOptionRow.getChildAt(i);
+            vitaminCircle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClickVitaminOptionEvent(vitaminCircle);
+                }
+            });
+        }
+
+        periodText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                periodSpinner.performClick();
+            }
+        });
+
+
+        periodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView selected = (TextView) view;
+                updatePeriod(selected.getText().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Log.d("Selected Period", "Nothing");
+            }
+        });
+    }
+
+    public void onClickVitaminOptionEvent(vitaminOptionCircle clickedCircle){
+        updateVitaminOptionColor(clickedCircle.getVitaminName());
+        setData(historyArray, clickedCircle.getVitaminName());
 
     }
 
-    private void setData(JSONArray history) {
+    public void updatePeriod(String period){
+        historyArray = getVitaminChartFromServer(period);
+        updateVitaminOptionColor("A");
+        setData(historyArray, "A");
+    }
+
+    public void updateVitaminOptionColor(String vitaminName){
+        for(int i=0;i<vitaminOptionRow.getChildCount();i++){
+            vitaminOptionCircle vitaminCircle = (vitaminOptionCircle) vitaminOptionRow.getChildAt(i);
+
+            if(vitaminCircle.getVitaminName().equals(vitaminName)){
+                vitaminCircle.selected(true);
+            }else{
+                vitaminCircle.selected(false);
+            }
+
+        }
+    }
+
+    private void setData(JSONArray history, String selectedVitamin) {
         try {
             ArrayList<String> xVals = new ArrayList<String>();
             ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -125,9 +203,16 @@ public class VitaminChartActivity extends Activity {
                 JSONObject object = history.getJSONObject(i);
                 if(object != null){
                     xVals.add((object.getString("date")));
-                    yVals.add(new Entry(object.getInt("vitaminA"), i));
+                    yVals.add(new Entry(object.getInt(selectedVitamin), i));
                 }
             }
+
+            //Set line color
+            ColorTemplate ct = new ColorTemplate();
+            int[] colors = new int[1];
+            colors[0] = util.tools.getVitaminColor(selectedVitamin);
+            ct.addDataSetColors(colors, this);
+            vitaminChart.setColorTemplate(ct);
 
             // create a dataset and give it a type
             DataSet set1 = new DataSet(yVals, "DataSet 1");
@@ -140,6 +225,9 @@ public class VitaminChartActivity extends Activity {
 
             // set data
             vitaminChart.setData(data);
+            vitaminChart.clearAll();
+
+            vitaminChart.invalidate();
 
         } catch (Exception e) {
             Log.e("Error", "Setting Value", e);
