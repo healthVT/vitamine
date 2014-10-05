@@ -149,27 +149,37 @@ public class DailyActivity extends TitleBarActivity {
 
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                try{
-
-                    String foodName = db.getAllFoodName();
-                    vitamineServer server = new vitamineServer(DailyActivity.this);
-                    JSONObject resultJSON = server.execute("food/getVitaminDailyResult/?foodList=" + foodName + "&gender=" + "MALE").get();
-
-                    VitaminBean vitaminBean = new VitaminBean(null, resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1, "Food");
-
-                    Intent intent = new Intent(DailyActivity.this, SummaryActivity.class);
-
-                    intent.putExtra("vitaminResult", vitaminBean);
-                    startActivity(intent);
-
-
-
-                }catch(Exception e){
-                    Log.e("Vitamin server error", "error", e);
-                }
+            public void onClick(View view) {calculateButtonClicked();
             }
         });
+
+        ImageView nextButton = (ImageView) findViewById(R.id.titleRightButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {calculateButtonClicked();
+            }
+        });
+    }
+
+    public void calculateButtonClicked(){
+        try{
+
+            String foodName = db.getAllFoodName();
+            vitamineServer server = new vitamineServer(DailyActivity.this);
+            JSONObject resultJSON = server.execute("food/getVitaminDailyResult/?foodList=" + foodName + "&gender=" + "MALE").get();
+
+            VitaminBean vitaminBean = new VitaminBean(null, resultJSON.getDouble("a"), resultJSON.getDouble("c"), resultJSON.getDouble("d"), resultJSON.getDouble("e"), resultJSON.getDouble("k"), resultJSON.getDouble("b1"), resultJSON.getDouble("b2"), resultJSON.getDouble("b3"), resultJSON.getDouble("b6"), resultJSON.getDouble("b12"), 1, "Food");
+
+            Intent intent = new Intent(DailyActivity.this, SummaryActivity.class);
+
+            intent.putExtra("vitaminResult", vitaminBean);
+            startActivity(intent);
+
+
+
+        }catch(Exception e){
+            Log.e("Vitamin server error", "error", e);
+        }
     }
 
     private void getFoodVitamin(final String foodName){

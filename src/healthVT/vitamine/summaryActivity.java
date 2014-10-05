@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
@@ -47,6 +48,12 @@ public class SummaryActivity extends TitleBarActivity  {
             @Override
             public void onClick(View view) {
                 clickOnTrackButton();
+            }
+        });
+        ImageView nextButton = (ImageView) findViewById(R.id.titleRightButton);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {clickOnTrackButton();
             }
         });
     }
