@@ -51,6 +51,7 @@ public class DailyActivity extends TitleBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.daily);
 
         demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
 

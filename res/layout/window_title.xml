@@ -4,6 +4,8 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:layout_marginTop="5dp"
+              android:layout_marginBottom="5dp"
               android:gravity="center">
 
     <LinearLayout android:orientation="horizontal"
@@ -11,28 +13,30 @@
                   android:layout_height="match_parent"
                   android:gravity="center">
 
-        <TextView android:layout_width="0dp"
-                  android:id="@+id/titleLeftButton"
-                  android:layout_height="match_parent"
-                  android:layout_weight="0.5"
-                  android:gravity="center"
-                  android:text="Left"/>
+        <LinearLayout android:layout_width="0dp" android:gravity="center" android:layout_weight="0.5" android:layout_height="match_parent">
+            <ImageView android:id="@+id/titleLeftButton"
+                       android:src="@drawable/arrow_left"
+                       android:layout_width="wrap_content"
+                       android:layout_height="35dp"/>
+        </LinearLayout>
+
 
         <TextView android:id="@+id/titleBar"
                   android:layout_width="0dp"
                   android:layout_height="wrap_content"
-                  android:layout_weight="0.6"
+                  android:layout_weight="0.76"
                   android:text="Foodmula"
-                  android:textSize="30dp"
+                  android:textSize="35dp"
                   android:layout_marginBottom="5dp"
                 />
 
-        <TextView android:layout_width="0dp"
-                  android:id="@+id/titleRightButton"
-                  android:layout_height="match_parent"
-                  android:layout_weight="0.5"
-                  android:gravity="center"
-                  android:text="Right" />
+        <LinearLayout android:layout_width="0dp" android:gravity="center" android:layout_weight="0.5" android:layout_height="match_parent">
+            <ImageView android:id="@+id/titleRightButton"
+                       android:src="@drawable/arrow_right"
+                       android:layout_width="wrap_content"
+                       android:layout_height="35dp"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 

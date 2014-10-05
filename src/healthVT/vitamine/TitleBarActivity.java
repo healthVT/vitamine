@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -15,7 +16,7 @@ public abstract class TitleBarActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.daily);
+        setContentView(R.layout.window_title);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
         TextView titleText = (TextView) findViewById(R.id.titleBar);
@@ -23,8 +24,8 @@ public abstract class TitleBarActivity extends Activity {
         titleText.setTypeface(titleFont);
 
         //Button functions
-        TextView leftButton = (TextView) findViewById(R.id.titleLeftButton);
-        TextView rightButton = (TextView) findViewById(R.id.titleRightButton);
+        ImageView leftButton = (ImageView) findViewById(R.id.titleLeftButton);
+        ImageView rightButton = (ImageView) findViewById(R.id.titleRightButton);
 
         leftButton.setOnClickListener(new View.OnClickListener() {
             @Override
