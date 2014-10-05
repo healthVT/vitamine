@@ -1,11 +1,8 @@
 package healthVT.vitamine;
 
-import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.*;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
@@ -24,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by Jay on 8/13/14.
  */
-public class VitaminChartActivity extends Activity {
+public class VitaminChartActivity extends TitleBarActivity {
 
     private LineChart vitaminChart;
     private TextView periodText;
@@ -35,23 +32,15 @@ public class VitaminChartActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.vitamin_chart);
 
         //get data
-        historyArray = getVitaminChartFromServer("WEEK");
+        historyArray = getVitaminChartFromServer("1%20WEEK");
 
         if(historyArray == null){
             finish();
             return;
         }
-
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.vitamin_chart);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
-
-        TextView titleText = (TextView) findViewById(R.id.titleBar);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "Lobster.ttf");
-        Typeface demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
-        titleText.setTypeface(titleFont);
 
         vitaminChart = (LineChart) findViewById(R.id.vitaminChart);
 
@@ -85,7 +74,6 @@ public class VitaminChartActivity extends Activity {
          * Setup period selector
          */
         periodText = (TextView) findViewById(R.id.periodText);
-
 
         periodSpinner = (Spinner) findViewById(R.id.periodSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.period, R.layout.drop_down_item);
@@ -174,6 +162,7 @@ public class VitaminChartActivity extends Activity {
     }
 
     public void updatePeriod(String period){
+        period = period.replace(" ", "%20");
         historyArray = getVitaminChartFromServer(period);
         updateVitaminOptionColor("A");
         setData(historyArray, "A");

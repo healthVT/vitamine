@@ -21,8 +21,9 @@
     </string-array>
 
     <string-array name="period">
-        <item>WEEK</item>
-        <item>MONTH</item>
-        <item>YEAR</item>
+        <item>1 WEEK</item>
+        <item>1 MONTH</item>
+        <item>3 MONTH</item>
+        <item>6 MONTH</item>
     </string-array>
 </resources>

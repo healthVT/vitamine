@@ -1,27 +1,18 @@
 package healthVT.vitamine;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import beans.VitaminBean;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 import sqlite.Database;
 import util.VitaminRow;
-import util.tools;
-import util.vitaminCircle;
-
-import java.text.DecimalFormat;
 import java.util.*;
 
 import util.vitamineServer;
@@ -29,7 +20,7 @@ import util.vitamineServer;
 /**
  * Created by Jay on 6/15/14.
  */
-public class DailyActivity extends Activity {
+public class DailyActivity extends TitleBarActivity {
 
     public static int vitaminRowCount = 0;
 
@@ -61,14 +52,7 @@ public class DailyActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.daily);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
-
-        TextView titleText = (TextView) findViewById(R.id.titleBar);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "Lobster.ttf");
         demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
-        titleText.setTypeface(titleFont);
 
         foodInput = (AutoCompleteTextView) findViewById(R.id.foodInput);
 
@@ -177,6 +161,7 @@ public class DailyActivity extends Activity {
 
                     intent.putExtra("vitaminResult", vitaminBean);
                     startActivity(intent);
+
 
 
                 }catch(Exception e){

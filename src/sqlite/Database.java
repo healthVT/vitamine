@@ -88,7 +88,7 @@ public class Database extends SQLiteOpenHelper {
 
         String today = getToday();
 
-        String query = "SELECT * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE logDate = '" + today + "'";
         Cursor c = db.rawQuery(query, null);
 
         while (c.moveToNext()) {

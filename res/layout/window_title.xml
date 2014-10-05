@@ -6,13 +6,37 @@
               android:layout_height="match_parent"
               android:gravity="center">
 
-    <TextView android:id="@+id/titleBar"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Foodmula"
-              android:textSize="30dp"
-              android:layout_marginBottom="5dp"
-            />
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center">
+
+        <TextView android:layout_width="0dp"
+                  android:id="@+id/titleLeftButton"
+                  android:layout_height="match_parent"
+                  android:layout_weight="0.5"
+                  android:gravity="center"
+                  android:text="Left"/>
+
+        <TextView android:id="@+id/titleBar"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="0.6"
+                  android:text="Foodmula"
+                  android:textSize="30dp"
+                  android:layout_marginBottom="5dp"
+                />
+
+        <TextView android:layout_width="0dp"
+                  android:id="@+id/titleRightButton"
+                  android:layout_height="match_parent"
+                  android:layout_weight="0.5"
+                  android:gravity="center"
+                  android:text="Right" />
+
+    </LinearLayout>
+
+
     <TextView android:layout_width="fill_parent" android:layout_height="1dp" android:background="@color/white"/>
 
 </LinearLayout>

@@ -1,31 +1,21 @@
 package healthVT.vitamine;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
-import org.json.JSONObject;
 import util.CircleAnimView;
 import util.User;
-import util.vitamineServer;
 import util.tools;
 
-public class MyActivity extends Activity {
+public class MyActivity extends TitleBarActivity {
     /**
      * Called when the activity is first created.
      */
@@ -40,17 +30,10 @@ public class MyActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
 
-
-        TextView titleText = (TextView) findViewById(R.id.titleBar);
         TextView loginText = (TextView) findViewById(R.id.loginText);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "Lobster.ttf");
         Typeface demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
-        titleText.setTypeface(titleFont);
         loginText.setTypeface(demiFont);
 
 

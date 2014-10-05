@@ -1,33 +1,19 @@
 package healthVT.vitamine;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import util.CircleAnimView;
 import util.circleAnim.CircleSurface;
-import util.vitamineServer;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 /**
  * Created by Jay on 7/26/14.
  */
-public class SummaryActivity extends Activity  {
+public class SummaryActivity extends TitleBarActivity  {
 
     CircleSurface surfaceView;
     LinearLayout trackLayout;
@@ -36,16 +22,7 @@ public class SummaryActivity extends Activity  {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.summary);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.window_title);
-
-        TextView titleText = (TextView) findViewById(R.id.titleBar);
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "Lobster.ttf");
-        Typeface demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
-        titleText.setTypeface(titleFont);
-
         TextView summaryTitle = (TextView) findViewById(R.id.summaryTitle);
         summaryTitle.setTypeface(null, Typeface.BOLD);
 
