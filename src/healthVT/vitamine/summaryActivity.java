@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
+import util.NavigationActivityListener;
 import util.circleAnim.CircleSurface;
 
 /**
@@ -41,6 +42,7 @@ public class SummaryActivity extends TitleBarActivity  {
         surfaceView.start(vitaminResult);
 
         attachEvent();
+        new NavigationActivityListener().listener(this);
     }
 
     public void attachEvent(){

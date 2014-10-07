@@ -1,6 +1,8 @@
 package healthVT.vitamine;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.drm.DrmStore;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import beans.VitaminBean;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sqlite.Database;
+import util.NavigationActivityListener;
 import util.VitaminRow;
 import java.util.*;
 
@@ -96,9 +99,8 @@ public class DailyActivity extends TitleBarActivity {
         }else{
             addTempFood();
         }
-
         attachEvent();
-
+        new NavigationActivityListener().listener(this);
     }
 
     private void attachEvent(){
@@ -159,6 +161,19 @@ public class DailyActivity extends TitleBarActivity {
             public void onClick(View view) {calculateButtonClicked();
             }
         });
+/*
+        ImageView navigateDaily = (ImageView) findViewById(R.id.navigateDaily);
+        ImageView navigateTrack = (ImageView) findViewById(R.id.navigateTrack);
+
+        navigateDaily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Botton Navigater", "clicked");
+                Intent dailyIntent = new Intent(DailyActivity.this, DailyActivity.class);
+                startActivity(dailyIntent);
+                finish();
+            }
+        });*/
     }
 
     public void calculateButtonClicked(){

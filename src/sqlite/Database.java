@@ -106,7 +106,7 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String today = getToday();
 
-        String query = "SELECT foodName, amount FROM " + TABLE_NAME ;
+        String query = "SELECT foodName, amount FROM " + TABLE_NAME + " WHERE logDate = '" + today + "'" ;
         Cursor c = db.rawQuery(query, null);
 
         String foodName = "";

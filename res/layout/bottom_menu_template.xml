@@ -41,14 +41,15 @@
                 android:layout_gravity="bottom"
                 android:background="#fe5a5a">
 
-            <ImageView android:id="@+id/homePageButton"
+            <ImageView android:id="@+id/navigateDaily"
+                       android:clickable="true"
                        android:src="@drawable/icon_today"
                        android:scaleType="fitCenter"
                        android:layout_width="0dp"
                        android:layout_weight="1"
                        android:layout_height="wrap_content"/>
 
-            <ImageView android:id="@+id/trackButton"
+            <ImageView android:id="@+id/navigateTrack"
                        android:src="@drawable/icon_track"
                        android:layout_width="80dp"
                        android:layout_height="wrap_content"/>

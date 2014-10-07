@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import util.NavigationActivityListener;
 import util.vitaminOptionCircle;
 import util.vitaminOptionCircleLayout;
 import util.vitamineServer;
@@ -95,6 +96,7 @@ public class VitaminChartActivity extends TitleBarActivity {
         vitaminOptionLayout.addView(scroll);
 
         attachEvent();
+        new NavigationActivityListener().listener(this);
     }
 
     private JSONArray getVitaminChartFromServer(String period){
