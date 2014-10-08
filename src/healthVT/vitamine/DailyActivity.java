@@ -100,7 +100,7 @@ public class DailyActivity extends TitleBarActivity {
             addTempFood();
         }
         attachEvent();
-        new NavigationActivityListener().listener(this);
+        new NavigationActivityListener().listener(this, "icon_today");
     }
 
     private void attachEvent(){

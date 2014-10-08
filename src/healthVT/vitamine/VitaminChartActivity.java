@@ -96,7 +96,7 @@ public class VitaminChartActivity extends TitleBarActivity {
         vitaminOptionLayout.addView(scroll);
 
         attachEvent();
-        new NavigationActivityListener().listener(this);
+        new NavigationActivityListener().listener(this, "icon_track");
     }
 
     private JSONArray getVitaminChartFromServer(String period){

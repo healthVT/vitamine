@@ -36,6 +36,7 @@
 
         <LinearLayout
                 android:orientation="horizontal"
+                android:id="@+id/bottomItemLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottomHeight"
                 android:layout_gravity="bottom"
@@ -47,23 +48,27 @@
                        android:scaleType="fitCenter"
                        android:layout_width="0dp"
                        android:layout_weight="1"
+                       android:tag="icon_today"
                        android:layout_height="wrap_content"/>
 
-            <ImageView android:id="@+id/navigateTrack"
+            <ImageView android:id="@+id/navigateChart"
                        android:src="@drawable/icon_track"
                        android:layout_width="80dp"
+                       android:tag="icon_track"
                        android:layout_height="wrap_content"/>
 
-            <ImageView android:id="@+id/facebookButton"
+            <ImageView android:id="@+id/navigateFavorite"
                        android:src="@drawable/icon_favorite"
                        android:layout_width="0dp"
                        android:layout_weight="1"
+                       android:tag="icon_favorite"
                        android:layout_height="wrap_content"/>
 
-            <ImageView android:id="@+id/profileButton"
+            <ImageView android:id="@+id/navigateProfile"
                        android:src="@drawable/icon_profile"
                        android:layout_width="0dp"
                        android:layout_weight="1"
+                       android:tag="icon_profile"
                        android:layout_height="wrap_content"/>
         </LinearLayout>
 

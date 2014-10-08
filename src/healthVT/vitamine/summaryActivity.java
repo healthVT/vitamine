@@ -42,7 +42,7 @@ public class SummaryActivity extends TitleBarActivity  {
         surfaceView.start(vitaminResult);
 
         attachEvent();
-        new NavigationActivityListener().listener(this);
+        new NavigationActivityListener().listener(this, "icon_today");
     }
 
     public void attachEvent(){
