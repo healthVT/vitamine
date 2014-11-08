@@ -18,6 +18,7 @@ import util.NavigationActivityListener;
 import util.VitaminRow;
 import java.util.*;
 
+import util.popupWindow;
 import util.vitamineServer;
 
 /**
@@ -101,6 +102,8 @@ public class DailyActivity extends TitleBarActivity {
         }
         attachEvent();
         new NavigationActivityListener().listener(this, "icon_today");
+
+
     }
 
     private void attachEvent(){
@@ -244,7 +247,8 @@ public class DailyActivity extends TitleBarActivity {
         }
         vitaminRowCount++;
 
-        VitaminRow vitaminLayout = new VitaminRow(DailyActivity.this, tempDataLayout, vitaminBean, vitaminRowCount);
+        FrameLayout dailyFrameLayout = (FrameLayout) findViewById(R.id.dailyFrameLayout);
+        VitaminRow vitaminLayout = new VitaminRow(DailyActivity.this, tempDataLayout, vitaminBean, vitaminRowCount, dailyFrameLayout);
 
         HorizontalScrollView scroll = new HorizontalScrollView(getApplication());
 
@@ -255,6 +259,8 @@ public class DailyActivity extends TitleBarActivity {
         //enable calculator button
         calculateLayout.setVisibility(View.VISIBLE);
     }
+
+
 
 
     private void addTempFood(){

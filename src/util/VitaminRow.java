@@ -7,14 +7,19 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 import beans.VitaminBean;
 import healthVT.vitamine.DailyActivity;
 import healthVT.vitamine.R;
+import org.json.JSONObject;
 import sqlite.Database;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,12 +41,14 @@ public class VitaminRow extends LinearLayout {
     boolean initialized = false;
     LinearLayout foodLayout;
     ViewGroup root;
+    FrameLayout dailyFrameLayout;
 
-    public VitaminRow(Context context, ViewGroup root, VitaminBean vitaminBean, int count){
+    public VitaminRow(Context context, ViewGroup root, VitaminBean vitaminBean, int count, FrameLayout dailyFrameLayout){
         super(context);
         this.context = context;
         this.root = root;
         this.vitaminBean = vitaminBean;
+        this.dailyFrameLayout = dailyFrameLayout;
 
         //Default padding
         paddingTop = getResources().getDimensionPixelSize(R.dimen.paddingTop);
@@ -198,7 +205,14 @@ public class VitaminRow extends LinearLayout {
             Map.Entry<String, Double> each = (Map.Entry<String, Double>) it.next();
             if (each.getValue() > 0.01) {
                 each.setValue(each.getValue() * amount);
-                vitaminCircle circleView = new vitaminCircle(getContext(), vitaminCircleWidth, vitaminCircleHeight, vitaminCircleRadius, tools.getVitaminColor(each.getKey()), each.getKey().toUpperCase(), df.format(each.getValue()));
+                vitaminCircle circleView = new vitaminCircle(getContext(), vitaminCircleWidth,  vitaminCircleHeight, vitaminCircleRadius, tools.getVitaminColor(each.getKey()), each.getKey().toUpperCase(), df.format(each.getValue()));
+                circleView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            vitaminCircle vView = (vitaminCircle) view;
+                            popupWindow(vView.getVitamin());
+                        }
+                });
                 vitaminCircleLayout.addView(circleView);
             }
 
@@ -206,6 +220,22 @@ public class VitaminRow extends LinearLayout {
         }
 
         db.close();
+    }
+
+    private void popupWindow(String vitamin){
+
+        JSONObject jsonResult = new JSONObject();
+        try{
+            vitamineServer server = new vitamineServer(context);
+            jsonResult = server.execute("vitamin/description?vitaminName=" + vitamin).get();
+            Log.d("descpriont", jsonResult.toString());
+
+            //Popup window
+            util.popupWindow popWIndow = new popupWindow(context, null, dailyFrameLayout, "Vitamin " + vitamin, jsonResult.getString("vitaminDescription"));
+            popWIndow.fadeIn();
+        }catch(Exception e){
+            Log.e("Project VT Server exception ", "Exception", e);
+        }
     }
 
     public void updateVitaminAmount(int amount){

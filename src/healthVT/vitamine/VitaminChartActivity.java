@@ -98,7 +98,7 @@ public class VitaminChartActivity extends TitleBarActivity {
         attachEvent();
         new NavigationActivityListener().listener(this, "icon_track");
     }
-
+ 
     private JSONArray getVitaminChartFromServer(String period){
         vitamineServer server = new vitamineServer(this);
         JSONArray recordList = null;

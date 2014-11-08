@@ -47,6 +47,10 @@
     <dimen name="calculateHeight">75dp</dimen>
     <dimen name="dailyVitaminBottomHeight">130dp</dimen>
 
+    <dimen name="popupWidth">200dp</dimen>
+    <dimen name="popupHeight">250dp</dimen>
+    <dimen name="popPadding">20dp</dimen>
+    <dimen name="popBodyPaddingTop">10dp</dimen>
 
     <style name="defaultStyle" parent="@android:Theme">
         <item name="android:layout_width">fill_parent</item>

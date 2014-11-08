@@ -80,4 +80,8 @@ public class vitaminCircle extends View {
 
     }
 
+    public String getVitamin(){
+        return vitamin;
+    }
+
 }
