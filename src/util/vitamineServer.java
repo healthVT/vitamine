@@ -26,8 +26,8 @@ import java.util.Map;
 public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
     private SharedPreferences sharedData;
 
-//    protected final String host = "http://www.midawn.com/";
-    protected final String host = "http://10.0.2.2:8080/projectVTServer/";
+    protected final String host = "http://www.midawn.com/";
+//    protected final String host = "http://10.0.2.2:8080/projectVTServer/";
 
     public vitamineServer(Context context){
         sharedData = context.getSharedPreferences("Foodmula", Context.MODE_PRIVATE);
