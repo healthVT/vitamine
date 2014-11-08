@@ -7,6 +7,9 @@ import android.util.Log;
 import healthVT.vitamine.DailyActivity;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Jay on 8/9/14.
  */
@@ -87,6 +90,37 @@ public class User {
             Log.e("Login error", "Error on login", e);
             return false;
         }
+    }
+
+    public boolean updateUserInfo(String email, String name, String age, String gender, String height, String weight, String ethnicity){
+        String params = "name=" + name + "&age=" + age + "&height=" + height + "&weight=" + weight + "&gender=" + gender + "&ethnicity=" + ethnicity + "&email=" + email;
+        try{
+            vitamineServer server = new vitamineServer(context);
+            JSONObject resultJSON = server.execute("user/updateUserInfo/?" + params).get();
+
+            if (resultJSON.get("success").toString().equals("true")) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }catch(Exception e){
+            Log.e("Error on update user info", e.toString());
+
+            return false;
+        }
+    }
+
+    public JSONObject getUserInfo(){
+        JSONObject resultJSON = null;
+        try{
+            vitamineServer server = new vitamineServer(context);
+            resultJSON = server.execute("user/getUserInfo").get();
+        }catch(Exception e){
+            Log.e("Error on Getting user information", e.toString());
+        }
+
+        return resultJSON;
     }
 
     public String getErrorMessage() {return errorMessage;}

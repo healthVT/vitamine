@@ -6,21 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import healthVT.vitamine.DailyActivity;
-import healthVT.vitamine.R;
-import healthVT.vitamine.SummaryActivity;
-import healthVT.vitamine.VitaminChartActivity;
+import healthVT.vitamine.*;
 
 /**
  * Created by Jay on 10/6/2014.
  */
 public class NavigationActivityListener {
     private Activity thisActivity;
-    private ImageView navigateDaily, navigateChart;
     private LinearLayout bottomItemLayout;
     public void listener(Activity theActivity, String tagName){
-        navigateDaily = (ImageView) theActivity.findViewById(R.id.navigateDaily);
-        navigateChart = (ImageView) theActivity.findViewById(R.id.navigateChart);
+        ImageView navigateDaily = (ImageView) theActivity.findViewById(R.id.navigateDaily);
+        ImageView navigateChart = (ImageView) theActivity.findViewById(R.id.navigateChart);
+        ImageView navigateProfile = (ImageView) theActivity.findViewById(R.id.navigateProfile);
         bottomItemLayout = (LinearLayout) theActivity.findViewById(R.id.bottomItemLayout);
 
         this.thisActivity = theActivity;
@@ -38,6 +35,13 @@ public class NavigationActivityListener {
             @Override
             public void onClick(View view) {
                 attachNavigatorListener(VitaminChartActivity.class);
+            }
+        });
+
+        navigateProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attachNavigatorListener(SelfInfoActivity.class);
             }
         });
     }

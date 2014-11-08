@@ -70,7 +70,7 @@ public class popupWindow extends LinearLayout {
         bodyText.setTextColor(Color.BLACK);
         int paddingTop = getResources().getDimensionPixelSize(R.dimen.popBodyPaddingTop);
         bodyText.setPadding(0, paddingTop, 0, 0);
-        bodyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        bodyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
 
         ScrollView bodyScroll = new ScrollView(context);
         bodyScroll.setLayoutParams(new LinearLayout.LayoutParams(

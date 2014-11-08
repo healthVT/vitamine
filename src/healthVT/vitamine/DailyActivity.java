@@ -27,8 +27,6 @@ import util.vitamineServer;
 public class DailyActivity extends TitleBarActivity {
 
     public static int vitaminRowCount = 0;
-
-
     private LinearLayout tempDataLayout, calculateLayout;
     private Typeface demiFont;
     private String[] tempFoodArray = {

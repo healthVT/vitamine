@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@drawable/profile_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/profileFrameLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Basic Information"
+                      android:gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:textStyle="bold"
+                      android:textColor="@color/black" />
+
+            <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="@dimen/dailyVitaminBottomHeight">
+                <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Email" style="@style/profileText"/>
+                        <EditText android:inputType="textEmailAddress"  style="@style/profileEdit" android:id="@+id/emailEdit"/>
+                    </TableRow>
+                    <!--<TableRow android:gravity="center">-->
+                        <!--<TextView android:text="Password" style="@style/profileText"/>-->
+                        <!--<EditText android:inputType="textPassword" style="@style/profileEdit" android:id="@+id/passwordEdit"/>-->
+                    <!--</TableRow>-->
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Name" style="@style/profileText"/>
+                        <EditText android:inputType="text|textPersonName"  style="@style/profileEdit" android:id="@+id/nameEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Age" style="@style/profileText"/>
+
+                        <EditText android:inputType="text"  style="@style/profileEdit" android:id="@+id/ageEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Gender" style="@style/profileText"/>
+                        <RadioGroup android:orientation="horizontal">
+                            <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Male"
+                                    android:textColor="@color/black"
+                                    android:id="@+id/maleRadioButton"/>
+                            <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Female"
+                                    android:textColor="@color/black"
+                                    android:id="@+id/femaleRadioButton"/>
+                        </RadioGroup>
+
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Height"  style="@style/profileText"/>
+                        <EditText android:inputType="number" style="@style/profileEdit" android:id="@+id/heightEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Weight" style="@style/profileText"/>
+                        <EditText android:inputType="number" style="@style/profileEdit" android:id="@+id/weightEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Ethnicity" style="@style/profileText"/>
+                        <EditText android:inputType="text" style="@style/profileEdit" android:id="@+id/ethnicityEdit"/>
+                    </TableRow>
+                </TableLayout>
+            </ScrollView>
+
+
+
+        </LinearLayout>
+
+        <include layout="@layout/bottom_menu_template"/>
+    </FrameLayout>
+</LinearLayout>

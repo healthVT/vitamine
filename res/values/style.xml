@@ -47,8 +47,8 @@
     <dimen name="calculateHeight">75dp</dimen>
     <dimen name="dailyVitaminBottomHeight">130dp</dimen>
 
-    <dimen name="popupWidth">200dp</dimen>
-    <dimen name="popupHeight">250dp</dimen>
+    <dimen name="popupWidth">250dp</dimen>
+    <dimen name="popupHeight">350dp</dimen>
     <dimen name="popPadding">20dp</dimen>
     <dimen name="popBodyPaddingTop">10dp</dimen>
 
@@ -92,6 +92,19 @@
         <item name="android:textSize">15dp</item>
         <item name="android:textColor">#000000</item>
         <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="profileText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+    <style name="profileEdit">
+        <item name="android:textColor">#000000</item>
+        <item name="android:width">150dp</item>
+        <item name="android:layout_span">2</item>
+        <item name="android:drawableBottom">@drawable/profile_edit_text</item>
+        <item name="android:background">@color/trans</item>
     </style>
 
 </resources>
