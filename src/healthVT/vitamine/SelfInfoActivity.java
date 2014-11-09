@@ -26,8 +26,9 @@ public class SelfInfoActivity extends TitleBarActivity {
 
     EditText emailEdit, passwordEdit, nameEdit, ageEdit, heightEdit, weightEdit, ethnicityEdit;
     RadioButton maleRadioButton, femaleRadioButton;
-    TextView saveButton;
+    TextView saveButton, logoutButton;
     User user;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self);
@@ -41,7 +42,7 @@ public class SelfInfoActivity extends TitleBarActivity {
         ethnicityEdit = (EditText) findViewById(R.id.ethnicityEdit);
         maleRadioButton = (RadioButton) findViewById(R.id.maleRadioButton);
         femaleRadioButton = (RadioButton) findViewById(R.id.femaleRadioButton);
-
+        logoutButton = (TextView) findViewById(R.id.logoutButton);
 
         //Save Button
         LinearLayout saveButtonLayout = (LinearLayout) findViewById(R.id.nextLayout);
@@ -50,37 +51,37 @@ public class SelfInfoActivity extends TitleBarActivity {
         saveButtonLayout.setVisibility(View.VISIBLE);
 
         user = new User(this);
-        try{
+        try {
 
             JSONObject userInfo = user.getUserInfo().getJSONObject("user");
 
-            if(userInfo.getString("email") != null){
+            if (userInfo.getString("email") != null) {
                 emailEdit.setText(userInfo.getString("email"));
             }
-            if(userInfo.getString("name") != null){
+            if (userInfo.getString("name") != null) {
                 nameEdit.setText(userInfo.getString("name"));
             }
-            if(userInfo.getInt("age") != 0){
+            if (userInfo.getInt("age") != 0) {
                 ageEdit.setText(userInfo.getString("age"));
             }
-            if(userInfo.getInt("height") != 0){
+            if (userInfo.getInt("height") != 0) {
                 heightEdit.setText(userInfo.getString("height"));
             }
-            if(userInfo.getInt("weight") != 0){
+            if (userInfo.getInt("weight") != 0) {
                 weightEdit.setText(userInfo.getString("weight"));
             }
-            if(userInfo.getString("ethnicity") != null){
+            if (userInfo.getString("ethnicity") != null) {
                 ethnicityEdit.setText(userInfo.getString("ethnicity"));
             }
-            if(userInfo.getString("gender") != null){
-                if(userInfo.getString("gender").equals("MALE")){
+            if (userInfo.getString("gender") != null) {
+                if (userInfo.getString("gender").equals("MALE")) {
                     maleRadioButton.setChecked(true);
-                }else{
+                } else {
                     femaleRadioButton.setChecked(true);
                 }
             }
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("Getting error on User information", e.toString());
         }
 
@@ -89,41 +90,44 @@ public class SelfInfoActivity extends TitleBarActivity {
         new NavigationActivityListener().listener(this, "icon_profile");
     }
 
-    private void attachEvent(){
+    private void attachEvent() {
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 blink(saveButton);
                 saveInfo();
+            }
+        });
 
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                user.logout();
             }
         });
     }
 
-    private void blink(final View button){
+    private void blink(final View button) {
         processStatusChangeAnimation("Updating");
     }
 
-    private void saveInfo(){
-
-        final Handler handler;
-        handler = new Handler();
-
+    private void saveInfo() {
+        saveButton.setClickable(false);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String gender = null;
-                if(maleRadioButton.isChecked()){
+                if (maleRadioButton.isChecked()) {
                     gender = "MALE";
-                }else{
+                } else {
                     gender = "FEMALE";
                 }
                 boolean result = user.updateUserInfo(emailEdit.getText().toString(), nameEdit.getText().toString(),
                         ageEdit.getText().toString(), gender, heightEdit.getText().toString(),
                         weightEdit.getText().toString(), ethnicityEdit.getText().toString());
 
-                if(!result){
+                if (!result) {
                     runOnUiThread(new Runnable() {
 
                         @Override
@@ -149,11 +153,12 @@ public class SelfInfoActivity extends TitleBarActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
                             processStatusChangeAnimation("Complete");
                             Thread.sleep(1000);
                             processStatusChangeAnimation("Save");
-                        }catch(Exception e){
+                            saveButton.setClickable(true);
+                        } catch (Exception e) {
 
                         }
 
@@ -165,16 +170,20 @@ public class SelfInfoActivity extends TitleBarActivity {
         }).start();
     }
 
-    public void processStatusChangeAnimation(final String textChangeTo){
+    public void processStatusChangeAnimation(final String textChangeTo) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Animation fadeOut = getBlinkAnim(200, 0, 0);
-                fadeOut.setAnimationListener(new Animation.AnimationListener(){
+                fadeOut.setAnimationListener(new Animation.AnimationListener() {
                     @Override
-                    public void onAnimationStart(Animation arg0) {}
+                    public void onAnimationStart(Animation arg0) {
+                    }
+
                     @Override
-                    public void onAnimationRepeat(Animation arg0) {}
+                    public void onAnimationRepeat(Animation arg0) {
+                    }
+
                     @Override
                     public void onAnimationEnd(Animation arg0) {
                         saveButton.setText(textChangeTo);
@@ -188,18 +197,18 @@ public class SelfInfoActivity extends TitleBarActivity {
         });
     }
 
-    public Animation getBlinkAnim(long duration, int time, int model){
+    public Animation getBlinkAnim(long duration, int time, int model) {
         final Animation animation;
-        if(model == 0){
+        if (model == 0) {
             animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
-        }else{
+        } else {
             animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
         }
 
         animation.setDuration(duration); // duration - half a second
         animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
         animation.setFillAfter(true);
-        if(time > 0){
+        if (time > 0) {
             animation.setRepeatCount(time); // Repeat animation infinitely
             animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
         }

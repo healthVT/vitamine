@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import healthVT.vitamine.DailyActivity;
+import healthVT.vitamine.MyActivity;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -88,6 +89,27 @@ public class User {
 
         }catch(Exception e){
             Log.e("Login error", "Error on login", e);
+            return false;
+        }
+    }
+
+    public boolean logout(){
+        try{
+            vitamineServer server = new vitamineServer(context);
+            server.execute("api/logout").get();
+
+
+            sharedData.edit().putString("token", null).commit();
+            sharedData.edit().putString("email", null).commit();
+            sharedData.edit().putString("password", null).commit();
+
+            Intent intent = new Intent(context, MyActivity.class);
+            context.startActivity(intent);
+
+            return true;
+
+        }catch(Exception e){
+            Log.e("Logout error", "Error on logout", e);
             return false;
         }
     }

@@ -2,9 +2,11 @@ package util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import healthVT.vitamine.MyActivity;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -25,11 +27,13 @@ import java.util.Map;
  */
 public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
     private SharedPreferences sharedData;
+    private Context context;
 
 //    protected final String host = "http://www.midawn.com/";
     protected final String host = "http://10.0.2.2:8080/projectVTServer/";
 
     public vitamineServer(Context context){
+        this.context = context;
         sharedData = context.getSharedPreferences("Foodmula", Context.MODE_PRIVATE);
     }
 
@@ -49,6 +53,11 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
 
             request.setURI(serverAPI);
             HttpResponse response = httpclient.execute(request);
+
+            if(response.getStatusLine().getStatusCode() == 403){
+                Intent intent = new Intent(context, MyActivity.class);
+                context.startActivity(intent);
+            }
 
             BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
