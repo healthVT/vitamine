@@ -2,9 +2,11 @@ package healthVT.vitamine;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -92,8 +94,7 @@ public class SelfInfoActivity extends TitleBarActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //saveButton.setText("Updating");
-                //blink(saveButton);
+                blink(saveButton);
                 saveInfo();
 
             }
@@ -101,46 +102,109 @@ public class SelfInfoActivity extends TitleBarActivity {
     }
 
     private void blink(final View button){
-
-        SelfInfoActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Animation fadeInAnimation = AnimationUtils.loadAnimation(SelfInfoActivity.this, R.anim.fade_in);
-                saveButton.startAnimation(fadeInAnimation);
-            }
-        });
-
-
-
+        processStatusChangeAnimation("Updating");
     }
 
     private void saveInfo(){
 
-        String gender = null;
-        if(maleRadioButton.isChecked()){
-            gender = "MALE";
-        }else{
-            gender = "FEMALE";
-        }
-        boolean result = user.updateUserInfo(emailEdit.getText().toString(), nameEdit.getText().toString(),
-                ageEdit.getText().toString(), gender, heightEdit.getText().toString(),
-                weightEdit.getText().toString(), ethnicityEdit.getText().toString());
+        final Handler handler;
+        handler = new Handler();
 
-        if(!result){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Update failed. Please try again later.")
-                    .setTitle("Error");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String gender = null;
+                if(maleRadioButton.isChecked()){
+                    gender = "MALE";
+                }else{
+                    gender = "FEMALE";
                 }
-            });
+                boolean result = user.updateUserInfo(emailEdit.getText().toString(), nameEdit.getText().toString(),
+                        ageEdit.getText().toString(), gender, heightEdit.getText().toString(),
+                        weightEdit.getText().toString(), ethnicityEdit.getText().toString());
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
+                if(!result){
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(SelfInfoActivity.this);
+                            builder.setMessage("Update failed. Please try again later.")
+                                    .setTitle("Error");
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+
+                    });
+
+                }
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            processStatusChangeAnimation("Complete");
+                            Thread.sleep(1000);
+                            processStatusChangeAnimation("Save");
+                        }catch(Exception e){
+
+                        }
+
+                    }
+                }).start();
+
+
+            }
+        }).start();
+    }
+
+    public void processStatusChangeAnimation(final String textChangeTo){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Animation fadeOut = getBlinkAnim(200, 0, 0);
+                fadeOut.setAnimationListener(new Animation.AnimationListener(){
+                    @Override
+                    public void onAnimationStart(Animation arg0) {}
+                    @Override
+                    public void onAnimationRepeat(Animation arg0) {}
+                    @Override
+                    public void onAnimationEnd(Animation arg0) {
+                        saveButton.setText(textChangeTo);
+                        Animation fadeIn = getBlinkAnim(200, 0, 1);
+                        saveButton.startAnimation(fadeIn);
+                    }
+                });
+
+                saveButton.startAnimation(fadeOut);
+            }
+        });
+    }
+
+    public Animation getBlinkAnim(long duration, int time, int model){
+        final Animation animation;
+        if(model == 0){
+            animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible
+        }else{
+            animation = new AlphaAnimation(0, 1); // Change alpha from fully visible to invisible
         }
 
-        saveButton.setText("Save");
+        animation.setDuration(duration); // duration - half a second
+        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate
+        animation.setFillAfter(true);
+        if(time > 0){
+            animation.setRepeatCount(time); // Repeat animation infinitely
+            animation.setRepeatMode(Animation.REVERSE); // Reverse animation at the end so the button will fade back in
+        }
+
+
+        return animation;
     }
 }
