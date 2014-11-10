@@ -7,260 +7,49 @@
         >
     <FrameLayout android:id="@+id/loginFrameLayout"
                  android:layout_width="match_parent"
-                 android:layout_height="match_parent">
-        <ImageView android:id="@+id/loginBackgroundImage"
-                   android:src="@drawable/login_main_image"
-                   android:scaleType="centerCrop"
-                   android:layout_height="match_parent"
-                   android:layout_width="match_parent"
-                />
-        <RelativeLayout android:id="@+id/loginInformationLayout"
-                        android:gravity="center_horizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="match_parent">
-            <ScrollView android:id="@+id/vitaminScroll"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                    >
-                <LinearLayout android:id="@+id/informationLayout"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:orientation="vertical"
-                              android:animateLayoutChanges="true"
-                              android:gravity="center_horizontal"
-                              android:focusable="true"
-                              android:focusableInTouchMode="true"
-                        >
+                 android:layout_height="match_parent"
+                 android:background="@drawable/profile_bg"
+            >
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:gravity="center"
+                      android:orientation="horizontal">
 
-                    <LinearLayout android:id="@+id/informationInnerLayout"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:orientation="vertical"
-                                  android:layout_marginTop="20dp"
-                                  android:layout_marginBottom="10dp"
-                                  android:gravity="center_horizontal"
-                            >
-                        <TextView android:id="@+id/loginText"
-                                  android:gravity="center"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:textSize="25dp"
-                                  android:textStyle="bold"
-                                  android:text="Login"/>
-                        <TextView android:layout_width="match_parent"
-                                  android:id="@+id/errorMessage"
-                                  android:textColor="@color/error"
-                                  android:layout_height="wrap_content"/>
+            <LinearLayout android:layout_width="0dp" android:layout_weight="0.2" android:layout_height="wrap_content"></LinearLayout>
 
-                        <EditText android:id="@+id/emailField"
-                                  android:layout_width="250dp"
-                                  android:layout_height="wrap_content"
-                                  android:layout_marginTop="15dp"
-                                  android:inputType="textEmailAddress"
-                                  android:hint="Email"
-                                />
-                        <EditText android:id="@+id/passwordField"
-                                  android:layout_width="250dp"
-                                  android:layout_height="wrap_content"
-                                  android:layout_marginTop="15dp"
-                                  android:hint="Password"
-                                  android:inputType="textPassword"
-                                />
+            <LinearLayout android:layout_width="0dip"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:gravity="center"
+                          android:orientation="vertical"
+                          android:id="@+id/loginWithLinearLayout">
 
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/black"
+                          android:textStyle="bold"
+                          android:textSize="20sp"
+                          android:layout_marginBottom="20dp"
+                          android:text="Sign-in with"/>
 
-                        <TextView android:id="@+id/continueLnk"
-                                  android:layout_height="wrap_content"
-                                  android:layout_width="wrap_content"
-                                  android:text="(First Time? Continue)"
-                                  android:layout_marginTop="20dp"/>
+                <TextView android:text="Email" android:id="@+id/loginAsEmail" style="@style/loginOption"/>
+                <TextView android:text="Facebook" android:id="@+id/loginAsFB" style="@style/loginOption"/>
+                <TextView android:text="Google" android:id="@+id/loginAsGoogle" style="@style/loginOption"/>
 
-                        <RelativeLayout android:id="@+id/informationExtensionLayout"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center_horizontal"
-                                        android:layout_marginTop="20dp"
-                                        android:visibility="gone"
-                                        >
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:id="@+id/row1"
-                                          android:orientation="horizontal"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                        android:text="Name"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="match_parent"/>
-
-                                <EditText android:id="@+id/nameField"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"
-                                          android:hint="Nick"
-                                        />
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:orientation="horizontal"
-                                          android:id="@+id/row2"
-                                          android:layout_marginTop="10dp"
-                                          android:layout_below="@+id/row1"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                        android:text="Age"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="match_parent"
-                                        android:inputType="number"/>
-
-                                <EditText android:id="@+id/ageField"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"
-                                          android:hint="Year"
-                                        />
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:orientation="horizontal"
-                                          android:id="@+id/row3"
-                                          android:layout_below="@+id/row2"
-                                          android:layout_marginTop="10dp"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                        android:text="Gender"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="match_parent"/>
-
-                                <RadioGroup android:id="@+id/radioGroupGender"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:orientation="horizontal"
-                                        >
-                                    <RadioButton android:id="@+id/maleButton"
-                                                 android:layout_width="wrap_content"
-                                                 android:layout_height="wrap_content"
-                                                 android:textSize="15dp"
-                                                 android:tag="MALE"
-                                                 android:text="MALE"
-                                            />
-                                    <RadioButton android:id="@+id/femaleButton"
-                                                 android:layout_width="wrap_content"
-                                                 android:layout_height="wrap_content"
-                                                 android:textSize="15dp"
-                                                 android:tag="FEMALE"
-                                                 android:text="FEMALE"
-                                            />
-                                </RadioGroup>
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:orientation="horizontal"
-                                          android:id="@+id/row4"
-                                          android:layout_below="@+id/row3"
-                                          android:layout_marginTop="10dp"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                          android:text="Height"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"/>
-
-                                <EditText android:id="@+id/heightField"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"
-                                          android:hint="Inch"
-                                          android:inputType="number"
-                                        />
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:orientation="horizontal"
-                                          android:id="@+id/row5"
-                                          android:layout_below="@+id/row4"
-                                          android:layout_marginTop="10dp"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                          android:text="Weight"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"/>
-
-                                <EditText android:id="@+id/weightField"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"
-                                          android:hint="lb"
-                                          android:inputType="number"
-                                        />
-                            </LinearLayout>
-
-                            <LinearLayout android:layout_width="match_parent"
-                                          android:orientation="horizontal"
-                                          android:id="@+id/row6"
-                                          android:layout_below="@+id/row5"
-                                          android:layout_marginTop="10dp"
-                                          android:layout_height="wrap_content">
-
-                                <TextView
-                                          android:text="Ethnicity"
-                                          android:layout_width="0dp"
-                                          android:layout_weight="1"
-                                          android:layout_height="wrap_content"/>
-                                <Spinner
-                                        android:id="@+id/ethnicityField"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-
-                            </LinearLayout>
-
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout android:id="@+id/startButtonLayout"
-                                  android:layout_width="50dp"
-                                  android:layout_height="50dp"
-                                  android:layout_marginTop="50dp"
-                                  android:orientation="vertical"
-                                  android:layout_marginBottom="70dp"
-                                  android:gravity="bottom">
-                        <util.CircleAnimView android:layout_width="50dp" android:layout_height="50dp" android:id="@+id/surfaceView"
-                                             />
-                        <!--<TextView android:layout_width="50dp"-->
-                                  <!--android:layout_height="50dp"-->
-                                  <!--android:text="Start"-->
-                                  <!--android:id="@+id/startText"-->
-                                  <!--android:paddingTop="13dp"-->
-                                  <!--android:paddingLeft="6dp"-->
-                                  <!--android:textSize="17dp"-->
-                                  <!--android:background="@drawable/radio_button"-->
-                                  <!--/>-->
-
-                      <!--<ImageView android:id="@+id/startButton"
-                                   android:src="@drawable/start_button_small"
-                                   android:layout_height="wrap_content"
-                                   android:layout_width="wrap_content"
-                                   android:layout_marginBottom="70dp"
-                                /> -->
-
-                    </LinearLayout>
-
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView style="@style/line"/>
+                    <TextView android:text="or" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@color/black" android:layout_margin="10dp"/>
+                    <TextView style="@style/line"/>
                 </LinearLayout>
 
+                <TextView style="@style/defaultButton" android:text="Sign-up"/>
 
-            </ScrollView>
-        </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp" android:layout_weight="0.2" android:layout_height="wrap_content"></LinearLayout>
+
+
+        </LinearLayout>
 
 
         <!--<include layout="@layout/bottom_menu_template"/>-->

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:background="@drawable/profile_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:focusable="true"
+                      android:focusableInTouchMode="true"
+                      android:layout_marginBottom="@dimen/bottomHeight"
+                      android:orientation="vertical">
+
+            <TableLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center">
+
+                <TableRow android:gravity="center" android:layout_marginBottom="20dp">
+
+                <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Sign-in"
+                      android:gravity="center"
+                      android:textStyle="bold"
+                      android:textColor="@color/black" />
+                </TableRow>
+
+                <TableRow android:gravity="center">
+                    <TextView android:text="Email" style="@style/profileText"/>
+                    <EditText android:inputType="textEmailAddress"  style="@style/profileEdit" android:id="@+id/loginEmailField" android:layout_span="0"/>
+                </TableRow>
+
+                <TableRow android:gravity="center">
+                    <TextView android:text="Password" style="@style/profileText"/>
+                    <EditText android:inputType="textPassword"  style="@style/profileEdit" android:id="@+id/loginPasswordField" android:layout_span="0"/>
+                </TableRow>
+
+                <TableRow android:gravity="center">
+                    <TextView android:text="" style="@style/profileText" android:layout_span="2" android:textColor="@color/backgroundMainColor" android:id="@+id/loginErrorMessage"
+                            android:textSize="12sp"/>
+                </TableRow>
+
+            </TableLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="bottom">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/calculateHeight"
+                    android:orientation="horizontal"
+                    android:background="@color/backgroundMainColor"
+                    android:gravity="center"
+                    android:id="@+id/startLayout">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/startButton"
+                          android:text="Start"
+                          android:textSize="12sp"
+                          android:gravity="center"
+                          android:textColor="@color/backgroundMainColor"
+                          android:background="@drawable/radio_button"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>

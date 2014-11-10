@@ -1,0 +1,224 @@
+beans.VitaminBean:
+    private java.util.Date logDate
+    private long id
+    private double pantothenic
+    private double biotin
+    private int mData
+    90:90:public long getId()
+    103:103:public java.lang.String getType()
+com.github.mikephil.charting.charts.BarChart:
+    46:47:public BarChart(android.content.Context)
+    50:51:public BarChart(android.content.Context,android.util.AttributeSet)
+    54:55:public BarChart(android.content.Context,android.util.AttributeSet,int)
+    447:447:public boolean is3DEnabled()
+    465:465:public boolean isDrawHighlightArrowEnabled()
+    481:488:public void setPaint(android.graphics.Paint,int)
+    492:499:public android.graphics.Paint getPaint(int)
+com.github.mikephil.charting.charts.BarLineChartBase:
+    437:451:public void calculateLegendOffsets()
+    960:968:public void zoom(float,float,float,float)
+    984:1016:public synchronized void centerViewPort(int,float)
+    1045:1051:public android.graphics.Matrix refreshTouchNoInvalidate(android.graphics.Matrix)
+    1171:1175:public void setScaleMinima(float,float)
+    1191:1209:public void setYRange(float,float,boolean)
+    1219:1225:public void resetYRange(boolean)
+    1339:1339:public boolean isStartAtZeroEnabled()
+    1408:1408:public boolean isDrawVerticalGridEnabled()
+    1417:1417:public boolean isDrawHorizontalGridEnabled()
+    1598:1604:public com.github.mikephil.charting.utils.PointD getPixelsForValues(float,float)
+    1616:1616:public float getYValueByTouchPoint(float,float)
+    1657:1660:public boolean isFullyZoomedOut()
+    1754:1756:public void enableFiltering(com.github.mikephil.charting.data.filter.Approximator)
+    1762:1763:public void disableFiltering()
+    1771:1771:public boolean isFilteringEnabled()
+    1829:1848:public void setPaint(android.graphics.Paint,int)
+    1852:1867:public android.graphics.Paint getPaint(int)
+com.github.mikephil.charting.charts.BarLineChartBase$1
+com.github.mikephil.charting.charts.Chart:
+    public static final java.lang.String LOG_TAG
+    public static final int PAINT_GRID
+    public static final int PAINT_GRID_BACKGROUND
+    public static final int PAINT_YLABEL
+    public static final int PAINT_XLABEL
+    public static final int PAINT_INFO
+    public static final int PAINT_VALUES
+    public static final int PAINT_CIRCLES_INNER
+    public static final int PAINT_DESCRIPTION
+    public static final int PAINT_BORDER
+    public static final int PAINT_HOLE
+    public static final int PAINT_CENTER_TEXT
+    public static final int PAINT_HIGHLIGHT_LINE
+    public static final int PAINT_HIGHLIGHT_BAR
+    public static final int PAINT_RENDER
+    public static final int PAINT_LEGEND_LABEL
+    324:337:public void setData(java.util.ArrayList,java.util.ArrayList)
+    public abstract void notifyDataSetChanged()
+    566:568:protected void transformRects(java.util.ArrayList)
+    576:579:protected void transformRectsTouch(java.util.ArrayList)
+    587:590:protected void transformPathsTouch(java.util.ArrayList)
+    782:793:public boolean needsHighlight(int,int)
+    940:940:public boolean isHighlightEnabled()
+    1015:1017:public float getAverage(java.lang.String)
+    1086:1090:public void setOffsets(float,float,float,float)
+    1183:1183:public boolean isDrawLegendEnabled()
+    1255:1272:public void setPaint(android.graphics.Paint,int)
+    1281:1294:public android.graphics.Paint getPaint(int)
+    1304:1304:public boolean isDrawMarkerViewEnabled()
+    1342:1342:public boolean isDrawYValuesEnabled()
+    1352:1355:public java.lang.String getXValue(int)
+    1366:1366:public float getYValue(int)
+    1378:1379:public float getYValue(int,java.lang.String)
+    1413:1413:public com.github.mikephil.charting.data.DataSet getDataSetByLabel(java.lang.String)
+    1425:1425:public com.github.mikephil.charting.data.Entry getEntry(int)
+    1437:1437:public com.github.mikephil.charting.data.Entry getEntry(int,java.lang.String)
+    1489:1502:public java.util.ArrayList getEntriesAtIndex(int)
+    1535:1535:public float getPercentOfTotal(float)
+    1599:1617:public boolean saveToPath(java.lang.String,java.lang.String)
+    1632:1676:public boolean saveToGallery(java.lang.String,int)
+com.github.mikephil.charting.charts.LineChart:
+    222:226:private void calculatePointDiff(android.graphics.PointF,android.graphics.PointF,android.graphics.PointF,float)
+    338:338:public boolean isDrawCirclesEnabled()
+    357:357:public float getCircleSize(float)
+    377:377:public boolean isDrawFilledEnabled()
+    441:444:public void enableDashedLine(float,float,float)
+    450:451:public void disableDashedLine()
+    459:459:public boolean isDashedLineEnabled()
+    464:474:public void setPaint(android.graphics.Paint,int)
+    478:487:public android.graphics.Paint getPaint(int)
+com.github.mikephil.charting.charts.PieChart
+com.github.mikephil.charting.charts.PieChart$1
+com.github.mikephil.charting.charts.PieChart$2
+com.github.mikephil.charting.charts.ScatterChart:
+    44:45:public ScatterChart(android.content.Context)
+    48:49:public ScatterChart(android.content.Context,android.util.AttributeSet)
+    52:53:public ScatterChart(android.content.Context,android.util.AttributeSet,int)
+com.github.mikephil.charting.data.ChartData:
+    51:57:public ChartData(java.lang.String[],java.util.ArrayList)
+    65:70:public ChartData(java.util.ArrayList,com.github.mikephil.charting.data.DataSet)
+    94:95:public void notifyDataChanged()
+    101:103:private void doCalculations()
+    202:202:public java.util.ArrayList getYVals(int)
+    237:249:public com.github.mikephil.charting.data.DataSet getDataSetByLabel(java.lang.String,boolean)
+    268:268:public java.util.ArrayList getOriginalDataSets()
+    306:312:public java.lang.String[] getDataSetLabels()
+    323:329:public static java.util.ArrayList generateXVals(int,int)
+com.github.mikephil.charting.data.DataSet:
+    62:68:public com.github.mikephil.charting.data.DataSet cloneDataSet()
+    158:165:public java.util.ArrayList getEntriesForXIndex(int)
+    224:229:public int getIndexInEntries(int)
+    243:258:public static java.util.ArrayList makeDataSets(java.util.ArrayList)
+    268:275:public com.github.mikephil.charting.data.DataSet copy()
+com.github.mikephil.charting.data.Entry:
+    45:46:public void setXIndex(int)
+    131:131:public com.github.mikephil.charting.data.Entry copy()
+com.github.mikephil.charting.data.filter.Approximator:
+    39:41:public Approximator()
+    49:51:public Approximator(com.github.mikephil.charting.data.filter.Approximator$ApproximatorType,double)
+    60:62:public void setup(com.github.mikephil.charting.data.filter.Approximator$ApproximatorType,double)
+    70:71:public void setTolerance(double)
+    79:80:public void setType(com.github.mikephil.charting.data.filter.Approximator$ApproximatorType)
+    217:224:public double calcPointToLineDistance(com.github.mikephil.charting.data.Entry,com.github.mikephil.charting.data.Entry,com.github.mikephil.charting.data.Entry)
+    275:279:public double calcAngle(com.github.mikephil.charting.data.Entry,com.github.mikephil.charting.data.Entry)
+com.github.mikephil.charting.exception.DrawingDataSetNotCreatedException:
+    private static final long serialVersionUID
+com.github.mikephil.charting.interfaces.OnDrawLineChartTouchListener
+com.github.mikephil.charting.listener.BarLineChartTouchListener:
+    private static final int NONE
+    private static final int DRAG
+    private static final int POSTZOOM
+    private static final int LONGPRESS
+    private static final int DRAWING
+    private static final int MOVE_POINT
+    private static final int X_ZOOM
+    private static final int Y_ZOOM
+    private static final int PINCH_ZOOM
+    278:278:public int getTouchMode()
+    374:374:public android.graphics.Matrix getMatrix()
+com.github.mikephil.charting.listener.PieChartTouchListener
+com.github.mikephil.charting.matrix.Vector3
+com.github.mikephil.charting.utils.ColorTemplate:
+    74:74:public int getColorCount()
+    85:87:public void addDataSetColors(java.util.ArrayList)
+    111:117:public void addColorsForDataSets(java.util.ArrayList)
+    144:147:public void addDataSetColor(int,android.content.Context)
+    165:175:public int[] getColorsAsArray()
+    185:193:public java.util.ArrayList getColorsAsArrayList()
+    215:215:public int getDataSetColor(int,int)
+    246:252:public static java.util.ArrayList createColors(int[])
+com.github.mikephil.charting.utils.FileUtils
+com.github.mikephil.charting.utils.Legend:
+    73:86:public Legend(int[],java.lang.String[])
+    140:140:public int[] getColors()
+    160:166:public void setLegendLabels(java.lang.String[])
+    183:184:public void setPosition(com.github.mikephil.charting.utils.Legend$LegendPosition)
+    201:202:public void setForm(com.github.mikephil.charting.utils.Legend$LegendForm)
+    220:221:public void setTypeface(android.graphics.Typeface)
+    230:231:public void setFormSize(float)
+    259:260:public void setEntrySpace(float)
+    278:279:public void setFormToTextSpace(float)
+com.github.mikephil.charting.utils.MarkerView:
+    31:33:public MarkerView(android.content.Context,int)
+    93:95:public void setOffsets(float,float)
+com.github.mikephil.charting.utils.Utils:
+    17:17:public Utils()
+    39:49:public static java.lang.String formatDecimal(double,int)
+    75:77:public static float convertPixelsToDp(float)
+    129:138:public static int getPieFormatDigits(float)
+    151:164:public static int getLegendFormatDigits(float,int)
+com.github.mikephil.charting.utils.XLabels:
+    61:62:public void setCenterXLabelText(boolean)
+    71:72:public void setAdjustXLabels(boolean)
+    97:98:public void setPosition(com.github.mikephil.charting.utils.XLabels$XLabelPosition)
+com.github.mikephil.charting.utils.YLabels:
+    50:51:public void setPosition(com.github.mikephil.charting.utils.YLabels$YLabelPosition)
+    68:69:public void setDrawUnitsInYLabel(boolean)
+    88:89:public void setDrawTopYLabelEntry(boolean)
+healthVT.vitamine.BuildConfig
+healthVT.vitamine.MyActivity:
+    private boolean mSignInClicked
+    111:111:private void attachListener()
+    161:161:private boolean loginOrRegister(java.lang.String,java.lang.String,boolean)
+healthVT.vitamine.NavigatorActivity
+healthVT.vitamine.R
+healthVT.vitamine.R$anim
+healthVT.vitamine.R$array
+healthVT.vitamine.R$attr
+healthVT.vitamine.R$color
+healthVT.vitamine.R$dimen
+healthVT.vitamine.R$drawable
+healthVT.vitamine.R$id
+healthVT.vitamine.R$layout
+healthVT.vitamine.R$string
+healthVT.vitamine.R$style
+healthVT.vitamine.SelfInfoActivity:
+    android.widget.EditText passwordEdit
+sqlite.Database:
+    private static final int DATABASE_VERSION
+    private static final java.lang.String DATABASE_NAME
+    private static final java.lang.String TABLE_NAME
+    private static final java.lang.String CREATE_VITAMIN_TABLE
+    136:140:public void closeDB()
+util.CircleAnimThread
+util.CircleAnimThread$Circle
+util.CircleAnimView
+util.User:
+    private java.lang.String errorMessage
+    38:41:public boolean login(java.lang.String,java.lang.String)
+    46:63:public boolean register(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+    69:92:public boolean login()
+    148:148:public java.lang.String getErrorMessage()
+    149:149:public java.lang.Boolean getReturnUser()
+    150:150:public java.lang.Boolean hasToken()
+util.circleAnim.CircleAnimThread$Circle:
+    201:201:public java.lang.String getVitaminName()
+util.tools:
+    21:21:public tools()
+    29:33:public static boolean checkEmailFormat(java.lang.String)
+    51:52:public static float pixelsToSp(android.content.Context,float)
+    56:57:public static int pixelsToSp(android.content.Context,int)
+util.vitaminCircle:
+    private int left
+    private int top
+util.vitaminOptionCircleLayout:
+    52:54:public vitaminOptionCircleLayout(android.content.Context,android.util.AttributeSet,int)
+    57:58:public vitaminOptionCircleLayout(android.content.Context,android.util.AttributeSet)

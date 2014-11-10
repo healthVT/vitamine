@@ -3,18 +3,14 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="rectangle">
     <solid
-            android:color="@color/trans" >
+            android:color="@color/backgroundMainColor" >
     </solid>
 
-    <!-- view border color and width -->
-    <stroke
-            android:width="1dp"
-            android:color="#000000" >
-    </stroke>
 
     <!-- Here is the corner radius -->
     <corners
             android:radius="5dp"   >
     </corners>
+
 
 </shape>
