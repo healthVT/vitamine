@@ -27,8 +27,8 @@
             <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="@dimen/calculateHeight">
                 <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                     <TableRow android:gravity="center">
-                        <TextView android:text="" style="@style/profileText" android:textColor="@color/error"/>
-                        <EditText android:inputType="text"  style="@style/profileEdit" android:id="@+id/errorMessage"/>
+                        <EditText android:inputType="text" android:id="@+id/errorMessage" android:background="@color/trans"
+                                android:layout_span="4" android:layout_width="match_parent" android:textColor="@color/error"/>
                     </TableRow>
                     <TableRow android:gravity="center">
                         <TextView android:text="Email" style="@style/profileText"/>

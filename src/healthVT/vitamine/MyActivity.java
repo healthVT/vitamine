@@ -1,7 +1,9 @@
 package healthVT.vitamine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,11 +41,14 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
         */
     private ConnectionResult mConnectionResult;
     private GoogleApiClient mGoogleApiClient;
+    private SharedPreferences sharedData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        sharedData = getSharedPreferences("Foodmula", Context.MODE_PRIVATE);
 
         loginAsGoogle = (TextView) findViewById(R.id.loginAsGoogle);
         loginAsEmail = (TextView) findViewById(R.id.loginAsEmail);
@@ -173,6 +178,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
             final String personGooglePlusProfile = currentPerson.getUrl();
             final String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
             final String birthday = currentPerson.getBirthday();
+            final String socialMedia = "Google";
 
             final String gender;
             switch(currentPerson.getGender()){
@@ -202,7 +208,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
 
                     try{
                         vitamineServer server = new vitamineServer(MyActivity.this);
-                        final JSONObject result = server.execute("socialMedia?socialToken=" + token + "email=" + email + "socialMedia=Google").get();
+                        final JSONObject result = server.execute("socialMedia?socialToken=" + token + "&email=" + email + "&socialMedia=Google").get();
                         Log.d("result", result.toString());
 
                         if(result.isNull("username")){
@@ -214,11 +220,17 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
                             registerIntent.putExtra("birthday", birthday);
                             registerIntent.putExtra("gender", gender);
                             registerIntent.putExtra("token", token);
+                            registerIntent.putExtra("socialMedia", socialMedia);
 
                             startActivity(registerIntent);
 
                         }else{
-                            //TODO Login
+                            sharedData.edit().putString("token", result.getString("token")).apply();
+                            sharedData.edit().putString("email", email).apply();
+
+                            Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
+                            startActivity(dailyIntent);
+                            finish();
                         }
                     }catch(Exception e){
                         Log.e("Error ", "Server", e);
@@ -279,127 +291,6 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     public void onConnectionSuspended(int arg0) {
         mGoogleApiClient.connect();
     }
-
-
-
-    private void attachListener() {
-/*
-        continueText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                continueText.setVisibility(View.GONE);
-                informationExtensionLayout.setVisibility(RelativeLayout.VISIBLE);
-
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) startButtonLayout.getLayoutParams();
-                params.topMargin = 10;
-            }
-        });
-
-        startButtonLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startSurfaceView.setAnimStart();
-                if(!loginOrRegister(emailField.getText().toString(), passwordField.getText().toString(), false)){
-                    startSurfaceView.stopAnim();
-                }
-            }
-        });
-*/
-
-    }
-
-    private boolean loginOrRegister(final String email, final String password, boolean login) {
-/*
-        if (!checkInput(email, password)) {
-            return false;
-        }
-
-        Log.d("login or register", "after check input");
-
-
-        User user = new User(this);
-        if (continueText.getVisibility() == View.GONE && !login) {
-            String name = ((EditText) findViewById(R.id.nameField)).getText().toString();
-            String age = ((EditText) findViewById(R.id.ageField)).getText().toString();
-            String height = ((EditText) findViewById(R.id.heightField)).getText().toString();
-            String weight = ((EditText) findViewById(R.id.weightField)).getText().toString();
-            String ethnicity = ethnicityField.getSelectedItem().toString();
-            String gender = null;
-
-            RadioGroup genderRadio = (RadioGroup) findViewById(R.id.radioGroupGender);
-            for (int i = 0; i < genderRadio.getChildCount(); i++) {
-                RadioButton radio = (RadioButton) genderRadio.getChildAt(i);
-                if (radio.isChecked()) {
-                    gender = radio.getText().toString();
-                }
-            }
-            boolean registered = user.register(email, password, name, age, gender, height, weight, ethnicity);
-            if(registered){
-                Log.d("REGISTERRRRRRR", "SUCCESS");
-
-                login();
-            }else{
-                Log.d("REGISTERRRRRRR", "FAIL");
-
-                errorMessage.setText(user.getErrorMessage());
-            }
-
-        }else{
-
-            if(user.login(email, password)){
-                Log.d("LOGIN", "SUCCESS");
-                login();
-            }else{
-                Log.d("LOGIN", "FAIL");
-                errorMessage.setText(user.getErrorMessage());
-            }
-        }
-*/
-
-        return true;
-    }
-
-/*
-    private void login() {
-        Log.d("Login", "success");
-        Intent dailyIntent = new Intent(MyActivity.this, DailyActivity.class);
-        startActivity(dailyIntent);
-        finish();
-    }
-
-    private boolean checkInput(String email, String password) {
-        if (email == null || email.length() < 5 || !tools.checkEmailFormat(email)) {
-            errorMessage.setText("Please check your email format.");
-            return false;
-        }
-
-        if (password == null || password.length() < 5) {
-            errorMessage.setText("Please check your password, at least 5 length.");
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
-
-    private void toastMessage(Toast toast, String message) {
-        if (toast != null) {
-            toast.cancel();
-        }
-
-        toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-*/
 
     AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
         @Override

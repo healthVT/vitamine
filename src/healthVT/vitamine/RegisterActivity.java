@@ -30,7 +30,7 @@ public class RegisterActivity extends TitleBarActivity implements AdapterView.On
     TextView registerButton;
     Spinner ethnicitySpinner;
     RadioGroup genderGroup;
-    String email, token, password, name;
+    String email, token, password, name, socialMedia;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class RegisterActivity extends TitleBarActivity implements AdapterView.On
         }
 
         token = intent.getStringExtra("token");
+        socialMedia = intent.getStringExtra("socialMedia");
 
         ethnicitySpinner.setOnItemSelectedListener(this);
         registerButton.setOnClickListener(this);
@@ -134,7 +135,8 @@ public class RegisterActivity extends TitleBarActivity implements AdapterView.On
 
             vitamineServer server = new vitamineServer(this);
 
-            String url = "user/register?email=" + email + "&password=" + password + "&name=" + name + "&birthday=" + birthday + "&gender=" + gender + "&height=" + height + "&weight=" + weight + "&ethnicity=" + ethnicity;
+            String url = "user/register?email=" + email + "&password=" + password + "&name=" + name + "&birthday=" + birthday + "&gender=" +
+                    gender + "&height=" + height + "&weight=" + weight + "&ethnicity=" + ethnicity + "&socialToken=" + token + "&socialMedia=" + socialMedia;
 
             JSONObject result = server.execute(url).get();
             Log.d("Result", result.toString());
