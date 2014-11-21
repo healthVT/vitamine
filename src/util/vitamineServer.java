@@ -29,8 +29,8 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
     private SharedPreferences sharedData;
     private Context context;
 
-    protected final String host = "http://www.midawn.com/";
-//    protected final String host = "http://10.0.2.2:8080/projectVTServer/";
+//    protected final String host = "http://www.midawn.com/";
+    protected final String host = "http://10.0.2.2:8080/projectVTServer/";
 
     public vitamineServer(Context context){
         this.context = context;
@@ -62,6 +62,7 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
             BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
             String result = in.readLine();
+            Log.d("Return from Server", result);
             if(result == null || result.equals("")){
                 JSONObject obj = new JSONObject();
                 obj.put("success", false);

@@ -102,6 +102,13 @@
     <style name="profileEdit">
         <item name="android:textColor">@color/black</item>
         <item name="android:width">150dp</item>
+        <item name="android:layout_span">3</item>
+        <item name="android:drawableBottom">@drawable/profile_edit_text</item>
+        <item name="android:background">@color/trans</item>
+    </style>
+    <style name="profileEditSpan">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:width">150dp</item>
         <item name="android:layout_span">2</item>
         <item name="android:drawableBottom">@drawable/profile_edit_text</item>
         <item name="android:background">@color/trans</item>
@@ -133,4 +140,8 @@
         <item name="android:background">@drawable/default_button</item>
     </style>
 
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawableBottom">@drawable/profile_edit_text</item>
+    </style>
 </resources>

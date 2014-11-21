@@ -50,8 +50,8 @@ public class User {
 
             if (resultJSON.get("success").toString().equals("true")) {
 
-                sharedData.edit().putString("email", email).commit();
-                sharedData.edit().putString("password", password).commit();
+                sharedData.edit().putString("email", email).apply();
+                sharedData.edit().putString("password", password).apply();
 
                 return login();
             } else {
@@ -72,9 +72,9 @@ public class User {
 
                 if (resultJSON.getString("token") != null) {
 
-                    sharedData.edit().putString("token", resultJSON.getString("token")).commit();
-                    sharedData.edit().putString("email", email).commit();
-                    sharedData.edit().putString("password", password).commit();
+                    sharedData.edit().putString("token", resultJSON.getString("token")).apply();
+                    sharedData.edit().putString("email", email).apply();
+                    sharedData.edit().putString("password", password).apply();
 
                     Log.d("TOKEN", sharedData.getString("token", null));
                     return true;

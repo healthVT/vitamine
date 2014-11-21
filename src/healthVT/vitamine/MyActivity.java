@@ -1,33 +1,31 @@
 package healthVT.vitamine;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.PixelFormat;
-import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.*;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import org.json.JSONObject;
 import util.User;
+import util.vitamineServer;
+
+import java.io.IOException;
 
 public class MyActivity extends TitleBarActivity implements ConnectionCallbacks, OnConnectionFailedListener, View.OnClickListener {
-    TextView loginAsGoogle, loginAsEmail;
+    TextView loginAsGoogle, loginAsEmail, signupButton;
 
     /** Google+ Sign-in Flow **/
     /* Track whether the sign-in button has been clicked so that we know to resolve
@@ -49,9 +47,11 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
 
         loginAsGoogle = (TextView) findViewById(R.id.loginAsGoogle);
         loginAsEmail = (TextView) findViewById(R.id.loginAsEmail);
+        signupButton = (TextView) findViewById(R.id.signupButton);
 
         loginAsGoogle.setOnClickListener(this);
         loginAsEmail.setOnClickListener(this);
+        signupButton.setOnClickListener(this);
 
         User user = new User(this);
         if(user.getReturnUser()){
@@ -61,51 +61,6 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
                 finish();
             }
         }
-
-
-/*
-
-        TextView loginText = (TextView) findViewById(R.id.loginText);
-        Typeface demiFont = Typeface.createFromAsset(getAssets(), "demi.ttf");
-        loginText.setTypeface(demiFont);
-
-
-        continueText = (TextView) findViewById(R.id.continueLnk);
-        informationExtensionLayout = (RelativeLayout) findViewById(R.id.informationExtensionLayout);
-        startButtonLayout = (LinearLayout) findViewById(R.id.startButtonLayout);
-        ethnicityField = (Spinner) findViewById(R.id.ethnicityField);
-        //startText = (TextView) findViewById(R.id.startText);
-
-        errorMessage = (TextView) findViewById(R.id.errorMessage);
-        emailField = (EditText) findViewById(R.id.emailField);
-        passwordField = (EditText) findViewById(R.id.passwordField);
-
-        //task = new RotationAwareTask(this);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.ethnicityArray, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ethnicityField.setAdapter(adapter);
-        attachListener();
-
-        if (!isOnline()) {
-            errorMessage.setText("Please connect to Internet first.");
-        }
-
-
-        //Circle Surface view
-        startSurfaceView = (CircleAnimView) findViewById(R.id.surfaceView);
-        startSurfaceView.setZOrderOnTop(true);
-        SurfaceHolder holder = startSurfaceView.getHolder();
-        holder.setFormat(PixelFormat.TRANSLUCENT);
-
-        User user = new User(this);
-        if(user.getReturnUser()){
-            if(user.login()){
-                login();
-            }
-        }
-*/
 
 
     }
@@ -119,7 +74,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     protected void onStop(){
         super.onStop();
         if(mGoogleApiClient != null && mGoogleApiClient.isConnected()){
-            //mGoogleApiClient.disconnect();
+            mGoogleApiClient.disconnect();
         }
 
     }
@@ -128,17 +83,24 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     public void onClick(View v){
         switch (v.getId()){
             case R.id.loginAsGoogle:
-                mGoogleApiClient.connect();
+                mSignInClicked = true;
                 mGoogleApiClient = new GoogleApiClient.Builder(this)
                         .addConnectionCallbacks(this)
                         .addOnConnectionFailedListener(this).addApi(Plus.API)
+                        .addScope(Plus.SCOPE_PLUS_PROFILE)
                         .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                mGoogleApiClient.connect();
                 signInWithGplus();
                 break;
 
             case R.id.loginAsEmail:
                 Intent loginPage = new Intent(MyActivity.this, LoginActivity.class);
                 startActivity(loginPage);
+                break;
+            case R.id.signupButton:
+                Intent registerPage = new Intent(MyActivity.this, RegisterActivity.class);
+                startActivity(registerPage);
+                break;
         }
     }
 
@@ -147,7 +109,8 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
      * */
     private void signInWithGplus() {
         if (!mGoogleApiClient.isConnecting()) {
-            mSignInClicked = true;
+            Log.d("Sign in with g", "is connecting false");
+
             resolveSignInError();
         }
     }
@@ -157,10 +120,14 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
      * */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
+            Log.d("has result", "hhas result");
             try {
                 mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this, RC_SIGN_IN);
+                startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
+                        RC_SIGN_IN, null, 0, 0, 0);
             } catch (IntentSender.SendIntentException e) {
+                // The intent was canceled before it was sent.  Return to the default
+                // state and attempt to connect to get an updated ConnectionResult.
                 mIntentInProgress = false;
                 mGoogleApiClient.connect();
             }
@@ -172,43 +139,110 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
      * */
     private void getProfileInformation() {
         try {
-            if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-                Person currentPerson = Plus.PeopleApi
-                        .getCurrentPerson(mGoogleApiClient);
-                String personName = currentPerson.getDisplayName();
-                String personPhotoUrl = currentPerson.getImage().getUrl();
-                String personGooglePlusProfile = currentPerson.getUrl();
-                String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-
-                Log.e("Main Activity", "Name: " + personName + ", plusProfile: "
-                        + personGooglePlusProfile + ", email: " + email
-                        + ", Image: " + personPhotoUrl);
 
 
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Person information is null", Toast.LENGTH_LONG).show();
-            }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            task.execute();
+
+                        }catch(Exception e){
+                            Log.e("error", "error", e);
+                        }
+                    }
+                }).start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult result){
-        if (!result.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
-                    0).show();
-            return;
-        }
+    public void tokenReceived(final String token){
+        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            Person currentPerson = Plus.PeopleApi
+                    .getCurrentPerson(mGoogleApiClient);
 
+            final String personName;
+            if(currentPerson.getName().getFormatted() == null){
+                personName = currentPerson.getDisplayName();
+            }else{
+                personName = currentPerson.getName().getFormatted();
+            }
+            final String personPhotoUrl = currentPerson.getImage().getUrl();
+            final String personGooglePlusProfile = currentPerson.getUrl();
+            final String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+            final String birthday = currentPerson.getBirthday();
+
+            final String gender;
+            switch(currentPerson.getGender()){
+                case 0:
+                    gender = "Male";
+                    break;
+                case 1:
+                    gender = "Female";
+                    break;
+                case 2:
+                    gender = "Other";
+                    break;
+                default:
+                    gender = null;
+                    break;
+            }
+
+
+
+            Log.e("Main Activity", "Name: " + personName + ", plusProfile: "
+                    + personGooglePlusProfile + ", email: " + email
+                    + ", Image: " + personPhotoUrl + ", Birthday: " + birthday + ", Gender: " + gender + ", Token: " + token);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try{
+                        vitamineServer server = new vitamineServer(MyActivity.this);
+                        final JSONObject result = server.execute("socialMedia?socialToken=" + token + "email=" + email + "socialMedia=Google").get();
+                        Log.d("result", result.toString());
+
+                        if(result.isNull("username")){
+                            Log.d("in here", "here");
+                            Intent registerIntent = new Intent(MyActivity.this, RegisterActivity.class);
+
+                            registerIntent.putExtra("email", email);
+                            registerIntent.putExtra("name", personName);
+                            registerIntent.putExtra("birthday", birthday);
+                            registerIntent.putExtra("gender", gender);
+                            registerIntent.putExtra("token", token);
+
+                            startActivity(registerIntent);
+
+                        }else{
+                            //TODO Login
+                        }
+                    }catch(Exception e){
+                        Log.e("Error ", "Server", e);
+                    }
+
+                }
+            }).start();
+
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Person information is null", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.d("failed", result.toString());
         if (!mIntentInProgress) {
-            // Store the ConnectionResult for later usage
+            // Store the ConnectionResult so that we can use it later when the user clicks
+            // 'sign-in'.
             mConnectionResult = result;
 
             if (mSignInClicked) {
-                // The user has already clicked 'sign-in' so we attempt to
-                // resolve all
+                // The user has already clicked 'sign-in' so we attempt to resolve all
                 // errors until the user is signed in, or they cancel.
                 resolveSignInError();
             }
@@ -216,7 +250,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int responseCode, Intent intent){
+    protected void onActivityResult(int requestCode, int responseCode, Intent intent) {
         if (requestCode == RC_SIGN_IN) {
             if (responseCode != RESULT_OK) {
                 mSignInClicked = false;
@@ -232,6 +266,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle arg){
+        Log.d("onConnected", "connected");
         mSignInClicked = false;
         Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
 
@@ -366,6 +401,52 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     }
 */
 
+    AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+        @Override
+        protected String doInBackground(Void... params) {
+            String token = null;
+            String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+
+            try {
+
+                final String scope = "oauth2:https://www.googleapis.com/auth/plus.login";
+                token = GoogleAuthUtil.getToken(MyActivity.this,  email, scope);
+                Log.d("TOken", token);
+            } catch (IOException transientEx) {
+                // Network or server error, try later
+                Log.e("IOException", transientEx.toString());
+            } catch (UserRecoverableAuthException e) {
+                // Recover (with e.getIntent())
+                Log.e("UserRecoverableAuthException", e.toString());
+
+            } catch (GoogleAuthException authEx) {
+                // The call is not ever expected to succeed
+                // assuming you have already verified that
+                // Google Play services is installed.
+                Log.e("GoogleAuthException", authEx.toString());
+            } catch(Exception e){
+                Log.e("Exception", e.toString());
+            }
+
+            if(token != null){
+                onPostExecute(token);
+            }
+
+            return token;
+        }
+
+        @Override
+        protected void onPostExecute(String token) {
+            Log.d("Background", "Access token retrieved:" + token);
+            if(token != null){
+                tokenReceived(token);
+            }
+
+
+        }
+    };
 
 }
+
+
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@drawable/profile_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <FrameLayout android:id="@+id/profileFrameLayout"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:focusable="true"
+                      android:focusableInTouchMode="true"
+                      android:orientation="vertical">
+            <Spinner android:visibility="invisible" android:layout_width="1px" android:layout_height="1px" android:id="@+id/ethnicitySpinner"/>
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Basic Information"
+                      android:gravity="center"
+                      android:layout_marginTop="10dp"
+                      android:textStyle="bold"
+                      android:textColor="@color/black" />
+
+            <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="@dimen/calculateHeight">
+                <TableLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TableRow android:gravity="center">
+                        <TextView android:text="" style="@style/profileText" android:textColor="@color/error"/>
+                        <EditText android:inputType="text"  style="@style/profileEdit" android:id="@+id/errorMessage"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Email" style="@style/profileText"/>
+                        <EditText android:inputType="textEmailAddress"  style="@style/profileEdit" android:id="@+id/emailEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Password" style="@style/profileText"/>
+                        <EditText android:inputType="textPassword"  style="@style/profileEdit" android:id="@+id/passwordEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Name" style="@style/profileText"/>
+                        <EditText android:inputType="text|textPersonName"  style="@style/profileEdit" android:id="@+id/nameEdit"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Age" style="@style/profileText"/>
+                        <EditText style="@style/profileEdit" android:id="@+id/ageEdit" android:editable="false"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Gender" style="@style/profileText"/>
+                        <RadioGroup android:orientation="horizontal" android:id="@+id/genderGroup">
+                            <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Male"
+                                    android:textColor="@color/black"
+                                    android:id="@+id/maleRadioButton"/>
+                            <RadioButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Female"
+                                    android:textColor="@color/black"
+                                    android:id="@+id/femaleRadioButton"/>
+                        </RadioGroup>
+                        <TextView android:text="" android:layout_span="2"/>
+
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Height"  style="@style/profileText"/>
+                        <EditText android:inputType="number" style="@style/profileEditSpan" android:id="@+id/heightEdit"/>
+                        <TextView style="@style/profileText" android:text="Inch" android:id="@+id/heightUnitText"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Weight" style="@style/profileText"/>
+                        <EditText android:inputType="number" style="@style/profileEditSpan" android:id="@+id/weightEdit"/>
+                        <TextView style="@style/profileText" android:text="Pound" android:id="@+id/weightUnitText"/>
+                    </TableRow>
+                    <TableRow android:gravity="center">
+                        <TextView android:text="Ethnicity" style="@style/profileText"/>
+                        <EditText style="@style/profileEdit" android:id="@+id/ethnicityEdit" android:text="American" android:editable="false"/>
+                    </TableRow>
+                </TableLayout>
+
+            </ScrollView>
+
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="bottom">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/calculateHeight"
+                    android:orientation="horizontal"
+                    android:background="@color/backgroundMainColor"
+                    android:gravity="center"
+                    android:id="@+id/startLayout">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:id="@+id/registerButton"
+                          android:text="Register"
+                          android:textStyle="bold"
+                          android:textSize="12sp"
+                          android:gravity="center"
+                          android:textColor="@color/backgroundMainColor"
+                          android:background="@drawable/radio_button"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

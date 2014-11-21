@@ -42,7 +42,7 @@
                     <TextView style="@style/line"/>
                 </LinearLayout>
 
-                <TextView style="@style/defaultButton" android:text="Sign-up"/>
+                <TextView style="@style/defaultButton" android:text="Sign-up" android:id="@+id/signupButton"/>
 
             </LinearLayout>
 
