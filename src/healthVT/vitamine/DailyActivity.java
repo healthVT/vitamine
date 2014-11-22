@@ -1,5 +1,6 @@
 package healthVT.vitamine;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.drm.DrmStore;
@@ -302,6 +303,12 @@ public class DailyActivity extends TitleBarActivity {
             final int childCount = root.getChildCount();
             for (int j = 0; j < childCount; j++) {
                 final View child = root.getChildAt(j);
+
+                if(child instanceof HorizontalScrollView){
+                    ObjectAnimator animator=ObjectAnimator.ofInt(child, "scrollX",0);
+                    animator.setDuration(800);
+                    animator.start();
+                }
 
                 if (child instanceof ViewGroup) {
                     ViewGroup v = (ViewGroup) child;

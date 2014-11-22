@@ -29,6 +29,7 @@ public class RemoveIcon extends ImageView {
         radius = getResources().getDimensionPixelSize(R.dimen.removeIconRadius);
         height = getResources().getDimensionPixelSize(R.dimen.removeIconHeight);
         width =  getResources().getDimensionPixelSize(R.dimen.removeIconWidth);
+
         this.color = color;
         setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,

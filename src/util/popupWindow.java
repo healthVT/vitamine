@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
@@ -42,12 +43,12 @@ public class popupWindow extends LinearLayout {
         LinearLayout container = new LinearLayout(this.getContext());
         container.setLayoutParams(new LinearLayout.LayoutParams(
                 popWidth,
-                popHeight
+                ViewGroup.LayoutParams.WRAP_CONTENT
         ));
         container.setPadding(padding, padding, padding, padding);
         container.setGravity(Gravity.CENTER_HORIZONTAL);
         container.setOrientation(LinearLayout.VERTICAL);
-        container.setBackgroundColor(Color.WHITE);
+        container.setBackgroundColor(Color.TRANSPARENT);
 
         //Popup Views
 
@@ -72,12 +73,13 @@ public class popupWindow extends LinearLayout {
         bodyText.setPadding(0, paddingTop, 0, 0);
         bodyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
 
-        ScrollView bodyScroll = new ScrollView(context);
+        dynamicScroll bodyScroll = new dynamicScroll(context);
         bodyScroll.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
+                LayoutParams.WRAP_CONTENT
         ));
         bodyScroll.addView(bodyText);
+        bodyScroll.setBackgroundColor(Color.TRANSPARENT);
 
         Typeface titleFont = Typeface.createFromAsset(context.getAssets(), "Lobster.ttf");
         titleText.setTypeface(titleFont);

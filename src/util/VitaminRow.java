@@ -160,6 +160,9 @@ public class VitaminRow extends LinearLayout {
         //Remove on vitamin row
         RemoveIcon removeView = new RemoveIcon(getContext(), count % 2);
         removeView.setVisibility(View.GONE);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0, paddingTop, 0, 0);
+        removeView.setLayoutParams(lp);
 
         removeView.setOnClickListener(new OnClickListener() {
             @Override
@@ -167,8 +170,9 @@ public class VitaminRow extends LinearLayout {
                 removeView();
             }
         });
-        foodLayout.addView(removeView);
+
         foodLayout.addView(foodText);
+        foodLayout.addView(removeView);
         foodLayout.addView(numberView);
         foodLayout.addView(numberSpinner);
 
@@ -224,10 +228,9 @@ public class VitaminRow extends LinearLayout {
 
     private void popupWindow(String vitamin){
 
-        JSONObject jsonResult = new JSONObject();
         try{
             vitamineServer server = new vitamineServer(context);
-            jsonResult = server.execute("vitamin/description?vitaminName=" + vitamin).get();
+            JSONObject jsonResult = server.execute("vitamin/description?vitaminName=" + vitamin).get();
             Log.d("descpriont", jsonResult.toString());
 
             //Popup window
