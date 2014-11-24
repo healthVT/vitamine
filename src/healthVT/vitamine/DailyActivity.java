@@ -15,12 +15,9 @@ import beans.VitaminBean;
 import org.json.JSONException;
 import org.json.JSONObject;
 import sqlite.Database;
-import util.NavigationActivityListener;
-import util.VitaminRow;
-import java.util.*;
+import util.*;
 
-import util.popupWindow;
-import util.vitamineServer;
+import java.util.*;
 
 /**
  * Created by Jay on 6/15/14.
@@ -101,6 +98,8 @@ public class DailyActivity extends TitleBarActivity {
         }
         attachEvent();
         new NavigationActivityListener().listener(this, "icon_today");
+        //Title
+        new TitleFunction(this, true);
 
 
     }
@@ -153,15 +152,13 @@ public class DailyActivity extends TitleBarActivity {
 
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {calculateButtonClicked();
-            }
+            public void onClick(View view) {calculateButtonClicked();}
         });
 
         ImageView nextButton = (ImageView) findViewById(R.id.titleRightButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {calculateButtonClicked();
-            }
+            public void onClick(View view) {calculateButtonClicked();}
         });
 /*
         ImageView navigateDaily = (ImageView) findViewById(R.id.navigateDaily);

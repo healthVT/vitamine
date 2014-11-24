@@ -25,3 +25,6 @@ proguard/
 .idea/*
 ant.properties
 vitamine.iml
+
+gradlew
+gradlew.bat

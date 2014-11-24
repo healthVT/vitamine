@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import org.json.JSONObject;
 import util.SpinnerAdapter;
+import util.TitleFunction;
 import util.User;
 import util.vitamineServer;
 
@@ -36,7 +37,7 @@ public class RegisterActivity extends TitleBarActivity implements AdapterView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
-
+        new TitleFunction(this, false);
         ethnicityEdit = (EditText) findViewById(R.id.ethnicityEdit);
         ethnicitySpinner = (Spinner) findViewById(R.id.ethnicitySpinner);
         registerButton = (TextView) findViewById(R.id.registerButton);
@@ -71,7 +72,6 @@ public class RegisterActivity extends TitleBarActivity implements AdapterView.On
         registerButton.setOnClickListener(this);
         ethnicityEdit.setOnClickListener(this);
         ageEdit.setOnClickListener(this);
-
 
     }
 

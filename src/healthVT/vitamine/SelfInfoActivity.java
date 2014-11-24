@@ -16,6 +16,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.*;
 import org.json.JSONObject;
 import util.NavigationActivityListener;
+import util.TitleFunction;
 import util.User;
 import util.vitamineServer;
 
@@ -32,7 +33,7 @@ public class SelfInfoActivity extends TitleBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.self);
-
+        new TitleFunction(this, false);
         //All of edit text
         emailEdit = (EditText) findViewById(R.id.emailEdit);
         nameEdit = (EditText) findViewById(R.id.nameEdit);

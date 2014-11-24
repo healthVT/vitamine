@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import org.json.JSONObject;
+import util.TitleFunction;
 import util.User;
 import util.vitamineServer;
 
@@ -47,7 +48,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        new TitleFunction(this, false);
         sharedData = getSharedPreferences("Foodmula", Context.MODE_PRIVATE);
 
         loginAsGoogle = (TextView) findViewById(R.id.loginAsGoogle);

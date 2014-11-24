@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import util.TitleFunction;
 import util.User;
 import util.tools;
 
@@ -23,7 +24,7 @@ public class LoginActivity extends TitleBarActivity implements Animation.Animati
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
+        new TitleFunction(this, false);
 
         emailField = (TextView) findViewById(R.id.loginEmailField);
         passwordField = (TextView) findViewById(R.id.loginPasswordField);

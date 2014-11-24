@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import beans.VitaminBean;
 import util.NavigationActivityListener;
+import util.TitleFunction;
 import util.circleAnim.CircleSurface;
 
 /**
@@ -43,6 +44,7 @@ public class SummaryActivity extends TitleBarActivity  {
 
         attachEvent();
         new NavigationActivityListener().listener(this, "icon_today");
+        new TitleFunction(this, true);
     }
 
     public void attachEvent(){
