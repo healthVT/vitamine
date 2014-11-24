@@ -5,6 +5,7 @@
               android:layout_height="match_parent"
 
         >
+    <include layout="@layout/window_title"/>
     <FrameLayout android:id="@+id/loginFrameLayout"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
@@ -15,7 +16,7 @@
                       android:layout_height="match_parent"
                       android:gravity="center"
                       android:orientation="horizontal">
-            <include layout="@layout/window_title"/>
+
 
 
             <LinearLayout android:layout_width="0dp" android:layout_weight="0.2" android:layout_height="wrap_content"></LinearLayout>

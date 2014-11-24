@@ -52,6 +52,8 @@
     <dimen name="popPadding">20dp</dimen>
     <dimen name="popBodyPaddingTop">10dp</dimen>
 
+    <dimen name="numberPickerEachWidth">100dp</dimen>
+
     <style name="defaultStyle" parent="@android:Theme">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>

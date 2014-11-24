@@ -12,15 +12,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import beans.VitaminBean;
 import healthVT.vitamine.DailyActivity;
+import healthVT.vitamine.NumberDialog;
 import healthVT.vitamine.R;
 import org.json.JSONObject;
 import sqlite.Database;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Jay on 7/10/14.
@@ -150,12 +148,20 @@ public class VitaminRow extends LinearLayout {
         }
         numberView = new NumberView(getContext(), color, cornerResource, String.valueOf(vitaminBean.getAmount()));
 
+
+        final List<String> column = Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
         numberView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberSpinner.performClick();
+//                numberSpinner.performClick();
+
+
+                NumberDialog dialog = new NumberDialog(context, column, 2, numberView);
+                dialog.show();
             }
         });
+
+
 
         //Remove on vitamin row
         RemoveIcon removeView = new RemoveIcon(getContext(), count % 2);

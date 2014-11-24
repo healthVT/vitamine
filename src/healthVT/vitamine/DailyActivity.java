@@ -160,19 +160,7 @@ public class DailyActivity extends TitleBarActivity {
             @Override
             public void onClick(View view) {calculateButtonClicked();}
         });
-/*
-        ImageView navigateDaily = (ImageView) findViewById(R.id.navigateDaily);
-        ImageView navigateTrack = (ImageView) findViewById(R.id.navigateTrack);
 
-        navigateDaily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Botton Navigater", "clicked");
-                Intent dailyIntent = new Intent(DailyActivity.this, DailyActivity.class);
-                startActivity(dailyIntent);
-                finish();
-            }
-        });*/
     }
 
     public void calculateButtonClicked(){
