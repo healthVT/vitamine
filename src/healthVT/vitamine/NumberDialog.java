@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import util.Callback;
+import util.VitaminRow;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,17 +18,18 @@ import java.util.List;
  */
 public class NumberDialog extends Dialog implements View.OnClickListener {
 
-    TextView confirmButton, updateView;
+    TextView confirmButton;
     LinearLayout listViewLinear;
     List<String> pickerList;
+    Callback callback;
 
-    public NumberDialog(Context context, List<String> pickerList, int count, TextView updateView){
+    public NumberDialog(Context context, List<String> pickerList, int count, Callback callback){
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_number_picker);
 
+        this.callback = callback;
         this.pickerList = pickerList;
-        this.updateView = updateView;
         confirmButton = (TextView)findViewById(R.id.confirmButton);
         confirmButton.setOnClickListener(this);
 
@@ -47,7 +50,7 @@ public class NumberDialog extends Dialog implements View.OnClickListener {
     public void onClick(View view){
         switch(view.getId()){
             case R.id.confirmButton:
-                updateView.setText(getSelectedNumber());
+                callback.selected(getSelectedNumber());
                 dismiss();
                 break;
         }
@@ -61,6 +64,8 @@ public class NumberDialog extends Dialog implements View.OnClickListener {
             number += view.getSelected();
         }
 
-        return number;
+        Log.d("number selected", number);
+
+        return String.valueOf(Integer.parseInt(number));
     }
 }

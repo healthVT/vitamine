@@ -11,20 +11,38 @@
                       android:layout_height="wrap_content"
                       android:paddingBottom="30dp">
             <include layout="@layout/window_title"/>
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:paddingBottom="10dp"
+
+            <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                          android:padding="10dp"
                           android:background="@color/backgroundMainColor">
-                <TextView
-                        android:id="@+id/periodText"
-                        android:background="@drawable/edit_text_shape"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:padding="8dp"
-                        android:textSize="15dp"
-                        android:hint="Select time period"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:singleLine="true"
+                              android:background="@drawable/round_corner_full_white"
+                              android:orientation="horizontal"
+                              android:lines="1">
+
+                    <ImageView android:layout_width="25dp"
+                               android:layout_height="25dp"
+                               android:background="@drawable/icon_timer"
+                               android:scaleType="fitCenter"
+                               android:layout_margin="5dp"
+                               android:clickable="true"/>
+                    <TextView
+                            android:id="@+id/periodText"
+                            android:background="@drawable/edit_text_shape"
+                            android:padding="8dp"
+                            android:textSize="15dp"
+                            android:hint="Select time period"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
 
 
             </LinearLayout>
@@ -53,8 +71,8 @@
 
                     <LinearLayout android:layout_width="70dp" android:layout_height="wrap_content"
                                   android:orientation="vertical" android:gravity="center"  android:layout_marginRight="25dp">
-                        <View android:id="@+id/overdoseExampleLine" android:layout_width="50dp" android:layout_height="10dp"
-                                  android:background="@drawable/chart_overdose" />
+                        <ImageView android:id="@+id/overdoseExampleLine" android:layout_width="50dp" android:layout_height="10dp"
+                                   android:src="@drawable/chart_overdose" android:layerType="software" />
                         <TextView android:id="@+id/overdoseExampleText" android:layout_width="wrap_content" android:layout_height="wrap_content"
                                   android:text="Overdose" android:textColor="@color/backgroundMainColor" android:textSize="12dp" />
                     </LinearLayout>

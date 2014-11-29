@@ -7,8 +7,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.*;
 import beans.VitaminBean;
 import healthVT.vitamine.DailyActivity;
@@ -23,14 +21,16 @@ import java.util.*;
 /**
  * Created by Jay on 7/10/14.
  */
-public class VitaminRow extends LinearLayout {
+
+
+
+public class VitaminRow extends LinearLayout implements Callback {
 
     Context context;
     int paddingTop, paddingLeft, paddingRight, paddingBottom;
     private VitaminBean vitaminBean;
     private Database db;
     NumberView numberView;
-    Spinner numberSpinner;
     //setup Circle Size
     int vitaminCircleWidth;
     int vitaminCircleHeight;
@@ -40,6 +40,12 @@ public class VitaminRow extends LinearLayout {
     LinearLayout foodLayout;
     ViewGroup root;
     FrameLayout dailyFrameLayout;
+
+    @Override
+    public void selected(String answer){
+        numberView.setText(answer);
+        updateVitaminAmount(Integer.parseInt(answer));
+    }
 
     public VitaminRow(Context context, ViewGroup root, VitaminBean vitaminBean, int count, FrameLayout dailyFrameLayout){
         super(context);
@@ -111,34 +117,6 @@ public class VitaminRow extends LinearLayout {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        //Number Spinner
-        numberSpinner = new Spinner(getContext());
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.numbers, R.layout.drop_down_item);
-        numberSpinner.setAdapter(adapter);
-        numberSpinner.setVisibility(View.INVISIBLE);
-        numberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(initialized){
-                    TextView numberTextView = (TextView) view;
-                    String amount = String.valueOf(numberTextView.getText());
-                    Log.d("Item selected", String.valueOf(amount));
-                    numberView.setText(amount);
-
-                    updateVitaminAmount(Integer.parseInt(amount));
-                }else{
-                    initialized = true;
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         //Number text view
         int cornerResource = 0;
         if(color == Color.WHITE){
@@ -153,10 +131,7 @@ public class VitaminRow extends LinearLayout {
         numberView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                numberSpinner.performClick();
-
-
-                NumberDialog dialog = new NumberDialog(context, column, 2, numberView);
+                NumberDialog dialog = new NumberDialog(context, column, 2, VitaminRow.this);
                 dialog.show();
             }
         });
@@ -180,7 +155,6 @@ public class VitaminRow extends LinearLayout {
         foodLayout.addView(foodText);
         foodLayout.addView(removeView);
         foodLayout.addView(numberView);
-        foodLayout.addView(numberSpinner);
 
 
         addView(foodLayout);
