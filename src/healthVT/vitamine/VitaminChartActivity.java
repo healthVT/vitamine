@@ -1,15 +1,16 @@
 package healthVT.vitamine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.data.DataSet;
-import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.XLabels;
+import com.github.mikephil.charting.utils.YLabels;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import util.*;
@@ -32,6 +33,8 @@ public class VitaminChartActivity extends TitleBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vitamin_chart);
 
+        int mainColor = getResources().getColor(R.color.backgroundMainColor);
+
         //get data
         historyArray = getVitaminChartFromServer("1%20WEEK");
 
@@ -42,23 +45,16 @@ public class VitaminChartActivity extends TitleBarActivity {
 
         vitaminChart = (LineChart) findViewById(R.id.vitaminChart);
 
-//        ColorTemplate ct = new ColorTemplate();
-//        ct.addDataSetColors(ColorTemplate.VITAMIN_A_COLOR, this);
-//        vitaminChart.setColorTemplate(ct);
         vitaminChart.setDrawBorder(true);
-        vitaminChart.setBorderStyles(new BarLineChartBase.BorderStyle[]{BarLineChartBase.BorderStyle.BOTTOM, BarLineChartBase.BorderStyle.LEFT, BarLineChartBase.BorderStyle.RIGHT, BarLineChartBase.BorderStyle.TOP});
         vitaminChart.setDescription("");
-        vitaminChart.setYLabelCount(4);
-        vitaminChart.setLineWidth(7f);
-        vitaminChart.setCircleSize(9f);
-        vitaminChart.setGridWidth(2f);
+        vitaminChart.setBorderWidth(5);
+        vitaminChart.setBorderColor(mainColor);
         vitaminChart.setPinchZoom(false);
-        vitaminChart.setGridColor(getResources().getColor(R.color.backgroundMainColor));
-        vitaminChart.setStartAtZero(false);
+        vitaminChart.setDoubleTapToZoomEnabled(false);
         vitaminChart.setDrawUnitsInChart(false);
         vitaminChart.setDrawYValues(false);
         vitaminChart.setUnit("%");
-        vitaminChart.setStartAtZero(false);
+        vitaminChart.setStartAtZero(true);
 
         vitaminChart.setDrawHorizontalGrid(false);
         vitaminChart.setDrawVerticalGrid(false);
@@ -66,6 +62,15 @@ public class VitaminChartActivity extends TitleBarActivity {
         setData(historyArray, "A");
         vitaminChart.setDrawLegend(false);
         vitaminChart.invalidate();
+
+        //set xlabel and ylabel
+        XLabels xl = vitaminChart.getXLabels();
+        xl.setPosition(XLabels.XLabelPosition.BOTTOM);
+        xl.setTextColor(mainColor);
+
+        YLabels yl = vitaminChart.getYLabels();
+        yl.setLabelCount(5);
+        yl.setTextColor(mainColor);
 
 
         /**
@@ -103,7 +108,6 @@ public class VitaminChartActivity extends TitleBarActivity {
         //call util to get foodList
         try{
             JSONObject jsonResult = server.execute("food/getVitaminRecord?period=" + period).get();
-            Log.d("RESULT", jsonResult.toString());
 
             if(jsonResult.getBoolean("success")){
                 recordList = jsonResult.getJSONArray("vitaminRecordList");
@@ -197,25 +201,25 @@ public class VitaminChartActivity extends TitleBarActivity {
             }
 
             //Set line color
-            ColorTemplate ct = new ColorTemplate();
-            int[] colors = new int[1];
-            colors[0] = util.tools.getVitaminColor(selectedVitamin);
-            ct.addDataSetColors(colors, this);
-            vitaminChart.setColorTemplate(ct);
+            LineDataSet lineData = new LineDataSet(yVals, "DataSet 1");
+            lineData.setLineWidth(8f);
+            lineData.setCircleSize(10f);
+
+
+            int color = util.tools.getVitaminColor(selectedVitamin);
+
+            lineData.setColor(color);
+            lineData.setCircleColor(color);
 
             // create a dataset and give it a type
-            DataSet set1 = new DataSet(yVals, "DataSet 1");
+            ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 
-            ArrayList<DataSet> dataSets = new ArrayList<DataSet>();
-            dataSets.add(set1); // add the datasets
+            dataSets.add(lineData); // add the datasets
 
-            // create a data object with the datasets
-            ChartData data = new ChartData(xVals, dataSets);
+            LineData data = new LineData(xVals, dataSets);
 
             // set data
             vitaminChart.setData(data);
-            vitaminChart.clearAll();
-
             vitaminChart.invalidate();
 
         } catch (Exception e) {
