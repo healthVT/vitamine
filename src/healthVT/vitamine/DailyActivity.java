@@ -1,9 +1,7 @@
 package healthVT.vitamine;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Intent;
-import android.drm.DrmStore;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -62,7 +60,6 @@ public class DailyActivity extends TitleBarActivity {
         //call util to get foodList
         try{
             JSONObject jsonResult = server.execute("food/getFoodList").get();
-            Log.d("RESULT", jsonResult.toString());
             String[] foodList = jsonResult.get("foodList").toString().split(",");
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drop_down_item, foodList);
             foodInput.setAdapter(adapter);
@@ -203,7 +200,8 @@ public class DailyActivity extends TitleBarActivity {
 
                     }
 
-                }catch(Exception e){}
+                }catch(Exception e){
+                }
             }
         });
     }

@@ -4,12 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import healthVT.vitamine.DailyActivity;
 import healthVT.vitamine.MyActivity;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Jay on 8/9/14.
@@ -30,7 +26,6 @@ public class User {
             password = sharedData.getString("password", null);
             token = sharedData.getString("token", null);
             returnUser = true;
-            Log.d("Returning User", "true");
         }
     }
 

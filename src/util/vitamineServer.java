@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
+
 /**
  * Created by Jay on 4/29/14.
  */
@@ -38,11 +39,10 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
             HttpPost request = new HttpPost();
 
             String url = (host + urls[0]).replace(" ", "%20");
-            Log.d("URL", url);
+
             URI serverAPI = new URI(url);
             request.addHeader("Accept", "application/json");
             if(token != null){
-                Log.d("setting header", token);
                 request.addHeader("X-Auth-Token", token);
             }
 
@@ -61,7 +61,7 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
             if(result == null || result.equals("")){
                 JSONObject obj = new JSONObject();
                 obj.put("success", false);
-                sharedData.edit().putString("token", null).commit();
+                sharedData.edit().putString("token", null).apply();
                 return obj;
             }
 
@@ -69,7 +69,6 @@ public class vitamineServer extends AsyncTask<String, Integer, JSONObject> {
             json = new JSONObject(result);
 
         }catch(Exception e){
-
             Log.e("Http Request ", "Exception", e);
         }
 

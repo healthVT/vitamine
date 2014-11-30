@@ -13,11 +13,9 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import org.json.JSONObject;
@@ -47,6 +45,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
         new TitleFunction(this, false);
         sharedData = getSharedPreferences("Foodmula", Context.MODE_PRIVATE);
@@ -116,7 +115,6 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
     private void signInWithGplus() {
         if (!mGoogleApiClient.isConnecting()) {
             Log.d("Sign in with g", "is connecting false");
-
             resolveSignInError();
         }
     }
@@ -126,7 +124,6 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
      * */
     private void resolveSignInError() {
         if (mConnectionResult.hasResolution()) {
-            Log.d("has result", "hhas result");
             try {
                 mIntentInProgress = true;
                 startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
@@ -198,8 +195,7 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
             }
 
 
-
-            Log.e("Main Activity", "Name: " + personName + ", plusProfile: "
+            Log.d("Google Return", "Name: " + personName + ", plusProfile: "
                     + personGooglePlusProfile + ", email: " + email
                     + ", Image: " + personPhotoUrl + ", Birthday: " + birthday + ", Gender: " + gender + ", Token: " + token);
 
@@ -234,13 +230,14 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
                             finish();
                         }
                     }catch(Exception e){
-                        Log.e("Error ", "Server", e);
+                        Log.d( "Error", "On Google Login/Signup", e);
                     }
 
                 }
             }).start();
 
         } else {
+            Log.d("Google Error", "Google Person information is null");
             Toast.makeText(getApplicationContext(),
                     "Person information is null", Toast.LENGTH_LONG).show();
         }
@@ -279,10 +276,8 @@ public class MyActivity extends TitleBarActivity implements ConnectionCallbacks,
 
     @Override
     public void onConnected(Bundle arg){
-        Log.d("onConnected", "connected");
         mSignInClicked = false;
         Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
-
         // Get user's information
         getProfileInformation();
 

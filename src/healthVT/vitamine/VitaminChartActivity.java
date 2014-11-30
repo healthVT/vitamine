@@ -9,6 +9,7 @@ import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.*;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.LimitLine;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
 import org.json.JSONArray;
@@ -27,13 +28,14 @@ public class VitaminChartActivity extends TitleBarActivity {
     private Spinner periodSpinner;
     private vitaminOptionCircleLayout vitaminOptionRow;
     private JSONArray historyArray;
+    int mainColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vitamin_chart);
 
-        int mainColor = getResources().getColor(R.color.backgroundMainColor);
+        mainColor = getResources().getColor(R.color.backgroundMainColor);
 
         //get data
         historyArray = getVitaminChartFromServer("1%20WEEK");
@@ -204,10 +206,7 @@ public class VitaminChartActivity extends TitleBarActivity {
             LineDataSet lineData = new LineDataSet(yVals, "DataSet 1");
             lineData.setLineWidth(8f);
             lineData.setCircleSize(10f);
-
-
             int color = util.tools.getVitaminColor(selectedVitamin);
-
             lineData.setColor(color);
             lineData.setCircleColor(color);
 
@@ -218,10 +217,28 @@ public class VitaminChartActivity extends TitleBarActivity {
 
             LineData data = new LineData(xVals, dataSets);
 
+            //set Max line
+//            LimitLine maxLine = new LimitLine(80f);
+//            maxLine.setLineWidth(1f);
+//            maxLine.setLineColor(mainColor);
+//            maxLine.enableDashedLine(15f, 10f, 10f);
+//            maxLine.setDrawValue(false);
+//            data.addLimitLine(maxLine);
+
+
+            //set min line
+            LimitLine minLine = new LimitLine(100f);
+            minLine.setLineWidth(1f);
+            minLine.setLineColor(mainColor);
+            minLine.setDrawValue(false);
+
+
+            data.addLimitLine(minLine);
+
             // set data
             vitaminChart.setData(data);
-            vitaminChart.invalidate();
-
+            //vitaminChart.invalidate();
+            vitaminChart.animateX(1000);
         } catch (Exception e) {
             Log.e("Error", "Setting Value", e);
         }
